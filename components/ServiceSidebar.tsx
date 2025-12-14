@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight, ChevronDown } from 'lucide-react';
+import { ChevronRight, ChevronDown, ChevronUp, Menu } from 'lucide-react';
 
 const SERVICE_MENU = [
   {
@@ -132,6 +132,7 @@ const SERVICE_MENU = [
 const ServiceSidebar: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   // Helper to check if a path matches the current location
   const isPathActive = (path: string) => {
@@ -145,69 +146,87 @@ const ServiceSidebar: React.FC = () => {
 
   return (
     <div className="sticky top-24">
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-        <h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">Service Categories</h3>
-        <div className="space-y-4">
-          {SERVICE_MENU.map((group, idx) => {
-            // Check if any child is active to expand the group
-            const isGroupActive = 
-                isPathActive(group.path) || 
-                group.items.some(item => isPathActive(item.path));
-            
-            return (
-              <div key={idx} className="space-y-1">
-                <Link 
-                  to={group.path} 
-                  className={`flex items-center justify-between w-full px-3 py-2 rounded font-medium transition-colors border border-transparent ${
-                    isGroupActive 
-                      ? 'bg-primary text-white border-primary shadow-sm' 
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 hover:border-gray-200 dark:hover:border-gray-600'
-                  }`}
-                >
-                  {group.title}
-                  {isGroupActive ? <ChevronDown size={16} /> : <ChevronRight size={16} className="text-gray-400" />}
-                </Link>
-                
-                {/* Submenu */}
-                {isGroupActive && (
-                  <div className="pl-3 ml-3 border-l-2 border-gray-200 dark:border-gray-700 space-y-1 mt-1">
-                    {group.items.map((item, subIdx) => {
-                        const isExternal = item.path.startsWith('http');
-                        const linkProps = isExternal ? { href: item.path, target: "_blank", rel: "noopener noreferrer" } : { to: item.path };
-                        const LinkComponent = isExternal ? 'a' : Link;
-                        const isItemActive = isPathActive(item.path);
-
-                        return (
-                            <LinkComponent
-                                key={subIdx}
-                                {...(linkProps as any)}
-                                className={`block px-3 py-1.5 text-sm rounded transition-colors ${
-                                isItemActive
-                                    ? 'text-primary dark:text-blue-400 font-bold bg-blue-50 dark:bg-gray-700/50 border border-blue-100 dark:border-gray-600'
-                                    : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-blue-300 hover:bg-gray-50 dark:hover:bg-gray-800'
-                                }`}
-                            >
-                                {item.label}
-                            </LinkComponent>
-                        );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+      {/* Mobile Toggle Button */}
+      <button
+        onClick={() => setIsMobileOpen(!isMobileOpen)}
+        className="lg:hidden w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 border border-gray-200 dark:border-gray-700 text-left transition-all hover:bg-gray-50 dark:hover:bg-gray-700"
+        aria-expanded={isMobileOpen}
+        aria-controls="service-sidebar-content"
+      >
+        <div className="flex items-center gap-2 font-bold text-gray-900 dark:text-white">
+            <Menu size={20} className="text-primary dark:text-blue-400" />
+            <span>Service Categories</span>
         </div>
-      </div>
+        {isMobileOpen ? <ChevronUp size={20} className="text-gray-500" /> : <ChevronDown size={20} className="text-gray-500" />}
+      </button>
 
-      <div className="mt-8 bg-secondary text-white p-6 rounded-lg shadow-lg border border-secondary/20">
-        <h3 className="font-bold text-lg mb-2">Need Assistance?</h3>
-        <p className="text-sm opacity-90 mb-4">Our experts are here to help you choose the right service.</p>
-        <Link to="/contact" className="block w-full text-center bg-white text-secondary font-bold py-2 rounded hover:bg-gray-100 transition transform hover:scale-[1.02] active:scale-[0.98] shadow-sm">
-            Contact Us
-        </Link>
+      {/* Sidebar Content */}
+      <div id="service-sidebar-content" className={`${isMobileOpen ? 'block' : 'hidden'} lg:block space-y-8 animate-fade-in`}>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+          <h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">Service Categories</h3>
+          <div className="space-y-4">
+            {SERVICE_MENU.map((group, idx) => {
+              // Check if any child is active to expand the group
+              const isGroupActive = 
+                  isPathActive(group.path) || 
+                  group.items.some(item => isPathActive(item.path));
+              
+              return (
+                <div key={idx} className="space-y-1">
+                  <Link 
+                    to={group.path} 
+                    className={`flex items-center justify-between w-full px-3 py-2 rounded font-medium transition-colors border border-transparent ${
+                      isGroupActive 
+                        ? 'bg-primary text-white border-primary shadow-sm' 
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 hover:border-gray-200 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    {group.title}
+                    {isGroupActive ? <ChevronDown size={16} /> : <ChevronRight size={16} className="text-gray-400" />}
+                  </Link>
+                  
+                  {/* Submenu */}
+                  {isGroupActive && (
+                    <div className="pl-3 ml-3 border-l-2 border-gray-200 dark:border-gray-700 space-y-1 mt-1">
+                      {group.items.map((item, subIdx) => {
+                          const isExternal = item.path.startsWith('http');
+                          const linkProps = isExternal ? { href: item.path, target: "_blank", rel: "noopener noreferrer" } : { to: item.path };
+                          const LinkComponent = isExternal ? 'a' : Link;
+                          const isItemActive = isPathActive(item.path);
+
+                          return (
+                              <LinkComponent
+                                  key={subIdx}
+                                  {...(linkProps as any)}
+                                  className={`block px-3 py-1.5 text-sm rounded transition-colors ${
+                                  isItemActive
+                                      ? 'text-primary dark:text-blue-400 font-bold bg-blue-50 dark:bg-gray-700/50 border border-blue-100 dark:border-gray-600'
+                                      : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-blue-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                                  }`}
+                              >
+                                  {item.label}
+                              </LinkComponent>
+                          );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="bg-secondary text-white p-6 rounded-lg shadow-lg border border-secondary/20">
+          <h3 className="font-bold text-lg mb-2">Need Assistance?</h3>
+          <p className="text-sm opacity-90 mb-4">Our experts are here to help you choose the right service.</p>
+          <Link to="/contact" className="block w-full text-center bg-white text-secondary font-bold py-2 rounded hover:bg-gray-100 transition transform hover:scale-[1.02] active:scale-[0.98] shadow-sm">
+              Contact Us
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
 export default ServiceSidebar;
+
