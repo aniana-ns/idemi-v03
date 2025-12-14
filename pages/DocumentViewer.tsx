@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Download, FileText } from 'lucide-react';
+import { ArrowLeft, Download, FileText, Loader2 } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const DocumentViewer: React.FC = () => {
@@ -11,6 +11,7 @@ const DocumentViewer: React.FC = () => {
   
   const url = searchParams.get('url');
   const title = searchParams.get('title') || 'Document Viewer';
+  const [isLoading, setIsLoading] = useState(true);
 
   if (!url) {
     return (
@@ -64,12 +65,19 @@ const DocumentViewer: React.FC = () => {
       {/* Viewer Content */}
       <div className="flex-grow container mx-auto px-4 py-6 h-full min-h-[80vh]">
          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-full min-h-[80vh] relative">
+            {isLoading && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-800 z-10">
+                <Loader2 size={48} className="text-primary dark:text-blue-400 animate-spin mb-4" />
+                <p className="text-gray-600 dark:text-gray-300 font-medium animate-pulse">Loading Document...</p>
+              </div>
+            )}
             <iframe 
                 src={viewerUrl} 
                 className="w-full h-full absolute inset-0" 
                 title={`PDF Viewer - ${title}`}
                 style={{ border: 'none' }}
                 loading="lazy"
+                onLoad={() => setIsLoading(false)}
             />
          </div>
       </div>
@@ -78,3 +86,4 @@ const DocumentViewer: React.FC = () => {
 };
 
 export default DocumentViewer;
+
