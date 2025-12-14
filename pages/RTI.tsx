@@ -44,6 +44,11 @@ const RTI: React.FC = () => {
     setViewingId(prev => prev === title ? null : title);
   };
 
+  const getViewerUrl = (url: string) => {
+      // Assuming all 'PDF' types are indeed PDFs or similar documents
+      return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+  };
+
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen transition-colors duration-200">
       <SEO seo={{ title: 'Right to Information (RTI) | IDEMI', description: 'Information under RTI Act 2005, Mandatory Disclosures, and CPIO details.' }} path={location.pathname} />
@@ -151,7 +156,7 @@ const RTI: React.FC = () => {
                                                 <td colSpan={2} className="p-4 border-b border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-900">
                                                     <div className="w-full h-[600px] border border-gray-200 dark:border-gray-600 rounded bg-white overflow-hidden shadow-inner animate-fade-in">
                                                         <iframe 
-                                                            src={doc.link} 
+                                                            src={getViewerUrl(doc.link)}
                                                             className="w-full h-full" 
                                                             title={doc.title}
                                                         />
@@ -214,7 +219,7 @@ const RTI: React.FC = () => {
                                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 animate-slide-up">
                                     <div className="w-full h-[450px] bg-white border border-gray-200 dark:border-gray-600 rounded overflow-hidden">
                                         <iframe 
-                                            src={doc.link} 
+                                            src={getViewerUrl(doc.link)}
                                             className="w-full h-full" 
                                             title={doc.title}
                                         />

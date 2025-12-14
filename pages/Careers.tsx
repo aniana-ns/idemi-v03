@@ -26,6 +26,10 @@ const Careers: React.FC = () => {
     setViewingId(prev => prev === id ? null : id);
   };
 
+  const getViewerUrl = (url: string) => {
+      return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
@@ -109,7 +113,7 @@ const Careers: React.FC = () => {
                                             <td colSpan={5} className="p-4 border-b dark:border-gray-600 bg-gray-50 dark:bg-gray-800">
                                                 <div className="w-full h-[600px] bg-white rounded-lg border border-gray-200 dark:border-gray-600 overflow-hidden shadow-inner">
                                                     <iframe 
-                                                        src={job.link} 
+                                                        src={getViewerUrl(job.link)}
                                                         className="w-full h-full" 
                                                         title={`PDF Viewer - ${job.title}`}
                                                     />
@@ -176,7 +180,7 @@ const Careers: React.FC = () => {
                                 <div className="border-t border-gray-200 dark:border-gray-700 p-2 bg-gray-50 dark:bg-gray-900">
                                      <div className="w-full h-[450px] bg-white rounded border border-gray-200 dark:border-gray-600 overflow-hidden shadow-inner">
                                         <iframe 
-                                            src={job.link} 
+                                            src={getViewerUrl(job.link)}
                                             className="w-full h-full" 
                                             title={`PDF Viewer - ${job.title}`}
                                         />

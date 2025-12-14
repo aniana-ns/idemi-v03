@@ -56,6 +56,10 @@ const CertificatePage: React.FC = () => {
   const data = CERTIFICATES[slug] || CERTIFICATES['ISO-9001-2015-Certificate']; 
   const [showPdf, setShowPdf] = useState(false);
 
+  const getViewerUrl = (url: string) => {
+      return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
       <SEO seo={{ title: `${data.title} | IDEMI`, description: data.description }} path={location.pathname} />
@@ -130,7 +134,7 @@ const CertificatePage: React.FC = () => {
                     </h3>
                     <div className="w-full h-[800px] bg-white rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden shadow-inner">
                         <iframe 
-                            src={data.pdfLink} 
+                            src={getViewerUrl(data.pdfLink)} 
                             className="w-full h-full" 
                             title={`PDF Viewer - ${data.title}`}
                         />

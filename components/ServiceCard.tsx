@@ -91,17 +91,39 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
                     src={getOptimizedUrl(img, 600)}
                     alt={`${service.title} - View ${index + 1}`} 
                     onLoad={() => handleImageLoad(index)}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105 
                         ${index === currentSlide ? 'z-20 opacity-100' : 'z-0 opacity-0'}
                     `}
                   />
               ))}
               
               {hasGallery && (
-                  <div className="absolute inset-x-0 bottom-0 p-4 flex justify-between items-center z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/60 to-transparent">
-                    <button onClick={prevSlide} className="p-1.5 bg-white/20 hover:bg-white/40 text-white rounded-full backdrop-blur-md transition-colors"><ChevronLeft size={18} /></button>
-                    <button onClick={nextSlide} className="p-1.5 bg-white/20 hover:bg-white/40 text-white rounded-full backdrop-blur-md transition-colors"><ChevronRight size={18} /></button>
-                  </div>
+                  <>
+                    <button 
+                      onClick={prevSlide} 
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-30 p-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 hover:scale-110 focus:opacity-100"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+                    <button 
+                      onClick={nextSlide} 
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-30 p-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 hover:scale-110 focus:opacity-100"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight size={20} />
+                    </button>
+                    
+                    {/* Indicators */}
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {images.map((_, idx) => (
+                        <div 
+                          key={idx} 
+                          className={`w-1.5 h-1.5 rounded-full shadow-sm transition-all duration-300 ${idx === currentSlide ? 'bg-white scale-125 w-3' : 'bg-white/50'}`} 
+                        />
+                      ))}
+                    </div>
+                  </>
               )}
             </>
         ) : (

@@ -25,6 +25,10 @@ const ActiveTenders: React.FC = () => {
     setViewingId(prev => prev === id ? null : id);
   };
 
+  const getViewerUrl = (url: string) => {
+      return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
@@ -112,6 +116,8 @@ const ActiveTenders: React.FC = () => {
                                                     <a 
                                                         href={tender.link} 
                                                         download 
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
                                                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-bold text-primary dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors duration-200 whitespace-nowrap"
                                                     >
                                                         <Download size={16} /> Download
@@ -124,7 +130,7 @@ const ActiveTenders: React.FC = () => {
                                                 <td colSpan={4} className="p-4 border-b dark:border-gray-600">
                                                     <div className="w-full h-[600px] bg-white rounded-lg border border-gray-200 dark:border-gray-600 overflow-hidden shadow-inner">
                                                         <iframe 
-                                                            src={tender.link} 
+                                                            src={getViewerUrl(tender.link)} 
                                                             className="w-full h-full" 
                                                             title={`PDF Viewer - ${tender.title}`}
                                                         />
@@ -173,6 +179,8 @@ const ActiveTenders: React.FC = () => {
                                         <a 
                                             href={tender.link} 
                                             download 
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="flex-1 py-2 bg-primary text-white rounded text-xs font-bold flex items-center justify-center gap-2 hover:bg-blue-800"
                                         >
                                             <Download size={14} /> Download
@@ -183,7 +191,7 @@ const ActiveTenders: React.FC = () => {
                                         <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600 animate-slide-up">
                                             <div className="w-full h-[400px] bg-white rounded border border-gray-200 dark:border-gray-600 overflow-hidden shadow-inner">
                                                 <iframe 
-                                                    src={tender.link} 
+                                                    src={getViewerUrl(tender.link)}
                                                     className="w-full h-full" 
                                                     title={`PDF Viewer - ${tender.title}`}
                                                 />

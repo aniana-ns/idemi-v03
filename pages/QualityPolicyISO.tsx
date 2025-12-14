@@ -17,6 +17,10 @@ const QualityPolicyISO: React.FC = () => {
   const location = useLocation();
   const [showPdf, setShowPdf] = useState(false);
 
+  const getViewerUrl = (url: string) => {
+      return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
       <SEO seo={{ title: `${DATA.title} | IDEMI`, description: DATA.description }} path={location.pathname} />
@@ -39,7 +43,7 @@ const QualityPolicyISO: React.FC = () => {
             </div>
             {showPdf && (
                 <div className="border-t border-gray-200 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900 animate-slide-up">
-                    <div className="w-full h-[800px] bg-white rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden shadow-inner"><iframe src={DATA.pdfLink} className="w-full h-full" title={`PDF Viewer`} /></div>
+                    <div className="w-full h-[800px] bg-white rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden shadow-inner"><iframe src={getViewerUrl(DATA.pdfLink)} className="w-full h-full" title={`PDF Viewer`} /></div>
                 </div>
             )}
          </div>

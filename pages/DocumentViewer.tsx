@@ -23,6 +23,12 @@ const DocumentViewer: React.FC = () => {
     );
   }
 
+  // Use Google Docs Viewer for PDFs to ensure mobile compatibility
+  const isPdf = url.toLowerCase().endsWith('.pdf') || url.includes('.pdf');
+  const viewerUrl = isPdf 
+    ? `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`
+    : url;
+
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200 flex flex-col">
       <SEO seo={{ title: `${title} | IDEMI`, description: `View document: ${title}` }} path="/view-document" />
@@ -46,6 +52,8 @@ const DocumentViewer: React.FC = () => {
              <a 
                 href={url} 
                 download 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-800 transition flex items-center gap-2 shadow-sm"
              >
                 <Download size={16} /> <span className="hidden sm:inline">Download Document</span>
@@ -54,13 +62,14 @@ const DocumentViewer: React.FC = () => {
       </div>
 
       {/* Viewer Content */}
-      <div className="flex-grow container mx-auto px-4 py-6">
-         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-[80vh]">
+      <div className="flex-grow container mx-auto px-4 py-6 h-full min-h-[80vh]">
+         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-full min-h-[80vh] relative">
             <iframe 
-                src={url} 
-                className="w-full h-full" 
+                src={viewerUrl} 
+                className="w-full h-full absolute inset-0" 
                 title={`PDF Viewer - ${title}`}
                 style={{ border: 'none' }}
+                loading="lazy"
             />
          </div>
       </div>

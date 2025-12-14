@@ -21,6 +21,10 @@ const ProcurementPolicy: React.FC = () => {
     setViewingId(prev => prev === id ? null : id);
   };
 
+  const getViewerUrl = (url: string) => {
+      return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
@@ -90,6 +94,8 @@ const ProcurementPolicy: React.FC = () => {
                                         <a 
                                             href={item.link} 
                                             download
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="px-4 py-2 bg-primary text-white border border-primary rounded-lg text-sm font-bold hover:bg-blue-800 transition shadow-sm flex items-center gap-2 whitespace-nowrap hover:scale-105 active:scale-95"
                                         >
                                             <Download size={16} /> Download
@@ -100,7 +106,7 @@ const ProcurementPolicy: React.FC = () => {
                                     <div className="px-6 pb-6 pt-2 animate-slide-up">
                                         <div className="w-full h-[600px] bg-white rounded-lg border border-gray-200 dark:border-gray-600 overflow-hidden shadow-md">
                                             <iframe 
-                                                src={item.link} 
+                                                src={getViewerUrl(item.link)}
                                                 className="w-full h-full" 
                                                 title={`PDF Viewer - ${item.title}`}
                                             />
