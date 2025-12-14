@@ -27,13 +27,16 @@ const DirectorsDesk: React.FC = () => {
         <div className="lg:w-3/4">
             <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 reveal-on-scroll">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
-                    <div className="md:w-1/3">
-                        <div className="bg-gray-200 dark:bg-gray-700 rounded-lg h-64 w-full flex items-center justify-center">
-                            {/* Placeholder for Director's Image */}
-                            <span className="text-gray-500 dark:text-gray-400">Director's Photo</span>
+                    <div className="w-full md:w-1/3 shrink-0">
+                        <div className="relative rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 mx-auto max-w-[280px] md:max-w-none aspect-[3/4]">
+                            <img 
+                                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400" 
+                                alt="Principal Director, IDEMI" 
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                     </div>
-                    <div className="md:w-2/3">
+                    <div className="w-full md:w-2/3">
                         <p className="lead text-xl font-medium text-primary dark:text-blue-400 mb-6">
                             "Welcome to IDEMI."
                         </p>
@@ -57,3 +60,4 @@ const DirectorsDesk: React.FC = () => {
 };
 
 export default DirectorsDesk;
+
