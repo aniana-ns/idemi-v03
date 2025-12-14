@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
-import { Link, useLocation, useNavigate } from '../lib/cms';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe } from 'lucide-react';
 import { useAccessibility } from '../lib/AccessibilityContext';
 import { SEARCH_INDEX } from '../constants';
@@ -19,25 +18,45 @@ const MENU_ITEMS: MenuItem[] = [
   {
     label: 'About',
     children: [
-      { label: 'About IDEMI', path: '/about' },
-      { label: 'IDEMI At a Glance', path: '/at-glance' },
-      { label: 'Vision & Mission', path: '/vision-mission' },
-      { label: "Director's Desk", path: '/directors-desk' },
-      { label: 'Aerospace (AS9100 Rev.D)', path: '/ISO-AS9100-2016' },
-      { label: 'ISO 9001:2015', path: '/ISO-9001-2015-Certificate' },
-      { label: 'NABL Certificate', path: '/NABL-Certificate' },
-      { label: 'Quality Policy (ISO 17025)', path: '/ISO-IEC' },
-      { label: 'Quality Policy (ISO 9001)', path: '/ISO-AS9100' },
-      { label: "Who's Who", path: '/whos-who' },
-      { label: 'Committee', path: '/committee' },
-      { label: 'CVO & Vigilance', path: '/vigilance' },
-      { label: 'RTI Act', path: '/rti' },
-      { label: 'Holidays in 2025', path: '/holidays' },
-      { label: 'Past Performance', path: '/past_performance' },
-      { label: 'Testimonials', path: '/testimonials' },
-      { label: 'International Associations', path: '/international-associations' },
-      { label: 'National Associations', path: '/national-associations' },
-      { label: 'How to Reach Us', path: '/how-to-reach' },
+      {
+        label: 'Overview',
+        children: [
+          { label: 'About IDEMI', path: '/about' },
+          { label: 'IDEMI At a Glance', path: '/at-glance' },
+          { label: 'Vision & Mission', path: '/vision-mission' },
+          { label: "Director's Desk", path: '/directors-desk' },
+          { label: 'How to Reach Us', path: '/how-to-reach' },
+        ]
+      },
+      {
+        label: 'Certifications & Policies',
+        children: [
+          { label: 'Aerospace (AS9100 Rev.D)', path: '/ISO-AS9100-2016' },
+          { label: 'ISO 9001:2015', path: '/ISO-9001-2015-Certificate' },
+          { label: 'NABL Certificate', path: '/NABL-Certificate' },
+          { label: 'Quality Policy (ISO 17025)', path: '/ISO-IEC' },
+          { label: 'Quality Policy (ISO 9001)', path: '/ISO-AS9100' },
+        ]
+      },
+      {
+        label: 'Administration',
+        children: [
+          { label: "Who's Who", path: '/whos-who' },
+          { label: 'Committee', path: '/committee' },
+          { label: 'CVO & Vigilance', path: '/vigilance' },
+          { label: 'RTI Act', path: '/rti' },
+          { label: 'Holidays in 2025', path: '/holidays' },
+        ]
+      },
+      {
+        label: 'Achievements & Partners',
+        children: [
+          { label: 'Past Performance', path: '/past_performance' },
+          { label: 'Testimonials', path: '/testimonials' },
+          { label: 'International Associations', path: '/international-associations' },
+          { label: 'National Associations', path: '/national-associations' },
+        ]
+      }
     ]
   },
   {
