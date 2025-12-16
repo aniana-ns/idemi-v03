@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, BookOpen, CheckCircle, Send, ShieldCheck, AlertCircle, User, Calendar, Phone, Mail, MapPin } from 'lucide-react';
+import { ArrowLeft, BookOpen, CheckCircle, Send, AlertCircle, User, Calendar, Phone, Mail, MapPin, Loader2 } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
+import { RECAPTCHA_SITE_KEY } from '../constants';
 
 // Exact Course Data mapped from the provided HTML snippet
 interface CourseCategory {
@@ -134,10 +136,9 @@ const StudentRegistration: React.FC = () => {
     comment: ''
   });
 
-  const [captchaVerified, setCaptchaVerified] = useState(false);
-  const [isCaptchaLoading, setIsCaptchaLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   
   // Validation State
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -228,14 +229,8 @@ const StudentRegistration: React.FC = () => {
       setFormErrors(prev => ({ ...prev, [name]: error || '' }));
   };
 
-  const handleCaptchaClick = () => {
-      if (captchaVerified || isCaptchaLoading) return;
-      setIsCaptchaLoading(true);
-      // Simulate network delay for captcha verification UI
-      setTimeout(() => {
-          setIsCaptchaLoading(false);
-          setCaptchaVerified(true);
-      }, 1000);
+  const handleCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -269,7 +264,7 @@ const StudentRegistration: React.FC = () => {
         return;
     }
 
-    if (!captchaVerified) {
+    if (!captchaToken) {
         alert("Please complete the CAPTCHA verification.");
         return;
     }
@@ -293,7 +288,7 @@ const StudentRegistration: React.FC = () => {
                 // Config fields
                 _subject: `New Student Registration: ${formData.fullname}`,
                 _template: 'table',
-                _captcha: 'false', // Disable their captcha since we have our own simulation
+                _captcha: 'false',
                 // Form Data
                 'Course Name': formData.coursename,
                 'Full Name': formData.fullname,
@@ -305,7 +300,8 @@ const StudentRegistration: React.FC = () => {
                 'Qualification': formData.qualification,
                 'Reference': formData.reference || 'N/A',
                 'Address': formData.address,
-                'Comment': formData.comment || 'N/A'
+                'Comment': formData.comment || 'N/A',
+                'g-recaptcha-response': captchaToken
             })
         });
 
@@ -381,7 +377,7 @@ const StudentRegistration: React.FC = () => {
                       });
                       setFormErrors({});
                       setTouched({});
-                      setCaptchaVerified(false);
+                      setCaptchaToken(null);
                   }}
                   className="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-800 transition shadow-md"
                 >
@@ -630,45 +626,27 @@ const StudentRegistration: React.FC = () => {
                     ></textarea>
                   </div>
 
-                  {/* Simulated ReCAPTCHA */}
-                  <div className="flex justify-center md:justify-start">
-                      <div 
-                        className={`bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-3 flex items-center gap-4 cursor-pointer select-none transition-colors ${captchaVerified ? 'border-green-500 bg-green-50 dark:bg-green-900/10' : 'hover:bg-gray-100 dark:hover:bg-gray-600'}`}
-                        onClick={handleCaptchaClick}
-                        role="checkbox"
-                        aria-checked={captchaVerified}
-                        tabIndex={0}
-                        onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') handleCaptchaClick(); }}
-                      >
-                          <div className={`w-6 h-6 border-2 rounded-sm flex items-center justify-center transition-colors relative ${captchaVerified ? 'border-green-500 bg-green-500' : 'border-gray-400 bg-white'}`}>
-                              {isCaptchaLoading && !captchaVerified && (
-                                <div className="absolute inset-0 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                              )}
-                              {captchaVerified && <ShieldCheck size={16} className="text-white" />}
-                          </div>
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">I'm not a robot</span>
-                          <div className="ml-2 flex flex-col items-center justify-center">
-                             <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="w-8 h-8 opacity-70" />
-                             <span className="text-[9px] text-gray-400">reCAPTCHA</span>
-                          </div>
-                      </div>
+                  <div className="flex flex-col gap-4">
+                      <ReCAPTCHA
+                          sitekey={RECAPTCHA_SITE_KEY}
+                          onChange={handleCaptchaChange}
+                      />
                   </div>
 
                   <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
                     <button
                       type="submit"
-                      disabled={status === 'submitting' || !captchaVerified}
+                      disabled={status === 'submitting' || !captchaToken}
                       className="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl hover:bg-blue-800 transition shadow-lg hover:shadow-xl transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {status === 'submitting' ? (
-                        <>Sending...</>
+                        <>Sending... <Loader2 className="animate-spin" size={20} /></>
                       ) : (
                         <>
                           Submit Enquiry <Send size={20} />
                         </>
                       )}
                     </button>
-                    {!captchaVerified && <p className="text-center md:text-left text-xs text-red-500 mt-2 flex items-center gap-1 justify-center md:justify-start"><AlertCircle size={12}/> Please complete the captcha verification</p>}
                   </div>
 
                 </form>
@@ -682,3 +660,4 @@ const StudentRegistration: React.FC = () => {
 };
 
 export default StudentRegistration;
+
