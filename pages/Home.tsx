@@ -13,10 +13,22 @@ import CountUp from '../components/CountUp';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
 import { ServiceItem, SlideItem, NewsItem, Testimonial } from '../types';
 
+// --- IMAGES CONFIGURATION (Hardcoded for reliability) ---
+const IMAGES = {
+  slider1: "https://images.unsplash.com/photo-1668198991378-59ee7fdd264a?auto=format&fit=crop&q=80", // Lab technician / Calibration
+  slider2: "https://images.unsplash.com/photo-1717386255773-1e3037c81788?auto=format&fit=crop&q=80", // CNC Machine / Tool Room
+  slider3: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80", // Classroom / Training
+  feature: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80", // Rocket/Space/Engineering
+  serviceCalibration: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80", // Measurement
+  serviceTesting: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80", // Lab Equipment
+  serviceToolRoom: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80", // Lathe/Machining
+  service3D: "https://images.unsplash.com/photo-1597739239353-50270a473397?auto=format&fit=crop&q=80", // 3D Printing
+};
+
 const INITIAL_SLIDES: SlideItem[] = [
   { 
     id: 's1', 
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80", 
+    image: IMAGES.slider1, 
     title: 'Excellence in Calibration & Testing', 
     subtitle: 'Empowering Indian Industry with world-class technical services and precision measurement.', 
     ctaText: 'Explore Services', 
@@ -24,7 +36,7 @@ const INITIAL_SLIDES: SlideItem[] = [
   },
   { 
     id: 's2', 
-    image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80", 
+    image: IMAGES.slider2, 
     title: 'Advanced Manufacturing Hub', 
     subtitle: 'State-of-the-art Tool Room, CNC Machining, and 3D Printing facilities.', 
     ctaText: 'View Capabilities', 
@@ -32,7 +44,7 @@ const INITIAL_SLIDES: SlideItem[] = [
   },
   { 
     id: 's3', 
-    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80", 
+    image: IMAGES.slider3, 
     title: 'Skill Development Programs', 
     subtitle: 'Job-oriented training in Automation, CAD/CAM, and ESDM for future-ready careers.', 
     ctaText: 'Find Courses', 
@@ -79,10 +91,10 @@ const INITIAL_STATS = [
 ];
 
 const STAT_ICONS = [
-  <Award size={32} className="text-secondary dark:text-amber-500 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
-  <Users size={32} className="text-primary dark:text-blue-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
-  <Activity size={32} className="text-green-600 dark:text-green-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
-  <Zap size={32} className="text-purple-600 dark:text-purple-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />
+  <Award key="i1" size={32} className="text-secondary dark:text-amber-500 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
+  <Users key="i2" size={32} className="text-primary dark:text-blue-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
+  <Activity key="i3" size={32} className="text-green-600 dark:text-green-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
+  <Zap key="i4" size={32} className="text-purple-600 dark:text-purple-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />
 ];
 
 const TESTIMONIALS: Testimonial[] = [
@@ -116,7 +128,7 @@ const FEATURE_SECTION = {
   subtitle: "National Significance",
   title: "Contributions to National Projects",
   description: "IDEMI plays a key role in India's strategic missions. We have developed advanced manufacturing capabilities for cryogenic engine parts—crucial for ISRO’s launch vehicles used in lunar missions.",
-  image: "https://images.unsplash.com/photo-1581092334651-ddf26f9a09d0?auto=format&fit=crop&q=80",
+  image: IMAGES.feature,
   list: [
     "Chandrayaan Missions: Vital components for CE20 cryogenic engine (GSLV Mk III).",
     "ISRO Partnership: Precision design and prototyping for aerospace needs.",
@@ -133,7 +145,7 @@ const SERVICES_PREVIEW: ServiceItem[] = [
     slug: 'calibration', 
     description: 'NABL accredited calibration services for Electrical, Thermal, Pressure, Mass, and Dimensional parameters.', 
     iconName: 'Scale',
-    image: "https://images.unsplash.com/photo-1581093458791-9f30398bfda6?auto=format&fit=crop&q=80",
+    image: IMAGES.serviceCalibration,
     tags: ['NABL Accredited', 'ISO/IEC 17025', 'On-site Service']
   },
   { 
@@ -142,7 +154,7 @@ const SERVICES_PREVIEW: ServiceItem[] = [
     slug: 'testing', 
     description: 'High-quality testing for electrical, mechanical, and electronic instruments as per IEC, IS, and EN standards.', 
     iconName: 'Activity',
-    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80",
+    image: IMAGES.serviceTesting,
     tags: ['EMI/EMC', 'Safety Testing', 'IP Rating']
   },
   { 
@@ -151,7 +163,7 @@ const SERVICES_PREVIEW: ServiceItem[] = [
     slug: 'tool-room', 
     description: 'Design and manufacturing of Press Tools, Moulds, Die Casting Dies, Jigs & Fixtures using CNC technology.', 
     iconName: 'Wrench',
-    image: "https://images.unsplash.com/photo-1565514020176-7822bd9b5311?auto=format&fit=crop&q=80",
+    image: IMAGES.serviceToolRoom,
     tags: ['5-Axis CNC', 'Wire Cut EDM', 'Precision Moulds']
   },
   { 
@@ -160,7 +172,7 @@ const SERVICES_PREVIEW: ServiceItem[] = [
     slug: 'eos-formiga', 
     description: 'Rapid prototyping and batch production using advanced Selective Laser Sintering (SLS) technology.', 
     iconName: 'Printer',
-    image: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?auto=format&fit=crop&q=80",
+    image: IMAGES.service3D,
     tags: ['SLS Tech', 'Rapid Prototyping', 'Nylon PA12']
   }
 ];
@@ -298,10 +310,8 @@ const Home: React.FC = () => {
             <div className="relative group perspective-1000">
               <div className="absolute inset-0 bg-secondary rounded-2xl transform rotate-3 group-hover:rotate-2 transition-transform duration-300 opacity-20 dark:opacity-40 shadow-2xl"></div>
               <img 
-                src={getOptimizedUrl(FEATURE_SECTION.image, 800)} 
-                srcSet={`${getOptimizedUrl(FEATURE_SECTION.image, 600)} 600w, ${getOptimizedUrl(FEATURE_SECTION.image, 1000)} 1000w`}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                alt="Lab Technician working on instruments" 
+                src={FEATURE_SECTION.image}
+                alt="National Project Engineering" 
                 loading="lazy"
                 className="relative rounded-2xl shadow-2xl object-cover h-96 w-full transform -rotate-2 group-hover:-rotate-1 transition-transform duration-500 border-4 border-white dark:border-gray-800"
               />
@@ -471,14 +481,6 @@ const Home: React.FC = () => {
     </>
   );
 };
-
-const getOptimizedUrl = (url: string, width: number) => {
-    if (url.includes('unsplash.com')) {
-        const baseUrl = url.split('?')[0];
-        return `${baseUrl}?auto=format&fit=crop&q=80&w=${width}`;
-    }
-    return url;
- };
 
 export default Home;
 
