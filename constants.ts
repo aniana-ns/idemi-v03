@@ -1,7 +1,7 @@
 
-import { NavLink, ServiceItem, NewsItem, SearchItem } from './types';
+import { SearchItem } from './types';
 
-// Google reCAPTCHA v2 Test Key (Always validates)
+// Google reCAPTCHA v2 Test Key (Always validates for testing purposes)
 // Replace with your actual site key in production
 export const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
