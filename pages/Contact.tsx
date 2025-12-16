@@ -2,10 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, AlertCircle, CheckCircle, Send, MessageSquare, Loader2 } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import SimpleCaptcha from '../components/SimpleCaptcha';
 import SEO from '../components/SEO';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
-import { RECAPTCHA_SITE_KEY } from '../constants';
 
 interface FormErrors {
   name?: string;
@@ -33,7 +32,7 @@ const Contact: React.FC = () => {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
   useEffect(() => {
     refreshObserver();
@@ -90,9 +89,9 @@ const Contact: React.FC = () => {
     setErrors(prev => ({ ...prev, [name]: error }));
   };
 
-  const handleCaptchaChange = (token: string | null) => {
-    setCaptchaToken(token);
-    if (token) {
+  const handleCaptchaVerify = (isValid: boolean) => {
+    setIsCaptchaValid(isValid);
+    if (isValid) {
         setErrors(prev => ({ ...prev, captcha: undefined }));
     }
   };
@@ -113,8 +112,8 @@ const Contact: React.FC = () => {
       }
     });
 
-    if (!captchaToken) {
-        newErrors.captcha = "Please complete the CAPTCHA";
+    if (!isCaptchaValid) {
+        newErrors.captcha = "Please complete the security check";
         isValid = false;
     }
 
@@ -142,8 +141,7 @@ const Contact: React.FC = () => {
                 'Name': formData.name,
                 'Email': formData.email,
                 'Subject': formData.subject,
-                'Message': formData.message,
-                'g-recaptcha-response': captchaToken
+                'Message': formData.message
             })
         });
 
@@ -161,7 +159,7 @@ const Contact: React.FC = () => {
               message: '' 
             });
             setTouched({});
-            setCaptchaToken(null);
+            setIsCaptchaValid(false);
         } else {
             setStatus('error');
             setErrorMessage(result.message || 'Failed to send message. Please try again.');
@@ -177,7 +175,7 @@ const Contact: React.FC = () => {
   const handleReset = () => {
     setStatus('idle');
     setErrors({});
-    setCaptchaToken(null);
+    setIsCaptchaValid(false);
   };
 
   const contactCards = [
@@ -432,12 +430,9 @@ const Contact: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex flex-col gap-4">
-                      <ReCAPTCHA
-                          sitekey={RECAPTCHA_SITE_KEY}
-                          onChange={handleCaptchaChange}
-                      />
-                      {errors.captcha && <p className="text-red-500 text-xs flex items-center gap-1 font-medium animate-fade-in"><AlertCircle size={12} /> {errors.captcha}</p>}
+                  <div>
+                      <SimpleCaptcha onVerify={handleCaptchaVerify} />
+                      {errors.captcha && <p className="text-red-500 text-xs flex items-center gap-1 font-medium animate-fade-in mt-2"><AlertCircle size={12} /> {errors.captcha}</p>}
                   </div>
 
                   <button
@@ -480,3 +475,4 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
+
