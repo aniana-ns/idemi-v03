@@ -21,12 +21,20 @@ const ROUTE_LABELS: Record<string, string> = {
   'led': 'LED Testing',
   'techtransfer': 'Technology Transfer',
   'smt-assembly': 'SMT Assembly',
-  'extension-centre': 'Extension Centres'
+  'extension-centre': 'Extension Centres',
+  'schemes': 'Government Schemes',
+  'design-development': 'Design & Development'
 };
 
 // Map segments to redirect paths if the segment itself isn't a valid page
 const PATH_REDIRECTS: Record<string, string> = {
-  'extension-centre': '/extensions'
+  'extension-centre': '/extensions',
+  'schemes': '/training/schemes/day-nulm',
+  'downloads': '/downloads/active-tenders',
+  'courses': '/training',
+  'mechanical-courses': '/training',
+  'animation': '/training',
+  'design-development': '/services/design-development'
 };
 
 const Breadcrumbs: React.FC = () => {
@@ -91,3 +99,4 @@ const Breadcrumbs: React.FC = () => {
 };
 
 export default Breadcrumbs;
+
