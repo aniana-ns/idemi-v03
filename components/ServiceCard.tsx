@@ -68,7 +68,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 
   return (
     <div 
-      className="group relative flex flex-col h-full bg-white dark:bg-gray-800 hover:bg-secondary dark:hover:bg-secondary rounded-xl shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 hover:border-secondary dark:hover:border-secondary transition-all duration-300 hover:-translate-y-2 overflow-hidden"
+      className="group relative flex flex-col h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 overflow-hidden"
       itemScope 
       itemType="https://schema.org/Service"
       aria-label={`View details for ${service.title}`}
@@ -76,7 +76,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       <meta itemProp="serviceType" content={service.title} />
       
       {/* Image Area */}
-      <div className="relative h-56 overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-inner">
+      <div className="relative h-56 overflow-hidden bg-gray-200 dark:bg-gray-700">
+        {/* Overlay Gradient on Hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"></div>
+
         {images.length > 0 ? (
             <>
               {!loadedImages[currentSlide] && (
@@ -92,7 +95,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
                     alt={`${service.title} - View ${index + 1}`} 
                     onLoad={() => handleImageLoad(index)}
                     className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-110
-                        ${index === currentSlide ? 'z-20 opacity-100' : 'z-0 opacity-0'}
+                        ${index === currentSlide ? 'z-10 opacity-100' : 'z-0 opacity-0'}
                     `}
                   />
               ))}
@@ -133,27 +136,25 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
         )}
         
         {/* Floating Icon Badge */}
-        <div className="absolute top-4 right-4 z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm p-2.5 rounded-xl text-primary dark:text-blue-400 shadow-[0_4px_10px_rgba(0,0,0,0.1)] border border-white/20 group-hover:scale-110 transition-all duration-300 group-hover:bg-white group-hover:text-secondary group-hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)]">
+        <div className="absolute top-4 right-4 z-30 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-2.5 rounded-xl text-primary dark:text-blue-400 shadow-lg border border-white/20 dark:border-gray-600 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
           {iconMap[service.iconName] || <Settings size={20} aria-hidden="true" />}
         </div>
       </div>
       
       {/* Content */}
-      <div className="p-6 flex flex-col flex-grow relative z-10">
-        {/* Title turns white on hover */}
-        <h3 itemProp="name" className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-white transition-colors duration-200 leading-tight drop-shadow-sm group-hover:drop-shadow-md">
+      <div className="p-6 flex flex-col flex-grow relative z-10 bg-white dark:bg-gray-800">
+        <h3 itemProp="name" className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors duration-200 leading-tight">
           {service.title}
         </h3>
         
-        {/* Description turns white/90 on hover for readability against orange */}
-        <p itemProp="description" className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3 mb-4 flex-grow group-hover:text-white/95 transition-colors group-hover:font-medium">
+        <p itemProp="description" className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3 mb-4 flex-grow">
             {service.description}
         </p>
         
         {/* Features / Tags */}
         <div className="flex flex-wrap gap-2 mb-6">
             {(service.features ? service.features : service.tags || []).slice(0, 2).map((feat, idx) => (
-                <span key={idx} className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase tracking-wide group-hover:bg-white/20 group-hover:text-white transition-colors border border-gray-200 dark:border-gray-600 group-hover:border-white/30 shadow-sm">
+                <span key={idx} className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase tracking-wide border border-gray-200 dark:border-gray-600">
                     {feat}
                 </span>
             ))}
@@ -161,15 +162,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 
         {/* Footer Link / Button */}
         <div className="mt-auto">
-            <div className="w-full py-3 px-4 bg-gray-50 dark:bg-gray-700/50 text-primary dark:text-blue-400 text-center rounded-xl font-bold text-sm transition-all duration-300 group-hover:bg-white group-hover:text-secondary flex items-center justify-center gap-2 border border-gray-100 dark:border-gray-700 group-hover:border-transparent shadow-sm group-hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]">
+            <div className="w-full py-3 px-4 bg-gray-50 dark:bg-gray-700/30 text-primary dark:text-blue-400 text-center rounded-xl font-bold text-sm transition-all duration-300 group-hover:bg-primary group-hover:text-white dark:group-hover:bg-blue-600 flex items-center justify-center gap-2 border border-gray-100 dark:border-gray-700 group-hover:border-transparent group-hover:shadow-md">
                 Learn More
                 <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
             </div>
         </div>
       </div>
-      
-      {/* Subtle border gradient on hover */}
-      <div className="absolute inset-0 border-2 border-transparent group-hover:border-white/10 rounded-xl pointer-events-none transition-all duration-300"></div>
     </div>
   );
 };
