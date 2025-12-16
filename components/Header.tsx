@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe } from 'lucide-react';
@@ -589,11 +590,13 @@ const Header: React.FC = () => {
                 <Link to="/" className="flex items-center gap-3 sm:gap-5 group focus:outline-none rounded p-1 flex-1 min-w-0 mr-2 sm:mr-4" aria-label="IDEMI Home">
                     <img src="https://idemi.org/assets/images/LOGO-27042023.png" alt="IDEMI Logo" className="h-10 sm:h-20 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
                     <div className="leading-tight text-gray-800 dark:text-white min-w-0 flex flex-col justify-center">
-                        <div className="sm:hidden">
-                            <h1 className="font-bold text-sm leading-tight text-[#1e3a8a] dark:text-white">
-                                IDEMI
+                        <div className="sm:hidden flex flex-col justify-center">
+                            <h1 className="font-bold text-[11px] xs:text-xs leading-tight text-[#1e3a8a] dark:text-white uppercase tracking-tight mb-0.5">
+                                Institute for Design of Electrical Measuring Instruments
                             </h1>
-                            <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">Institute for Design of Electrical Measuring Instruments</span>
+                            <span className="text-[9px] xs:text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">
+                                MSME Technology Centre Mumbai, Govt. of India Society
+                            </span>
                         </div>
 
                         <div className="hidden sm:block">
