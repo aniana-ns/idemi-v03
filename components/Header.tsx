@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe } from 'lucide-react';
@@ -218,7 +217,8 @@ const MENU_ITEMS: MenuItem[] = [
         ]
       }
     ]
-  }
+  },
+  { label: 'Contact Us', path: '/contact' }
 ];
 
 interface NavItemProps {
