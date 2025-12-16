@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { Search, ArrowRight, FileText, Home, Layers } from 'lucide-react';
+import { Search, ArrowRight, FileText, Home, Layers, User, Settings, Flag } from 'lucide-react';
 import SEO from '../components/SEO';
 import { SEARCH_INDEX } from '../constants';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
@@ -16,6 +16,26 @@ const SearchResults: React.FC = () => {
     item.title.toLowerCase().includes(query.toLowerCase()) || 
     item.desc.toLowerCase().includes(query.toLowerCase())
   ) : [];
+
+  const getBadgeClass = (type: string) => {
+    switch(type) {
+        case 'Service': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300';
+        case 'Training': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300';
+        case 'Download': return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300';
+        case 'Person': return 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300';
+        case 'Facility': return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300';
+        case 'Scheme': return 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300';
+        case 'News': return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300';
+        default: return 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
+    }
+  };
+
+  const getIcon = (type: string) => {
+      if (type === 'Person') return <User size={14} className="mr-1" />;
+      if (type === 'Facility') return <Settings size={14} className="mr-1" />;
+      if (type === 'Scheme') return <Flag size={14} className="mr-1" />;
+      return null;
+  };
 
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
@@ -52,7 +72,7 @@ const SearchResults: React.FC = () => {
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Ready to Search?</h3>
                     <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto text-lg">
-                        Please enter a keyword above to find services, training courses, or documents.
+                        Please enter a keyword above to find services, training courses, people, or documents.
                     </p>
                 </div>
             ) : results.length > 0 ? (
@@ -62,13 +82,8 @@ const SearchResults: React.FC = () => {
                             <div className="flex items-start justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                                            result.type === 'Service' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' :
-                                            result.type === 'Training' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' :
-                                            result.type === 'Download' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' :
-                                            'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
-                                        }`}>
-                                            {result.type}
+                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getBadgeClass(result.type)}`}>
+                                            {getIcon(result.type)} {result.type}
                                         </span>
                                     </div>
                                     <h3 className="text-xl font-bold text-primary dark:text-blue-400 group-hover:underline decoration-2 underline-offset-2 decoration-primary/30">
