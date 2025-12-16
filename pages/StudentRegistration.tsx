@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowLeft, BookOpen, CheckCircle, Send, AlertCircle, User, Calendar, Phone, Mail, MapPin, Loader2 } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import SimpleCaptcha from '../components/SimpleCaptcha';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
-import { RECAPTCHA_SITE_KEY } from '../constants';
 
 // Exact Course Data mapped from the provided HTML snippet
 interface CourseCategory {
@@ -138,7 +137,7 @@ const StudentRegistration: React.FC = () => {
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
   
   // Validation State
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -229,8 +228,8 @@ const StudentRegistration: React.FC = () => {
       setFormErrors(prev => ({ ...prev, [name]: error || '' }));
   };
 
-  const handleCaptchaChange = (token: string | null) => {
-    setCaptchaToken(token);
+  const handleCaptchaVerify = (isValid: boolean) => {
+    setIsCaptchaValid(isValid);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -264,8 +263,8 @@ const StudentRegistration: React.FC = () => {
         return;
     }
 
-    if (!captchaToken) {
-        alert("Please complete the CAPTCHA verification.");
+    if (!isCaptchaValid) {
+        alert("Please complete the security check.");
         return;
     }
 
@@ -300,8 +299,7 @@ const StudentRegistration: React.FC = () => {
                 'Qualification': formData.qualification,
                 'Reference': formData.reference || 'N/A',
                 'Address': formData.address,
-                'Comment': formData.comment || 'N/A',
-                'g-recaptcha-response': captchaToken
+                'Comment': formData.comment || 'N/A'
             })
         });
 
@@ -377,7 +375,7 @@ const StudentRegistration: React.FC = () => {
                       });
                       setFormErrors({});
                       setTouched({});
-                      setCaptchaToken(null);
+                      setIsCaptchaValid(false);
                   }}
                   className="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-800 transition shadow-md"
                 >
@@ -627,16 +625,13 @@ const StudentRegistration: React.FC = () => {
                   </div>
 
                   <div className="flex flex-col gap-4">
-                      <ReCAPTCHA
-                          sitekey={RECAPTCHA_SITE_KEY}
-                          onChange={handleCaptchaChange}
-                      />
+                      <SimpleCaptcha onVerify={handleCaptchaVerify} />
                   </div>
 
                   <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
                     <button
                       type="submit"
-                      disabled={status === 'submitting' || !captchaToken}
+                      disabled={status === 'submitting' || !isCaptchaValid}
                       className="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl hover:bg-blue-800 transition shadow-lg hover:shadow-xl transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {status === 'submitting' ? (
@@ -660,3 +655,4 @@ const StudentRegistration: React.FC = () => {
 };
 
 export default StudentRegistration;
+
