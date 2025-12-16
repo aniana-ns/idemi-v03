@@ -14,6 +14,7 @@ export interface ServiceItem {
 export interface NavLink {
   label: string;
   path: string;
+  external?: boolean;
 }
 
 export interface Testimonial {
@@ -111,6 +112,7 @@ export interface ExtensionCentreData {
 export interface SearchItem {
   title: string;
   path: string;
-  type: 'Service' | 'Training' | 'Page' | 'Download';
+  type: 'Service' | 'Training' | 'Page' | 'Download' | 'Person' | 'Facility' | 'Scheme' | 'News';
   desc: string;
 }
+
