@@ -12,13 +12,9 @@ body {
 }
 
 /* === Global Overrides === */
-*, *:focus, *:active, button:focus, input:focus, a:focus {
+/* Removed aggressive wildcard reset that was hiding shadows */
+*:focus {
   outline: none !important;
-  --tw-ring-offset-width: 0px !important;
-  --tw-ring-color: transparent !important;
-  --tw-ring-offset-shadow: 0 0 #0000 !important;
-  --tw-ring-shadow: 0 0 #0000 !important;
-  box-shadow: none !important;
 }
 
 * {
