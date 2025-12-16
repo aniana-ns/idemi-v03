@@ -241,7 +241,7 @@ const Home: React.FC = () => {
       {/* Stats Section with Dynamic Count Up */}
       <section className="py-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative z-10" aria-label="Key Statistics">
         <div className="container mx-auto px-4">
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-700 overflow-hidden reveal-on-scroll transform hover:-translate-y-1 transition-transform duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-gray-100 dark:border-gray-700 overflow-hidden reveal-on-scroll transform hover:-translate-y-1 transition-transform duration-300">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-gray-100 dark:divide-gray-700">
               {INITIAL_STATS.map((stat, index) => (
                 <div key={index} className="p-8 flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors group">
@@ -340,7 +340,7 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {TRAINING_PREVIEW.map((course, index) => (
-                <div key={index} className={`bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-700 reveal-on-scroll stagger-${(index % 3) + 1} hover:shadow-2xl transition-all duration-300 group hover:-translate-y-2`}>
+                <div key={index} className={`bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 reveal-on-scroll stagger-${(index % 3) + 1} transition-all duration-300 group hover:-translate-y-2`}>
                     <div className="flex justify-between items-start mb-6">
                         <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl text-primary dark:text-blue-400 group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
                             <BookOpen size={28} />
@@ -388,7 +388,7 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {QUICK_LINKS.map((item, index) => (
-              <div key={index} className={`group relative flex flex-col h-full bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-2xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 overflow-hidden reveal-on-scroll stagger-${index + 1}`}>
+              <div key={index} className={`group relative flex flex-col h-full bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 overflow-hidden reveal-on-scroll stagger-${index + 1}`}>
                 <div className="flex items-center gap-4 mb-6 relative z-10">
                   <div className="p-3 bg-white dark:bg-gray-700 rounded-full shadow-md group-hover:scale-110 transition-transform text-primary dark:text-blue-400">
                     {item.icon}
@@ -444,7 +444,7 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {INITIAL_NEWS.slice(0, 3).map((item, index) => (
-                <article key={item.id} className={`bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_15px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-700 flex flex-col h-full reveal-on-scroll stagger-${(index % 3) + 1} transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group`}>
+                <article key={item.id} className={`bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 flex flex-col h-full reveal-on-scroll stagger-${(index % 3) + 1} transition-all duration-300 hover:-translate-y-1 cursor-pointer group`}>
                 {item.date && <div className="text-secondary dark:text-amber-500 text-xs font-bold uppercase tracking-widest mb-3">{item.date}</div>}
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                     {item.link ? (
