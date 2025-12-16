@@ -610,3 +610,4 @@ const AlumniRegistration: React.FC = () => {
 };
 
 export default AlumniRegistration;
+
