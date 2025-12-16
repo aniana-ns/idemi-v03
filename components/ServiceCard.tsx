@@ -68,7 +68,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 
   return (
     <div 
-      className="group relative flex flex-col h-full bg-white dark:bg-gray-800 hover:bg-secondary dark:hover:bg-secondary rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-700 hover:border-secondary dark:hover:border-secondary transition-all duration-300 hover:-translate-y-2 overflow-hidden"
+      className="group relative flex flex-col h-full bg-white dark:bg-gray-800 hover:bg-secondary dark:hover:bg-secondary rounded-xl shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 hover:border-secondary dark:hover:border-secondary transition-all duration-300 hover:-translate-y-2 overflow-hidden"
       itemScope 
       itemType="https://schema.org/Service"
       aria-label={`View details for ${service.title}`}
