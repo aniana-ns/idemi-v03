@@ -2,14 +2,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Bell, FileText, Calendar, CheckCircle, AlertCircle, Send, Loader2, ArrowLeft, Shield, GraduationCap, Briefcase } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import SEO from '../components/SEO';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
+import { RECAPTCHA_SITE_KEY } from '../constants';
 
 const Newsletter: React.FC = () => {
   useScrollAnimation();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
+  const handleCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,6 +24,12 @@ const Newsletter: React.FC = () => {
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
         setStatus('error');
         setMessage('Please enter a valid email address.');
+        return;
+    }
+
+    if (!captchaToken) {
+        setStatus('error');
+        setMessage('Please complete the CAPTCHA verification.');
         return;
     }
 
@@ -39,13 +52,15 @@ const Newsletter: React.FC = () => {
                 _captcha: 'false',
                 'Subscriber Email': email,
                 'Subscription Date': new Date().toLocaleDateString(),
-                'Source': 'Newsletter Page'
+                'Source': 'Newsletter Page',
+                'g-recaptcha-response': captchaToken
             })
         });
 
         if (response.ok) {
             setStatus('success');
             setEmail('');
+            setCaptchaToken(null);
         } else {
             setStatus('error');
             setMessage('Failed to subscribe. Please try again later.');
@@ -177,9 +192,16 @@ const Newsletter: React.FC = () => {
                                 </div>
                             </div>
 
+                            <div className="flex justify-center">
+                                <ReCAPTCHA
+                                    sitekey={RECAPTCHA_SITE_KEY}
+                                    onChange={handleCaptchaChange}
+                                />
+                            </div>
+
                             <button 
                                 type="submit" 
-                                disabled={status === 'submitting'}
+                                disabled={status === 'submitting' || !captchaToken}
                                 className="w-full py-3 bg-secondary hover:bg-amber-700 text-white font-bold rounded-lg transition shadow-md flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {status === 'submitting' ? (
@@ -216,3 +238,4 @@ const Newsletter: React.FC = () => {
 };
 
 export default Newsletter;
+
