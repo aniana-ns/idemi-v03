@@ -2,11 +2,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Send, CheckCircle, HelpCircle, User, Mail, Phone, MessageSquare, AlertCircle, Loader2 } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import SimpleCaptcha from '../components/SimpleCaptcha';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
-import { RECAPTCHA_SITE_KEY } from '../constants';
 
 const TrainingEnquiry: React.FC = () => {
   useScrollAnimation();
@@ -19,7 +18,7 @@ const TrainingEnquiry: React.FC = () => {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
   
   // Validation State
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -65,9 +64,9 @@ const TrainingEnquiry: React.FC = () => {
     setErrors(prev => ({ ...prev, [name]: error || '' }));
   };
 
-  const handleCaptchaChange = (token: string | null) => {
-    setCaptchaToken(token);
-    if (token) {
+  const handleCaptchaVerify = (isValid: boolean) => {
+    setIsCaptchaValid(isValid);
+    if (isValid) {
         setErrors(prev => ({ ...prev, captcha: undefined }));
     }
   };
@@ -87,8 +86,8 @@ const TrainingEnquiry: React.FC = () => {
         }
     });
 
-    if (!captchaToken) {
-        newErrors.captcha = "Please complete the CAPTCHA";
+    if (!isCaptchaValid) {
+        newErrors.captcha = "Please complete the security check";
         isValid = false;
     }
     
@@ -120,8 +119,7 @@ const TrainingEnquiry: React.FC = () => {
                 'Email': formData.email,
                 'Phone': formData.phone,
                 'Category': formData.category,
-                'Message': formData.message,
-                'g-recaptcha-response': captchaToken
+                'Message': formData.message
             })
         });
 
@@ -130,7 +128,7 @@ const TrainingEnquiry: React.FC = () => {
         if (response.ok) {
             setStatus('success');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            setCaptchaToken(null);
+            setIsCaptchaValid(false);
         } else {
             setStatus('error');
             setErrorMessage(result.message || 'Failed to submit enquiry. Please try again.');
@@ -147,7 +145,7 @@ const TrainingEnquiry: React.FC = () => {
     setFormData({ name: '', email: '', phone: '', category: 'General Inquiry', message: '' });
     setErrors({});
     setTouched({});
-    setCaptchaToken(null);
+    setIsCaptchaValid(false);
   };
 
   return (
@@ -312,10 +310,7 @@ const TrainingEnquiry: React.FC = () => {
                             </div>
 
                             <div className="flex flex-col gap-4">
-                                <ReCAPTCHA
-                                    sitekey={RECAPTCHA_SITE_KEY}
-                                    onChange={handleCaptchaChange}
-                                />
+                                <SimpleCaptcha onVerify={handleCaptchaVerify} />
                                 {errors.captcha && <p className="text-red-500 text-xs flex items-center gap-1 font-medium animate-fade-in"><AlertCircle size={12} /> {errors.captcha}</p>}
                             </div>
 
@@ -356,3 +351,4 @@ const TrainingEnquiry: React.FC = () => {
 };
 
 export default TrainingEnquiry;
+
