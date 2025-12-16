@@ -316,7 +316,7 @@ const TrainingEnquiry: React.FC = () => {
 
                             <button
                                 type="submit"
-                                disabled={status === 'submitting'}
+                                disabled={status === 'submitting' || !isCaptchaValid}
                                 className="w-full md:w-auto px-8 py-3 bg-secondary text-white font-bold rounded-lg hover:bg-amber-700 transition shadow-md flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {status === 'submitting' ? (
