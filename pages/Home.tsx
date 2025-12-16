@@ -79,10 +79,10 @@ const INITIAL_STATS = [
 ];
 
 const STAT_ICONS = [
-  <Award size={32} className="text-secondary dark:text-amber-500 mb-3 mx-auto" aria-hidden="true" />,
-  <Users size={32} className="text-primary dark:text-blue-400 mb-3 mx-auto" aria-hidden="true" />,
-  <Activity size={32} className="text-green-600 dark:text-green-400 mb-3 mx-auto" aria-hidden="true" />,
-  <Zap size={32} className="text-purple-600 dark:text-purple-400 mb-3 mx-auto" aria-hidden="true" />
+  <Award size={32} className="text-secondary dark:text-amber-500 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
+  <Users size={32} className="text-primary dark:text-blue-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
+  <Activity size={32} className="text-green-600 dark:text-green-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
+  <Zap size={32} className="text-purple-600 dark:text-purple-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />
 ];
 
 const TESTIMONIALS: Testimonial[] = [
@@ -225,7 +225,9 @@ const Home: React.FC = () => {
       />
       
       {/* Image Slider */}
-      <ImageSlider slides={INITIAL_SLIDES} />
+      <div className="shadow-2xl relative z-20">
+        <ImageSlider slides={INITIAL_SLIDES} />
+      </div>
 
       {/* News Ticker */}
       <NewsTicker news={INITIAL_NEWS} />
@@ -237,16 +239,16 @@ const Home: React.FC = () => {
       <HomePopup />
 
       {/* Stats Section with Dynamic Count Up */}
-      <section className="py-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800" aria-label="Key Statistics">
+      <section className="py-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative z-10" aria-label="Key Statistics">
         <div className="container mx-auto px-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden reveal-on-scroll transform hover:-translate-y-1 transition-transform duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-700 overflow-hidden reveal-on-scroll transform hover:-translate-y-1 transition-transform duration-300">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-gray-100 dark:divide-gray-700">
               {INITIAL_STATS.map((stat, index) => (
                 <div key={index} className="p-8 flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors group">
-                  <div className="transform group-hover:scale-110 transition-transform duration-300">
+                  <div className="transform group-hover:scale-110 transition-transform duration-300 filter drop-shadow-md">
                     {STAT_ICONS[index]}
                   </div>
-                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 mb-2 tracking-tight">
+                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 mb-2 tracking-tight drop-shadow-sm">
                     <CountUp end={stat.value} suffix={stat.suffix} duration={2500} />
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">{stat.label}</div>
@@ -258,11 +260,11 @@ const Home: React.FC = () => {
       </section>
 
       {/* Services Preview */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-950">
+      <section className="py-24 bg-gray-50 dark:bg-gray-950 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 reveal-on-scroll">
             <span className="text-secondary dark:text-amber-500 font-bold uppercase tracking-widest text-xs mb-2 block">Our Expertise</span>
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4">Core Services</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 drop-shadow-sm">Core Services</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg">
               Comprehensive technical solutions tailored to meet global industry standards.
             </p>
@@ -270,8 +272,8 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {SERVICES_PREVIEW.map((service, index) => (
-                <div key={service.id} className={`reveal-on-scroll stagger-${(index % 4) + 1}`}>
-                <Link to={service.id === '4' ? '/services/eos-formiga' : `/services/${service.slug}`}>
+                <div key={service.id} className={`reveal-on-scroll stagger-${(index % 4) + 1} h-full`}>
+                <Link to={service.id === '4' ? '/services/eos-formiga' : `/services/${service.slug}`} className="h-full block">
                     <ServiceCard service={service} />
                 </Link>
                 </div>
@@ -281,7 +283,7 @@ const Home: React.FC = () => {
           <div className="text-center mt-12 reveal-on-scroll">
             <Link 
               to="/services" 
-              className="inline-flex items-center gap-2 px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-bold rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition shadow-sm hover:shadow-md"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-bold rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               View All Services <ArrowRight size={16} />
             </Link>
@@ -294,7 +296,7 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-16">
           <div className="md:w-1/2 reveal-on-scroll">
             <div className="relative group perspective-1000">
-              <div className="absolute inset-0 bg-secondary rounded-2xl transform rotate-3 group-hover:rotate-2 transition-transform duration-300 opacity-20 dark:opacity-40"></div>
+              <div className="absolute inset-0 bg-secondary rounded-2xl transform rotate-3 group-hover:rotate-2 transition-transform duration-300 opacity-20 dark:opacity-40 shadow-2xl"></div>
               <img 
                 src={getOptimizedUrl(FEATURE_SECTION.image, 800)} 
                 srcSet={`${getOptimizedUrl(FEATURE_SECTION.image, 600)} 600w, ${getOptimizedUrl(FEATURE_SECTION.image, 1000)} 1000w`}
@@ -307,14 +309,14 @@ const Home: React.FC = () => {
           </div>
           <div className="md:w-1/2 reveal-on-scroll stagger-2">
             <h3 className="text-secondary dark:text-amber-500 font-bold uppercase tracking-widest text-xs mb-3">{FEATURE_SECTION.subtitle}</h3>
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-6 leading-tight">{FEATURE_SECTION.title}</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-6 leading-tight drop-shadow-sm">{FEATURE_SECTION.title}</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed text-lg">
               {FEATURE_SECTION.description}
             </p>
             <ul className="space-y-4">
               {FEATURE_SECTION.list.map((item, index) => (
-                <li key={index} className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                  <div className="mt-1 bg-green-100 dark:bg-green-900/30 p-1 rounded-full text-green-600 dark:text-green-400 shrink-0">
+                <li key={index} className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/30 shadow-sm border border-gray-100 dark:border-gray-700/50 hover:shadow-md transition-all">
+                  <div className="mt-1 bg-green-100 dark:bg-green-900/30 p-1.5 rounded-full text-green-600 dark:text-green-400 shrink-0 shadow-sm">
                     <CheckCircle size={16} aria-hidden="true" />
                   </div>
                   <span className="text-gray-700 dark:text-gray-200 font-medium">{item}</span>
@@ -330,7 +332,7 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 reveal-on-scroll">
             <h3 className="text-secondary dark:text-amber-500 font-bold uppercase tracking-widest text-xs mb-2">Skill Development</h3>
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4">Training & Education</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 drop-shadow-sm">Training & Education</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg">
               Empowering the youth with technical skills through Government-Certified courses.
             </p>
@@ -338,12 +340,12 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {TRAINING_PREVIEW.map((course, index) => (
-                <div key={index} className={`bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 reveal-on-scroll stagger-${(index % 3) + 1} hover:shadow-xl transition-all duration-300 group hover:-translate-y-2`}>
+                <div key={index} className={`bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-700 reveal-on-scroll stagger-${(index % 3) + 1} hover:shadow-2xl transition-all duration-300 group hover:-translate-y-2`}>
                     <div className="flex justify-between items-start mb-6">
-                        <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl text-primary dark:text-blue-400 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                        <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl text-primary dark:text-blue-400 group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
                             <BookOpen size={28} />
                         </div>
-                        <div className="text-[10px] font-bold px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+                        <div className="text-[10px] font-bold px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase tracking-wide border border-gray-200 dark:border-gray-600 shadow-sm">
                             {course.type}
                         </div>
                     </div>
@@ -366,7 +368,7 @@ const Home: React.FC = () => {
           <div className="text-center mt-12 reveal-on-scroll">
                 <Link 
                   to="/training" 
-                  className="inline-block px-8 py-3 bg-primary hover:bg-blue-800 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5"
+                  className="inline-block px-8 py-3 bg-primary hover:bg-blue-800 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 hover:scale-105"
                 >
                   Explore All Courses
                 </Link>
@@ -378,7 +380,7 @@ const Home: React.FC = () => {
       <section className="py-24 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 reveal-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4">Latest Opportunities</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 drop-shadow-sm">Latest Opportunities</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg">
               Stay informed about our latest tenders, training schedules, and career openings.
             </p>
@@ -386,9 +388,9 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {QUICK_LINKS.map((item, index) => (
-              <div key={index} className={`group relative flex flex-col h-full bg-gray-50 dark:bg-gray-800 rounded-xl p-8 shadow-md hover:shadow-2xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 overflow-hidden reveal-on-scroll stagger-${index + 1}`}>
+              <div key={index} className={`group relative flex flex-col h-full bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-2xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 overflow-hidden reveal-on-scroll stagger-${index + 1}`}>
                 <div className="flex items-center gap-4 mb-6 relative z-10">
-                  <div className="p-3 bg-white dark:bg-gray-700 rounded-full shadow-sm group-hover:scale-110 transition-transform text-primary dark:text-blue-400">
+                  <div className="p-3 bg-white dark:bg-gray-700 rounded-full shadow-md group-hover:scale-110 transition-transform text-primary dark:text-blue-400">
                     {item.icon}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">{item.title}</h3>
@@ -398,7 +400,7 @@ const Home: React.FC = () => {
                   {item.description}
                 </p>
 
-                <ul className="space-y-3 mb-8 bg-white dark:bg-gray-700/30 p-4 rounded-xl relative z-10">
+                <ul className="space-y-3 mb-8 bg-white dark:bg-gray-700/30 p-4 rounded-xl relative z-10 border border-gray-100 dark:border-gray-600 shadow-inner">
                   {item.items.map((subItem, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
                       <ChevronRight size={16} className="text-secondary dark:text-amber-500 shrink-0 mt-0.5" />
@@ -410,14 +412,14 @@ const Home: React.FC = () => {
                 <div className="mt-auto relative z-10">
                     <Link 
                         to={item.link} 
-                        className="w-full py-2.5 px-4 bg-white dark:bg-gray-700/50 text-primary dark:text-blue-400 text-center rounded-lg font-bold text-sm transition-all duration-300 group-hover:bg-primary group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white flex items-center justify-center gap-2 border border-gray-200 dark:border-gray-700 group-hover:border-transparent"
+                        className="w-full py-3 px-4 bg-white dark:bg-gray-700/50 text-primary dark:text-blue-400 text-center rounded-xl font-bold text-sm transition-all duration-300 group-hover:bg-primary group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white flex items-center justify-center gap-2 border border-gray-200 dark:border-gray-700 group-hover:border-transparent shadow-md hover:shadow-lg"
                     >
                         View Details <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
 
                 {/* Subtle border gradient on hover */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/10 dark:group-hover:border-blue-400/20 rounded-xl pointer-events-none transition-all duration-300"></div>
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/10 dark:group-hover:border-blue-400/20 rounded-2xl pointer-events-none transition-all duration-300"></div>
               </div>
             ))}
           </div>
@@ -432,17 +434,17 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-end mb-12 reveal-on-scroll">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Press Releases</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white drop-shadow-sm">Press Releases</h2>
               <p className="text-gray-600 dark:text-gray-400 mt-2">Recent announcements and events.</p>
             </div>
-            <Link to="/downloads/notifications" className="hidden md:flex items-center gap-1 text-primary dark:text-blue-400 font-bold hover:text-secondary dark:hover:text-amber-500 transition-colors">
+            <Link to="/downloads/notifications" className="hidden md:flex items-center gap-1 text-primary dark:text-blue-400 font-bold hover:text-secondary dark:hover:text-amber-500 transition-colors uppercase text-sm tracking-wider">
                 View Archive <ArrowRight size={16} />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {INITIAL_NEWS.slice(0, 3).map((item, index) => (
-                <article key={item.id} className={`bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col h-full reveal-on-scroll stagger-${(index % 3) + 1} transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group`}>
+                <article key={item.id} className={`bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_15px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-700 flex flex-col h-full reveal-on-scroll stagger-${(index % 3) + 1} transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group`}>
                 {item.date && <div className="text-secondary dark:text-amber-500 text-xs font-bold uppercase tracking-widest mb-3">{item.date}</div>}
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                     {item.link ? (
@@ -479,3 +481,4 @@ const getOptimizedUrl = (url: string, width: number) => {
  };
 
 export default Home;
+
