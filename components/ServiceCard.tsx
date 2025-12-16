@@ -68,7 +68,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 
   return (
     <div 
-      className="group relative flex flex-col h-full bg-white dark:bg-gray-800 hover:bg-secondary dark:hover:bg-secondary rounded-xl shadow-md hover:shadow-2xl border border-gray-200 dark:border-gray-700 hover:border-secondary dark:hover:border-secondary transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] overflow-hidden"
+      className="group relative flex flex-col h-full bg-white dark:bg-gray-800 hover:bg-secondary dark:hover:bg-secondary rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-700 hover:border-secondary dark:hover:border-secondary transition-all duration-300 hover:-translate-y-2 overflow-hidden"
       itemScope 
       itemType="https://schema.org/Service"
       aria-label={`View details for ${service.title}`}
@@ -76,7 +76,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       <meta itemProp="serviceType" content={service.title} />
       
       {/* Image Area */}
-      <div className="relative h-56 overflow-hidden bg-gray-200 dark:bg-gray-700">
+      <div className="relative h-56 overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-inner">
         {images.length > 0 ? (
             <>
               {!loadedImages[currentSlide] && (
@@ -91,7 +91,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
                     src={getOptimizedUrl(img, 600)}
                     alt={`${service.title} - View ${index + 1}`} 
                     onLoad={() => handleImageLoad(index)}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105 
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-110
                         ${index === currentSlide ? 'z-20 opacity-100' : 'z-0 opacity-0'}
                     `}
                   />
@@ -101,21 +101,21 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
                   <>
                     <button 
                       onClick={prevSlide} 
-                      className="absolute left-2 top-1/2 -translate-y-1/2 z-30 p-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 hover:scale-110 focus:opacity-100"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-30 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 hover:scale-110 focus:opacity-100 shadow-lg"
                       aria-label="Previous image"
                     >
-                      <ChevronLeft size={20} />
+                      <ChevronLeft size={18} />
                     </button>
                     <button 
                       onClick={nextSlide} 
-                      className="absolute right-2 top-1/2 -translate-y-1/2 z-30 p-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 hover:scale-110 focus:opacity-100"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-30 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 hover:scale-110 focus:opacity-100 shadow-lg"
                       aria-label="Next image"
                     >
-                      <ChevronRight size={20} />
+                      <ChevronRight size={18} />
                     </button>
                     
                     {/* Indicators */}
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 px-2 py-1 rounded-full backdrop-blur-sm">
                       {images.map((_, idx) => (
                         <div 
                           key={idx} 
@@ -133,7 +133,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
         )}
         
         {/* Floating Icon Badge */}
-        <div className="absolute top-4 right-4 z-30 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm p-2 rounded-lg text-primary dark:text-blue-400 shadow-sm border border-white/20 group-hover:scale-110 transition-all duration-300 group-hover:bg-white group-hover:text-secondary">
+        <div className="absolute top-4 right-4 z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm p-2.5 rounded-xl text-primary dark:text-blue-400 shadow-[0_4px_10px_rgba(0,0,0,0.1)] border border-white/20 group-hover:scale-110 transition-all duration-300 group-hover:bg-white group-hover:text-secondary group-hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)]">
           {iconMap[service.iconName] || <Settings size={20} aria-hidden="true" />}
         </div>
       </div>
@@ -141,19 +141,19 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       {/* Content */}
       <div className="p-6 flex flex-col flex-grow relative z-10">
         {/* Title turns white on hover */}
-        <h3 itemProp="name" className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-white transition-colors duration-200 leading-tight">
+        <h3 itemProp="name" className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-white transition-colors duration-200 leading-tight drop-shadow-sm group-hover:drop-shadow-md">
           {service.title}
         </h3>
         
         {/* Description turns white/90 on hover for readability against orange */}
-        <p itemProp="description" className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3 mb-4 flex-grow group-hover:text-white/90 transition-colors">
+        <p itemProp="description" className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3 mb-4 flex-grow group-hover:text-white/95 transition-colors group-hover:font-medium">
             {service.description}
         </p>
         
         {/* Features / Tags */}
         <div className="flex flex-wrap gap-2 mb-6">
             {(service.features ? service.features : service.tags || []).slice(0, 2).map((feat, idx) => (
-                <span key={idx} className="inline-flex items-center px-2 py-1 rounded text-[10px] font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase tracking-wide group-hover:bg-white/20 group-hover:text-white transition-colors border border-gray-200 dark:border-gray-600 group-hover:border-white/30">
+                <span key={idx} className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase tracking-wide group-hover:bg-white/20 group-hover:text-white transition-colors border border-gray-200 dark:border-gray-600 group-hover:border-white/30 shadow-sm">
                     {feat}
                 </span>
             ))}
@@ -161,7 +161,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 
         {/* Footer Link / Button */}
         <div className="mt-auto">
-            <div className="w-full py-2.5 px-4 bg-gray-50 dark:bg-gray-700/50 text-primary dark:text-blue-400 text-center rounded-lg font-bold text-sm transition-all duration-300 group-hover:bg-white group-hover:text-secondary flex items-center justify-center gap-2 border border-gray-100 dark:border-gray-700 group-hover:border-transparent group-hover:shadow-md">
+            <div className="w-full py-3 px-4 bg-gray-50 dark:bg-gray-700/50 text-primary dark:text-blue-400 text-center rounded-xl font-bold text-sm transition-all duration-300 group-hover:bg-white group-hover:text-secondary flex items-center justify-center gap-2 border border-gray-100 dark:border-gray-700 group-hover:border-transparent shadow-sm group-hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]">
                 Learn More
                 <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
             </div>
@@ -175,3 +175,4 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 };
 
 export default ServiceCard;
+
