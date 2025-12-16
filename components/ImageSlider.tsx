@@ -41,7 +41,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ slides, autoPlayInterval = 60
   if (!slides || slides.length === 0) return null;
 
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-gray-900 group">
+    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-gray-900 group shadow-2xl">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
@@ -67,25 +67,25 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ slides, autoPlayInterval = 60
                  loading={index === 0 ? "eager" : "lazy"}
                />
                {/* Overlay */}
-               <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
+               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
           </div>
 
           {/* Content */}
           <div className="relative z-20 container mx-auto px-4 h-full flex items-center">
-            <div className="max-w-2xl animate-slide-up">
-              <span className="inline-block bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+            <div className="max-w-2xl animate-slide-up pl-4 md:pl-0">
+              <span className="inline-block bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider shadow-lg">
                 Featured
               </span>
-              <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight drop-shadow-md">
+              <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight text-shadow-lg drop-shadow-md">
                 {slide.title}
               </h2>
-              <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-lg leading-relaxed drop-shadow-sm">
+              <p className="text-lg md:text-xl text-gray-100 mb-8 max-w-lg leading-relaxed text-shadow drop-shadow-sm font-medium">
                 {slide.subtitle}
               </p>
               {slide.ctaText && slide.ctaLink && (
                 <Link
                   to={slide.ctaLink}
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all transform hover:scale-105 shadow-lg border border-white/10"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all transform hover:scale-105 shadow-[0_10px_20px_rgba(0,0,0,0.3)] border border-white/10"
                 >
                   {slide.ctaText} <ArrowRight size={20} />
                 </Link>
@@ -98,14 +98,14 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ slides, autoPlayInterval = 60
       {/* Navigation Arrows */}
       <button 
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 bg-white/10 hover:bg-white/30 text-white rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 shadow-lg border border-white/10"
         aria-label="Previous Slide"
       >
         <ChevronLeft size={32} />
       </button>
       <button 
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2 bg-white/10 hover:bg-white/30 text-white rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2 bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 shadow-lg border border-white/10"
         aria-label="Next Slide"
       >
         <ChevronRight size={32} />
@@ -117,8 +117,8 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ slides, autoPlayInterval = 60
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full transition-all shadow-sm ${
-              index === current ? 'bg-secondary w-8' : 'bg-white/50 hover:bg-white'
+            className={`w-3 h-3 rounded-full transition-all shadow-md ${
+              index === current ? 'bg-secondary w-8 scale-110' : 'bg-white/50 hover:bg-white'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -129,3 +129,4 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ slides, autoPlayInterval = 60
 };
 
 export default ImageSlider;
+
