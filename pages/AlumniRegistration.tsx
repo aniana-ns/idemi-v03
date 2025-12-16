@@ -6,11 +6,10 @@ import {
   Send, CheckCircle, AlertCircle, GraduationCap, Hash, Layers, 
   IndianRupee, Globe, BookOpen, Loader2
 } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import SimpleCaptcha from '../components/SimpleCaptcha';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
-import { RECAPTCHA_SITE_KEY } from '../constants';
 
 const AlumniRegistration: React.FC = () => {
   useScrollAnimation();
@@ -47,7 +46,7 @@ const AlumniRegistration: React.FC = () => {
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
   
   // Validation State
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -130,9 +129,9 @@ const AlumniRegistration: React.FC = () => {
       setFormErrors(prev => ({ ...prev, [name]: error || '' }));
   };
 
-  const handleCaptchaChange = (token: string | null) => {
-    setCaptchaToken(token);
-    if (token) {
+  const handleCaptchaVerify = (isValid: boolean) => {
+    setIsCaptchaValid(isValid);
+    if (isValid) {
         setFormErrors(prev => ({ ...prev, captcha: undefined }));
     }
   };
@@ -158,8 +157,8 @@ const AlumniRegistration: React.FC = () => {
         }
     });
 
-    if (!captchaToken) {
-        newErrors.captcha = "Please complete the CAPTCHA";
+    if (!isCaptchaValid) {
+        newErrors.captcha = "Please complete the security check";
         isValid = false;
     }
 
@@ -219,8 +218,7 @@ const AlumniRegistration: React.FC = () => {
                 'College Location': formData.collegeLocation || 'N/A',
                 
                 'Interested in Other Courses': formData.interestedInOtherCourses,
-                'Need Placement Assistance': formData.needPlacementAssistance,
-                'g-recaptcha-response': captchaToken
+                'Need Placement Assistance': formData.needPlacementAssistance
             })
         });
 
@@ -229,7 +227,7 @@ const AlumniRegistration: React.FC = () => {
         if (response.ok) {
             setStatus('success');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            setCaptchaToken(null);
+            setIsCaptchaValid(false);
         } else {
             setStatus('error');
             setErrorMessage(result.message || 'Failed to submit details. Please try again.');
@@ -295,7 +293,7 @@ const AlumniRegistration: React.FC = () => {
                                 setFormData({
                                     fullname: '', rollNo: '', samparkRegistration: '', contactNumber: '', emailId: '', dob: '', gender: '', qualification: '', category: '', courseCompleted: '', passingMonthYear: '', currentStatus: '', companyName: '', dateOfJoining: '', designation: '', salary: '', udyamRegNo: '', jobLocation: '', employmentSector: '', collegeName: '', higherEduCourse: '', collegeLocation: '', interestedInOtherCourses: '', needPlacementAssistance: ''
                                 });
-                                setCaptchaToken(null);
+                                setIsCaptchaValid(false);
                                 setFormErrors({});
                                 setTouched({});
                             }}
@@ -580,15 +578,12 @@ const AlumniRegistration: React.FC = () => {
 
                         {/* --- CAPTCHA & SUBMIT --- */}
                         <div className="flex flex-col gap-4">
-                            <ReCAPTCHA
-                                sitekey={RECAPTCHA_SITE_KEY}
-                                onChange={handleCaptchaChange}
-                            />
-                            {formErrors.captcha && <p className="text-red-500 text-xs flex items-center gap-1 font-medium animate-fade-in"><AlertCircle size={12} /> {formErrors.captcha}</p>}
+                            <SimpleCaptcha onVerify={handleCaptchaVerify} />
+                            {formErrors.captcha && <p className="text-red-500 text-xs flex items-center gap-1 font-medium animate-fade-in mt-2"><AlertCircle size={12} /> {formErrors.captcha}</p>}
 
                             <button
                                 type="submit"
-                                disabled={status === 'submitting' || !captchaToken}
+                                disabled={status === 'submitting' || !isCaptchaValid}
                                 className="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl hover:bg-blue-800 transition shadow-lg hover:shadow-xl transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {status === 'submitting' ? (
