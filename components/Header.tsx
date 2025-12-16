@@ -215,10 +215,10 @@ const MENU_ITEMS: MenuItem[] = [
            { label: 'Calibration', path: 'https://nablwp.qci.org.in/CertificateScopenew?x=yXVyaj7QFLkbCMh+XmlfUQ==&p=1&src=P&LS=balhcraes', external: true },
            { label: 'Testing', path: 'http://www.nabl-india.org/nabl/index.php?c=search&m=searchlabcertificate&cno=149', external: true }
         ]
-      }
+      },
+      { label: 'Contact Us', path: '/contact' }
     ]
-  },
-  { label: 'Contact Us', path: '/contact' }
+  }
 ];
 
 interface NavItemProps {
