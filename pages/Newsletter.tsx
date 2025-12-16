@@ -2,20 +2,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Bell, FileText, Calendar, CheckCircle, AlertCircle, Send, Loader2, ArrowLeft, Shield, GraduationCap, Briefcase } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import SimpleCaptcha from '../components/SimpleCaptcha';
 import SEO from '../components/SEO';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
-import { RECAPTCHA_SITE_KEY } from '../constants';
 
 const Newsletter: React.FC = () => {
   useScrollAnimation();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
-  const handleCaptchaChange = (token: string | null) => {
-    setCaptchaToken(token);
+  const handleCaptchaVerify = (isValid: boolean) => {
+    setIsCaptchaValid(isValid);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,9 +26,9 @@ const Newsletter: React.FC = () => {
         return;
     }
 
-    if (!captchaToken) {
+    if (!isCaptchaValid) {
         setStatus('error');
-        setMessage('Please complete the CAPTCHA verification.');
+        setMessage('Please complete the security check.');
         return;
     }
 
@@ -52,15 +51,14 @@ const Newsletter: React.FC = () => {
                 _captcha: 'false',
                 'Subscriber Email': email,
                 'Subscription Date': new Date().toLocaleDateString(),
-                'Source': 'Newsletter Page',
-                'g-recaptcha-response': captchaToken
+                'Source': 'Newsletter Page'
             })
         });
 
         if (response.ok) {
             setStatus('success');
             setEmail('');
-            setCaptchaToken(null);
+            setIsCaptchaValid(false);
         } else {
             setStatus('error');
             setMessage('Failed to subscribe. Please try again later.');
@@ -193,15 +191,12 @@ const Newsletter: React.FC = () => {
                             </div>
 
                             <div className="flex justify-center">
-                                <ReCAPTCHA
-                                    sitekey={RECAPTCHA_SITE_KEY}
-                                    onChange={handleCaptchaChange}
-                                />
+                                <SimpleCaptcha onVerify={handleCaptchaVerify} />
                             </div>
 
                             <button 
                                 type="submit" 
-                                disabled={status === 'submitting' || !captchaToken}
+                                disabled={status === 'submitting' || !isCaptchaValid}
                                 className="w-full py-3 bg-secondary hover:bg-amber-700 text-white font-bold rounded-lg transition shadow-md flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {status === 'submitting' ? (
@@ -238,3 +233,4 @@ const Newsletter: React.FC = () => {
 };
 
 export default Newsletter;
+
