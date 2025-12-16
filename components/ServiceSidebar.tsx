@@ -112,7 +112,7 @@ const SERVICE_MENU = [
     path: '/services/design-development',
     items: [
         { label: 'R&D Projects', path: '/services/design-development' },
-        { label: 'SMT Assembly', path: '/design-development/smt-assembly' },
+        { label: 'SMT Assembly', path: '/services/design-development/smt-assembly' },
         { label: 'Professional Training', path: '/training/professional-courses#dnd' },
         { label: "Tech X'fer", path: '/services/design-development/techtransfer' },
     ]
@@ -137,11 +137,9 @@ const ServiceSidebar: React.FC = () => {
   // Helper to check if a path matches the current location
   const isPathActive = (path: string) => {
     if (path.startsWith('http')) return false;
-    // Exact match
-    if (currentPath === path) return true;
-    // Child match (e.g., /services/tool-room/details should highlight /services/tool-room)
-    if (currentPath.startsWith(path + '/')) return true;
-    return false;
+    // Exact match required to prevent parent paths (e.g. /services/calibration)
+    // from matching child paths (e.g. /services/calibration/thermal)
+    return currentPath === path;
   };
 
   return (
