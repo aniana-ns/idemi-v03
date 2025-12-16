@@ -163,8 +163,16 @@ const App: React.FC = () => {
                 <Route path="/testimonials" element={<Testimonials />} />
                 <Route path="/newsletter" element={<Newsletter />} />
 
-                {/* --- REDIRECTS --- */}
+                {/* --- REDIRECTS FOR HIERARCHY --- */}
                 <Route path="/services/training" element={<Navigate to="/training" replace />} />
+                <Route path="/downloads" element={<Navigate to="/downloads/active-tenders" replace />} />
+                <Route path="/training/schemes" element={<Navigate to="/training/schemes/day-nulm" replace />} />
+                <Route path="/courses" element={<Navigate to="/training" replace />} />
+                <Route path="/courses/mechanical-courses" element={<Navigate to="/training" replace />} />
+                <Route path="/courses/animation" element={<Navigate to="/training" replace />} />
+                <Route path="/design-development" element={<Navigate to="/services/design-development" replace />} />
+                <Route path="/extension-centre" element={<Navigate to="/extensions" replace />} />
+                <Route path="/schemes" element={<Navigate to="/training/schemes/day-nulm" replace />} />
 
                 {/* --- UTILITIES --- */}
                 <Route path="/view-document" element={<DocumentViewer />} />
@@ -304,3 +312,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
