@@ -1,6 +1,10 @@
 
 import { NavLink, ServiceItem, NewsItem, SearchItem } from './types';
 
+// Google reCAPTCHA v2 Test Key (Always validates)
+// Replace with your actual site key in production
+export const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+
 export const CONTACT_INFO = {
   address: "Swatantryaveer Tatya Tope Marg, Chunabhatti, Sion, Mumbai - 400 022, India",
   phone: "+91-22-2405 0301 / 02 / 03 / 04",
@@ -71,3 +75,4 @@ export const SEARCH_INDEX: SearchItem[] = [
   { title: 'RTI', path: '/about/rti', type: 'Page', desc: 'Right to Information Act details and officers.' },
   { title: 'Student Registration', path: '/student-registration', type: 'Page', desc: 'Online admission and enquiry form for training courses.' },
 ];
+
