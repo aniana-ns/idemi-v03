@@ -437,7 +437,7 @@ const Contact: React.FC = () => {
 
                   <button
                     type="submit"
-                    disabled={status === 'submitting'}
+                    disabled={status === 'submitting' || !isCaptchaValid}
                     className="w-full bg-primary dark:bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-800 dark:hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {status === 'submitting' ? (
