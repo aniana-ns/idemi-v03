@@ -147,7 +147,7 @@ const ServiceSidebar: React.FC = () => {
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="lg:hidden w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 border border-gray-200 dark:border-gray-700 text-left transition-all hover:bg-gray-50 dark:hover:bg-gray-700"
+        className="lg:hidden w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-6 border border-gray-200 dark:border-gray-700 text-left transition-all hover:bg-gray-50 dark:hover:bg-gray-700"
         aria-expanded={isMobileOpen}
         aria-controls="service-sidebar-content"
       >
@@ -160,7 +160,7 @@ const ServiceSidebar: React.FC = () => {
 
       {/* Sidebar Content */}
       <div id="service-sidebar-content" className={`${isMobileOpen ? 'block' : 'hidden'} lg:block space-y-8 animate-fade-in`}>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700">
           <h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">Service Categories</h3>
           <div className="space-y-4">
             {SERVICE_MENU.map((group, idx) => {
@@ -175,7 +175,7 @@ const ServiceSidebar: React.FC = () => {
                     to={group.path} 
                     className={`flex items-center justify-between w-full px-3 py-2 rounded font-medium transition-colors border border-transparent ${
                       isGroupActive 
-                        ? 'bg-primary text-white border-primary shadow-sm' 
+                        ? 'bg-primary text-white border-primary shadow-md' 
                         : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 hover:border-gray-200 dark:hover:border-gray-600'
                     }`}
                   >
@@ -198,7 +198,7 @@ const ServiceSidebar: React.FC = () => {
                                   {...(linkProps as any)}
                                   className={`block px-3 py-1.5 text-sm rounded transition-colors ${
                                   isItemActive
-                                      ? 'text-primary dark:text-blue-400 font-bold bg-blue-50 dark:bg-gray-700/50 border border-blue-100 dark:border-gray-600'
+                                      ? 'text-primary dark:text-blue-400 font-bold bg-blue-50 dark:bg-gray-700/50 border border-blue-100 dark:border-gray-600 shadow-sm'
                                       : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-blue-300 hover:bg-gray-50 dark:hover:bg-gray-800'
                                   }`}
                               >
@@ -214,10 +214,10 @@ const ServiceSidebar: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-secondary text-white p-6 rounded-lg shadow-lg border border-secondary/20">
-          <h3 className="font-bold text-lg mb-2">Need Assistance?</h3>
-          <p className="text-sm opacity-90 mb-4">Our experts are here to help you choose the right service.</p>
-          <Link to="/contact" className="block w-full text-center bg-white text-secondary font-bold py-2 rounded hover:bg-gray-100 transition transform hover:scale-[1.02] active:scale-[0.98] shadow-sm">
+        <div className="bg-secondary text-white p-6 rounded-xl shadow-xl border border-secondary/20 hover:shadow-2xl transition-shadow">
+          <h3 className="font-bold text-lg mb-2 text-shadow-sm">Need Assistance?</h3>
+          <p className="text-sm opacity-90 mb-4 text-shadow-sm">Our experts are here to help you choose the right service.</p>
+          <Link to="/contact" className="block w-full text-center bg-white text-secondary font-bold py-2 rounded hover:bg-gray-100 transition transform hover:scale-[1.02] active:scale-[0.98] shadow-md">
               Contact Us
           </Link>
         </div>
