@@ -469,7 +469,7 @@ const Header: React.FC = () => {
              if (el && el.childElementCount === 0) {
                  new (window as any).google.translate.TranslateElement({
                   pageLanguage: 'en',
-                  includedLanguages: 'en,hi,mr,gu,bn,kn,ta,te,ml,pa', 
+                  includedLanguages: 'en,hi,mr,gu,bn,kn,ta,te,ml,pa,or,ur,as,sa,mai,kok,sd', 
                   autoDisplay: false,
                 }, 'google_translate_element');
              }
