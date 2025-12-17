@@ -4,7 +4,7 @@ import { MessageCircle, X, ChevronRight } from 'lucide-react';
 
 const WhatsAppChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const phoneNumber = "919019870803"; // Added 91 country code
+  const phoneNumber = "918332081120"; // Added 91 country code
 
   const options = [
     { label: "Admission / Training Enquiry", message: "Hi, I am interested in IDEMI Training Courses. Can you please guide me?" },
