@@ -347,7 +347,7 @@ const Contact: React.FC = () => {
                         aria-invalid={!!errors.name}
                         aria-describedby={errors.name ? "name-error" : undefined}
                         className={`w-full px-4 py-3 border rounded-xl outline-none transition bg-gray-50 dark:bg-gray-700/50 dark:text-white ${errors.name ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'border-gray-200 dark:border-gray-600'}`}
-                        placeholder="John Doe"
+                        placeholder="Your Name"
                       />
                       {errors.name && (
                         <p id="name-error" className="text-red-500 text-xs mt-1.5 flex items-center gap-1 font-medium animate-fade-in" role="alert" aria-live="polite">
@@ -368,7 +368,7 @@ const Contact: React.FC = () => {
                         aria-invalid={!!errors.email}
                         aria-describedby={errors.email ? "email-error" : undefined}
                         className={`w-full px-4 py-3 border rounded-xl outline-none transition bg-gray-50 dark:bg-gray-700/50 dark:text-white ${errors.email ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'border-gray-200 dark:border-gray-600'}`}
-                        placeholder="john@example.com"
+                        placeholder="you@example.com"
                       />
                       {errors.email && (
                         <p id="email-error" className="text-red-500 text-xs mt-1.5 flex items-center gap-1 font-medium animate-fade-in" role="alert" aria-live="polite">
