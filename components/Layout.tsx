@@ -1,3 +1,4 @@
+
 import React, { ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
@@ -6,7 +7,6 @@ import BackToTop from './BackToTop';
 import Breadcrumbs from './Breadcrumbs';
 import WhatsAppChat from './WhatsAppChat';
 import ScrollProgress from './ScrollProgress';
-import CustomCursor from './CustomCursor';
 
 interface LayoutProps {
   children: ReactNode;
@@ -16,6 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
+    // Handle scroll behavior based on route change and hash presence
     const handleScroll = () => {
       if (location.hash) {
         const elementId = location.hash.substring(1);
@@ -24,12 +25,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
+          // Retry for content that might render asynchronously (e.g., after loading state)
           setTimeout(() => {
             const el = document.getElementById(elementId);
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }, 300);
         }
       } else {
+        // New page without hash: scroll to top instantly to simulate fresh load
         window.scrollTo({ top: 0, behavior: 'auto' });
       }
     };
@@ -38,9 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, [location.pathname, location.hash]);
 
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200 overflow-x-hidden">
-      <CustomCursor />
-      
+    <div className="min-h-screen flex flex-col font-sans bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       {/* Accessibility Skip Link */}
       <a 
         href="#main-content" 
@@ -53,9 +54,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <ScrollProgress />
       <Breadcrumbs />
       
+      {/* 
+        The key={location.pathname} forces the main component to remount on route change,
+        triggering the CSS 'animate-fade-in' defined in tailwind config.
+      */}
       <main 
         id="main-content" 
-        className="flex-grow focus:outline-none animate-fade-in relative z-10" 
+        className="flex-grow focus:outline-none animate-fade-in" 
         tabIndex={-1}
         key={location.pathname}
       >
