@@ -308,7 +308,7 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-16">
           <div className="md:w-1/2 reveal-on-scroll">
             <div className="relative group perspective-1000">
-              <div className="absolute inset-0 bg-secondary rounded-2xl transform rotate-3 group-hover:rotate-2 transition-transform duration-300 opacity-20 dark:opacity-40 shadow-2xl"></div>
+              <div className="absolute inset-0 bg-secondary rounded-2xl transform rotate-3 group-hover:rotate-2 transition-transform duration-300 opacity-75 dark:opacity-40 shadow-2xl"></div>
               <img 
                 src={FEATURE_SECTION.image}
                 alt="National Project Engineering" 
