@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: [main]  # Trigger when changes are pushed to the 'main' branch
+  workflow_dispatch:  # Manual trigger
 
 permissions:
   contents: read
@@ -12,39 +12,38 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: true  # Ensures only one deployment runs at a time
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for the build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4  # Checks out the repository code
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4  # Sets up the Node.js environment
         with:
-          node-version: "20"
-          # cache: 'npm' removed because package-lock.json is not committed
+          node-version: "20"  # Uses Node.js version 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm install  # Installs all the project dependencies defined in package.json
 
-      - name: Build
-        run: npm run build
+      - name: Build the website
+        run: npm run build  # Builds the project. Update this if the build command differs
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact to GitHub Pages
+        uses: actions/upload-pages-artifact@v3  # Uploads the build output (assumed to be in 'dist' folder)
         with:
-          path: ./dist
+          path: ./dist  # Replace this if your build folder is not 'dist'
 
   deploy:
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
+      name: github-pages  # Environment name for GitHub Pages deployment
+      url: ${{ steps.deployment.outputs.page_url }}  # Outputs the GitHub Pages URL after deployment
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for deployment
+    needs: build  # Ensures deployment happens only after the build job completes
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4  # Deploys the build to GitHub Pages
