@@ -69,7 +69,7 @@ const MEMBERS: Member[] = [
         'Nodal Officer – SFURTI Scheme',
         'Part Time CVO'
     ],
-    image: "https://images.unsplash.com/photo-1556157382-97eda2d622ca?auto=format&fit=crop&q=80&w=400",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400",
     experience: "Decades of experience in high-precision calibration and NABL laboratory standards.",
     expertise: ["Metrology", "ISO/IEC 17025", "Vigilance Management"],
     education: "M.Tech in Instrumentation"
@@ -202,7 +202,7 @@ const MEMBERS: Member[] = [
     workAssigned: [
         'Administration work coordination'
     ],
-    image: "https://images.unsplash.com/photo-1598550832454-d4b696c9c223?auto=format&fit=crop&q=80&w=400",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400",
     experience: "Core administrative coordination and establishment maintenance.",
     expertise: ["Office Management", "Establishment"],
     education: "Commerce Graduate"
