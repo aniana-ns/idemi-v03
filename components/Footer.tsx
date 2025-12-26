@@ -11,14 +11,15 @@ const Footer: React.FC = () => {
   const socialLinkClass = "p-2 bg-slate-800 rounded hover:bg-secondary transition focus:outline-none text-white";
   const footerLinkClass = "hover:text-secondary transition flex items-center gap-2 focus:outline-none rounded px-1 -ml-1";
 
-  // Dynamic Visitor Counter Logic
+  // Dynamic Visitor Counter Logic with Live Updates
   useEffect(() => {
+    const namespace = "idemi-modern-redesign";
+    const key = "total-visits";
+    const apiUrl = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
+
     const fetchVisitorCount = async () => {
       try {
-        const namespace = "idemi-modern-redesign";
-        const key = "total-visits";
-        
-        const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
+        const response = await fetch(apiUrl);
         const data = await response.json();
         
         if (data && typeof data.count === 'number') {
@@ -26,13 +27,23 @@ const Footer: React.FC = () => {
         }
       } catch (error) {
         console.error("Error fetching visitor count:", error);
-        setVisitorCount(24589); 
+        // Fallback placeholder if API fails
+        if (visitorCount === null) setVisitorCount(24589); 
       } finally {
         setIsLoadingCount(false);
       }
     };
 
+    // Initial fetch on mount
     fetchVisitorCount();
+
+    // Set up polling for "live" updates every 10 seconds
+    const intervalId = setInterval(() => {
+      fetchVisitorCount();
+    }, 10000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -114,12 +125,12 @@ const Footer: React.FC = () => {
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm gap-6">
           <p className="text-center md:text-left">© {new Date().getFullYear()} IDEMI Mumbai. All Rights Reserved.</p>
           
-          {/* Enhanced Glassmorphism Visitor Counter */}
+          {/* Enhanced Glassmorphism Visitor Counter with Live Polling */}
           <div 
             className="flex items-center gap-3 bg-white/10 dark:bg-slate-800/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/20 dark:border-slate-700 shadow-xl group hover:border-secondary transition-all"
             role="status"
             aria-live="polite"
-            aria-label="Website Visitor Counter"
+            aria-label="Live Website Visitor Counter"
           >
             <div className="relative">
                 <Users size={16} className="text-secondary shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
@@ -131,10 +142,10 @@ const Footer: React.FC = () => {
             
             <div className="flex items-center gap-2">
                 <span className="text-slate-100 dark:text-slate-300 text-[11px] font-black uppercase tracking-wider whitespace-nowrap">Total Visitors:</span>
-                {isLoadingCount ? (
+                {isLoadingCount && visitorCount === null ? (
                     <Loader2 size={14} className="animate-spin text-slate-400" />
                 ) : (
-                    <span className="text-white font-mono text-base font-bold tracking-tighter drop-shadow-md">
+                    <span className="text-white font-mono text-base font-bold tracking-tighter drop-shadow-md transition-all duration-500 animate-fade-in">
                         {visitorCount?.toLocaleString()}
                     </span>
                 )}
