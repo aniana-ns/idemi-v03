@@ -19,6 +19,8 @@ const AlumniRegistration = lazy(() => import('./pages/AlumniRegistration'));
 const DocumentViewer = lazy(() => import('./pages/DocumentViewer'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Newsletter = lazy(() => import('./pages/Newsletter'));
+const PlacementPortal = lazy(() => import('./pages/PlacementPortal'));
+const RecruiterEnquiry = lazy(() => import('./pages/RecruiterEnquiry'));
 
 // Decoupled Gallery Pages
 const GalleryMain = lazy(() => import('./pages/GalleryMain'));
@@ -261,6 +263,8 @@ const App: React.FC = () => {
                 <Route path="/training/professional-courses" element={<ProfessionalCourses />} />
                 <Route path="/training/schemes/day-nulm" element={<SponsoredSchemes />} />
                 <Route path="/jobfair" element={<JobFair />} />
+                <Route path="/training/job-openings" element={<PlacementPortal />} />
+                <Route path="/training/recruiter-enquiry" element={<RecruiterEnquiry />} />
                 <Route path="/student-registration" element={<StudentRegistration />} />
                 <Route path="/alumni-registration" element={<AlumniRegistration />} />
                 <Route path="/training/sc_st_beneficiaries" element={<SCSTBeneficiaries />} />
@@ -312,4 +316,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
