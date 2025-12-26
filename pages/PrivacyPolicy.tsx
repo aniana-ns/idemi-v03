@@ -26,7 +26,9 @@ import {
   ArrowUpRight,
   Share2,
   Trash2,
-  AlertTriangle
+  AlertTriangle,
+  HelpCircle,
+  ChevronDown
 } from 'lucide-react';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
 
@@ -41,6 +43,29 @@ const PrivacyPolicy: React.FC = () => {
     { term: 'Service', def: 'The IDEMI Website and digital platforms.', icon: <Zap size={18}/> },
     { term: 'Personal Data', def: 'Information relating to an identified or identifiable individual.', icon: <FileText size={18}/> },
     { term: 'Usage Data', def: 'Data collected automatically, such as page visit duration and technical logs.', icon: <Database size={18}/> }
+  ];
+
+  const faqData = [
+    {
+      question: "How does IDEMI use my personal data?",
+      answer: "We use your data to provide and improve our services, manage your account, fulfill service contracts, and send essential updates. This includes managing registrations for training courses and processing calibration or testing requests."
+    },
+    {
+      question: "Can I opt-out of cookies?",
+      answer: "You can manage your cookie preferences through your browser settings. While necessary cookies are essential for the website to function securely, you can choose to disable functionality cookies, though this may affect your user experience."
+    },
+    {
+      question: "What are my rights regarding my personal information?",
+      answer: "You have the right to access, update, or request the deletion of your personal data. You can also object to the processing of your data in certain circumstances. To exercise these rights, please contact our Compliance Office."
+    },
+    {
+      question: "How is my data protected from security breaches?",
+      answer: "We implement industry-standard encryption, firewalls, and secure socket layer (SSL) technology. Access to personal data is restricted to authorized personnel who need the information to perform specific institutional tasks."
+    },
+    {
+      question: "Does IDEMI share my data with third parties?",
+      answer: "We do not sell your personal data. Information is only shared under legal obligations, such as law enforcement requests per the IT Act, or during necessary business transactions like audits or institutional mergers."
+    }
   ];
 
   return (
@@ -105,7 +130,7 @@ const PrivacyPolicy: React.FC = () => {
                                     <span className="p-1.5 bg-white dark:bg-gray-800 rounded shadow-sm border border-gray-100 dark:border-gray-700 group-hover:border-secondary/30 transition-colors">{item.icon}</span>
                                     {item.term}
                                 </dt>
-                                <dd className="text-base text-gray-700 dark:text-gray-300 font-medium leading-relaxed">{item.def}</dd>
+                                <dd className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed">{item.def}</dd>
                             </div>
                         ))}
                     </div>
@@ -160,8 +185,8 @@ const PrivacyPolicy: React.FC = () => {
                             <div className="grid md:grid-cols-3 gap-4">
                                 {[
                                     { title: 'Necessary', desc: 'Authentication and security.' },
-                                    { title: 'Notice', desc: 'Consent tracking.' },
-                                    { title: 'Functional', desc: 'User preferences.' }
+                                    { title: 'Notice Acceptance', desc: 'Tracking user consent.' },
+                                    { title: 'Functionality', desc: 'Remembering user preferences.' }
                                 ].map((cookie, idx) => (
                                     <div key={idx} className="bg-white/10 p-4 rounded-xl backdrop-blur-md border border-white/10 hover:bg-secondary/20 hover:border-secondary/40 transition-all duration-300">
                                         <p className="font-black text-[10px] uppercase tracking-widest mb-1 group-hover:text-secondary transition-colors">{cookie.title}</p>
@@ -243,6 +268,30 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                 </div>
 
+                {/* --- PRIVACY FAQ SECTION --- */}
+                <div id="faq" className="scroll-mt-32 mb-16">
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600">
+                            <HelpCircle className="text-secondary" size={24} />
+                        </div>
+                        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white m-0 uppercase tracking-tight">Privacy FAQ</h2>
+                    </div>
+
+                    <div className="space-y-4">
+                        {faqData.map((faq, idx) => (
+                            <details key={idx} className="group bg-white dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm open:shadow-md transition-all duration-300">
+                                <summary className="flex justify-between items-center p-5 cursor-pointer font-bold text-gray-800 dark:text-white hover:text-secondary dark:hover:text-amber-400 list-none outline-none focus:text-secondary">
+                                    <span className="text-sm md:text-base leading-relaxed pr-6">{faq.question}</span>
+                                    <ChevronDown className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform duration-300 shrink-0" />
+                                </summary>
+                                <div className="px-5 pb-6 pt-2 text-sm text-gray-600 dark:text-gray-300 border-t border-gray-50 dark:border-gray-700/50 mt-2 animate-fade-in">
+                                    <p className="leading-relaxed font-medium">{faq.answer}</p>
+                                </div>
+                            </details>
+                        ))}
+                    </div>
+                </div>
+
                 {/* Contact Hub */}
                 <div id="contact" className="scroll-mt-32 bg-slate-950 text-white p-8 md:p-12 rounded-2xl shadow-xl relative overflow-hidden group border border-white/5">
                     <div className="absolute bottom-0 right-0 opacity-10 -mb-20 -mr-20 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-1000"><Mail size={300} /></div>
@@ -267,7 +316,7 @@ const PrivacyPolicy: React.FC = () => {
                             </a>
                             
                             <a href="tel:02224050301" className="flex items-center gap-4 p-5 bg-white/5 rounded-xl border border-white/10 hover:bg-secondary/20 hover:border-secondary/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group/card">
-                                <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center shrink-0 group-hover/card:bg-secondary transition-colors">
+                                <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center shrink-0 group-hover/card:bg-green-600 transition-colors">
                                     <Phone className="text-green-400 group-hover/card:text-white" size={24} />
                                 </div>
                                 <div className="min-w-0">
