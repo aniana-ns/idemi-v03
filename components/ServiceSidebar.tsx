@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight, ChevronDown, ChevronUp, Menu } from 'lucide-react';
+import { ChevronRight, ChevronDown, ChevronUp, Menu, Briefcase } from 'lucide-react';
 
 const SERVICE_MENU = [
   {
@@ -51,7 +51,7 @@ const SERVICE_MENU = [
     ]
   },
   {
-    title: 'Training Services',
+    title: 'Training Programs',
     path: '/training',
     items: [
       { label: 'Introduction', path: '/training/introduction' },
@@ -61,23 +61,18 @@ const SERVICE_MENU = [
       { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
       { label: 'Short / Medium Term Courses', path: '/training/short-term-courses' },
       { label: 'Professional Courses', path: '/training/professional-courses' },
-      { label: 'Job Fair', path: '/jobfair' },
-      { label: 'Enquiry Form', path: '/training/enquiry' },
-      { label: 'Student Registration', path: '/student-registration' },
-      { label: 'SC-ST Beneficiaries', path: '/training/sc_st_beneficiaries' },
-      { label: 'Alumni Registration Form', path: '/alumni-registration' }, 
-      { label: 'AICTE Mandatory Disclosure', path: `/view-document?url=https://idemi.org/assets/uploads/Mandatory_Disclosure.pdf&title=AICTE Mandatory Disclosure` },
+      { label: 'Sponsored Programmes', path: '/training/schemes/day-nulm' },
     ]
   },
   {
-    title: 'Featured Specialized Courses',
-    path: '/training',
+    title: 'Jobs / Placement',
+    path: '/training/job-openings',
     items: [
-      { label: 'ANSYS Training', path: '/courses/mechanical-courses/ansys' },
-      { label: 'Unigraphics (NX)', path: '/courses/mechanical-courses/unigraphics' },
-      { label: 'AutoCAD Mechanical', path: '/courses/mechanical-courses/autocad' },
-      { label: 'AR / VR & Graphics', path: '/courses/animation/arvr' },
-      { label: 'UX / UI Design', path: '/uxui' },
+        { label: 'Job Openings', path: '/training/job-openings' },
+        { label: 'Job Fair', path: '/jobfair' },
+        { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
+        { label: 'Alumni Registration', path: '/alumni-registration' },
+        { label: 'Student Registration', path: '/student-registration' },
     ]
   },
   {
@@ -227,4 +222,3 @@ const ServiceSidebar: React.FC = () => {
 };
 
 export default ServiceSidebar;
-
