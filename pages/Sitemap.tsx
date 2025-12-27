@@ -220,16 +220,18 @@ const Sitemap: React.FC = () => {
                     key={idx} 
                     className="reveal-on-scroll group"
                 >
-                    <div className="bg-white dark:bg-gray-900 h-full rounded-[2.5rem] p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-none dark:border dark:border-gray-800 transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden">
+                    <div className="bg-white dark:bg-gray-900 h-full rounded-[2.5rem] p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_-15px_rgba(180,83,9,0.15)] dark:shadow-none dark:border dark:border-gray-800 transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden">
                         
-                        {/* Card Decorative Accent */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-colors"></div>
+                        {/* Card Decorative Accent - Modified to secondary */}
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-secondary/10 transition-colors"></div>
 
                         <div className="flex items-center gap-4 mb-8">
-                            <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-primary/30">
+                            {/* Icon container hover: secondary color ascent */}
+                            <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-secondary/30">
                                 {section.icon}
                             </div>
-                            <h3 className="font-black text-xl text-gray-900 dark:text-white leading-tight uppercase tracking-tight group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                            {/* Title hover: secondary color ascent */}
+                            <h3 className="font-black text-xl text-gray-900 dark:text-white leading-tight uppercase tracking-tight group-hover:text-secondary dark:group-hover:text-amber-500 transition-colors">
                                 {section.category}
                             </h3>
                         </div>
@@ -239,12 +241,13 @@ const Sitemap: React.FC = () => {
                                 <li key={lIdx}>
                                     <Link 
                                         to={link.path} 
-                                        className="group/link flex items-center gap-3 py-3 px-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300"
+                                        className="group/link flex items-center gap-3 py-3 px-4 rounded-2xl hover:bg-amber-50 dark:hover:bg-amber-900/10 transition-all duration-300"
                                     >
-                                        <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover/link:bg-primary dark:group-hover/link:bg-blue-600 transition-colors">
+                                        {/* Link bullet and chevron: secondary color ascent */}
+                                        <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover/link:bg-secondary dark:group-hover/link:bg-secondary transition-colors">
                                             <ChevronRight size={14} className="text-gray-400 group-hover/link:text-white transition-colors" />
                                         </div>
-                                        <span className="text-sm md:text-base text-gray-600 dark:text-gray-300 font-bold group-hover/link:text-primary dark:group-hover:text-blue-400 transition-colors">
+                                        <span className="text-sm md:text-base text-gray-600 dark:text-gray-300 font-bold group-hover/link:text-secondary dark:group-hover/link:text-amber-400 transition-colors">
                                             {link.label}
                                         </span>
                                     </Link>
@@ -256,7 +259,7 @@ const Sitemap: React.FC = () => {
             ))}
         </div>
 
-        {/* Global Support Footer */}
+        {/* Global Support Footer - Enhanced with secondary color */}
         <div className="mt-20 flex flex-col md:flex-row items-center justify-between gap-8 bg-white dark:bg-gray-900 p-10 rounded-[3rem] shadow-2xl border border-gray-100 dark:border-gray-800 reveal-on-scroll overflow-hidden relative">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-blue-400"></div>
             
@@ -266,11 +269,11 @@ const Sitemap: React.FC = () => {
             </div>
 
             <div className="flex flex-wrap justify-center gap-4">
-                <Link to="/contact" className="px-8 py-4 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl hover:bg-blue-800 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+                <Link to="/contact" className="px-8 py-4 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl hover:bg-secondary transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
                     <Briefcase size={16} /> Contact Admin
                 </Link>
-                <Link to="/training/enquiry" className="px-8 py-4 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-700 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
-                    <GraduationCap size={16} className="text-secondary" /> Training Help
+                <Link to="/training/enquiry" className="px-8 py-4 bg-secondary text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl hover:bg-amber-700 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+                    <GraduationCap size={16} /> Training Help
                 </Link>
             </div>
         </div>
