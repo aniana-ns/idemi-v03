@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe, ArrowRight, Sparkles } from 'lucide-react';
@@ -26,7 +25,6 @@ const MENU_ITEMS: MenuItem[] = [
           { label: 'IDEMI At a Glance', path: '/at-glance' },
           { label: 'Vision & Mission', path: '/vision-mission' },
           { label: "Director's Desk", path: '/directors-desk' },
-          { label: 'Our Faculty', path: '/faculty' },
           { label: 'How to Reach Us', path: '/how-to-reach' },
         ]
       },
