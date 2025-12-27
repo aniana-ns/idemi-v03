@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Users, Award, Target, Monitor, CheckCircle, Clock, Briefcase, Mail, Phone, User } from 'lucide-react';
+import { ArrowLeft, BookOpen, Users, Award, Target, Monitor, CheckCircle, Clock, Briefcase, Mail, Phone, User, ArrowRight } from 'lucide-react';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
@@ -96,6 +96,22 @@ const TrainingIntroduction: React.FC = () => {
                             <p className="text-xs text-gray-600 dark:text-gray-400">{course.desc}</p>
                         </div>
                     ))}
+                </div>
+
+                {/* Professional Faculty Callout */}
+                <div className="mb-12 p-8 bg-gray-50 dark:bg-gray-900/50 rounded-3xl border border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-6 reveal-on-scroll">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm text-secondary">
+                            <Users size={32} />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-gray-900 dark:text-white text-lg">Industry-Led Learning</h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Taught by veterans with 15+ years of real-world experience.</p>
+                        </div>
+                    </div>
+                    <Link to="/faculty" className="flex items-center gap-2 text-primary dark:text-blue-400 font-black uppercase tracking-widest text-xs hover:underline">
+                        Meet Our Faculty <ArrowRight size={16} />
+                    </Link>
                 </div>
 
                 {/* Stats Grid - Significant Achievements */}
