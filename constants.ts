@@ -1,4 +1,3 @@
-
 import { SearchItem } from './types';
 
 // Google reCAPTCHA v2 Test Key (Always validates for testing purposes)
@@ -68,12 +67,6 @@ export const SEARCH_INDEX: SearchItem[] = [
   { title: 'Shri Kundan Khandare', path: '/whos-who', type: 'Person', desc: 'Senior Technical Assistant, Pressure Calibration.' },
   { title: 'Shri Rajesh Birari', path: '/whos-who', type: 'Person', desc: 'Junior Field Officer, Store & Purchase.' },
   { title: 'Smt. V. V. Kamath', path: '/whos-who', type: 'Person', desc: 'Office Superintendent, Administration.' },
-  
-  // --- FACULTY ---
-  { title: 'Mr. Sagar Nevage', path: '/faculty', type: 'Person', desc: 'Expert in Mechanical & Tool Design, NX CAD/CAM.' },
-  { title: 'Mr. Kapil Chourasiya', path: '/faculty', type: 'Person', desc: 'Expert in Mechatronics, PLC Programming, and Industrial Robotics.' },
-  { title: 'Mr. Vishal Angre', path: '/faculty', type: 'Person', desc: 'Senior Creative Faculty for 3D Animation & VFX.' },
-  { title: 'Mr. Nilesh Sharma', path: '/faculty', type: 'Person', desc: 'Expert Trainer for Electronics, IT, and Embedded Systems.' },
 
   // --- FACILITIES & INFRASTRUCTURE ---
   { title: '5-Axis CNC Machine (Hermle C400)', path: '/services/tool-room-infrastructure', type: 'Facility', desc: 'High precision 5-axis milling machine for complex aerospace parts.' },
