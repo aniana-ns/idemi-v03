@@ -246,7 +246,7 @@ const Sitemap: React.FC = () => {
                                         <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover/link:bg-secondary dark:group-hover/link:bg-secondary transition-colors">
                                             <ChevronRight size={14} className="text-gray-400 group-hover/link:text-white transition-colors" />
                                         </div>
-                                        <span className="text-sm md:text-base text-gray-600 dark:text-gray-300 font-bold group-hover/link:text-secondary dark:group-hover/link:text-amber-400 transition-colors">
+                                        <span className="text-sm md:text-base text-gray-600 dark:text-gray-300 font-bold group-hover/link:text-secondary dark:group-hover:text-amber-400 transition-colors">
                                             {link.label}
                                         </span>
                                     </Link>
