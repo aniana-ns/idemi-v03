@@ -21,6 +21,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Newsletter = lazy(() => import('./pages/Newsletter'));
 const PlacementPortal = lazy(() => import('./pages/PlacementPortal'));
 const RecruiterEnquiry = lazy(() => import('./pages/RecruiterEnquiry'));
+const Faculty = lazy(() => import('./pages/Faculty'));
 
 // Decoupled Gallery Pages
 const GalleryMain = lazy(() => import('./pages/GalleryMain'));
@@ -149,6 +150,7 @@ const App: React.FC = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/training" element={<Training />} />
+                <Route path="/faculty" element={<Faculty />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/contact-us" element={<Contact />} />
                 <Route path="/search" element={<SearchResults />} />
