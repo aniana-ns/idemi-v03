@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Users, Award, Target, Monitor, CheckCircle, Clock, Briefcase, Mail, Phone, User, ArrowRight } from 'lucide-react';
@@ -98,22 +97,6 @@ const TrainingIntroduction: React.FC = () => {
                     ))}
                 </div>
 
-                {/* Professional Faculty Callout */}
-                <div className="mb-12 p-8 bg-gray-50 dark:bg-gray-900/50 rounded-3xl border border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-6 reveal-on-scroll">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm text-secondary">
-                            <Users size={32} />
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-gray-900 dark:text-white text-lg">Industry-Led Learning</h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Taught by veterans with 15+ years of real-world experience.</p>
-                        </div>
-                    </div>
-                    <Link to="/faculty" className="flex items-center gap-2 text-primary dark:text-blue-400 font-black uppercase tracking-widest text-xs hover:underline">
-                        Meet Our Faculty <ArrowRight size={16} />
-                    </Link>
-                </div>
-
                 {/* Stats Grid - Significant Achievements */}
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-secondary pl-4">Significant Achievements</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
@@ -156,7 +139,7 @@ const TrainingIntroduction: React.FC = () => {
                             </a>
                             <div className="flex items-center gap-2">
                                 <Phone size={16} className="text-gray-400" /> 
-                                <span>{DATA.contact.phone}</span>
+                                <span>022-24050301/02/03/04 ext 249</span>
                             </div>
                         </div>
                     </div>
