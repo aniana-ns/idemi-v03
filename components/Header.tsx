@@ -123,15 +123,6 @@ const MENU_ITEMS: MenuItem[] = [
           { label: 'Professional Training', path: '/training/professional-courses#dnd' },
           { label: "Tech X'fer", path: '/services/design-development/techtransfer' },
         ]
-      },
-      {
-        label: 'Other Services',
-        children: [
-          { label: 'Library', path: '/services/library' },
-          { label: 'Hostel Facilities', path: '/services/hostel' },
-          { label: 'Auditorium', path: '/services/auditorium' },
-          { label: 'Consultancy', path: '/services/consultancy' },
-        ]
       }
     ]
   },
