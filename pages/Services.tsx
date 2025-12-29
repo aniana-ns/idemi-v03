@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ServiceCard from '../components/ServiceCard';
@@ -162,15 +161,6 @@ const SERVICES_LIST: ServiceItem[] = [
     iconName: 'RefreshCw',
     image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80",
     tags: ['Licensing', 'Innovation', 'Startups']
-  },
-  { 
-    id: '13', 
-    title: 'Consultancy Services', 
-    slug: 'consultancy', 
-    description: 'Expert guidance for Laboratory Setup (NABL), Quality Management, and Energy Audits.', 
-    iconName: 'Briefcase',
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80",
-    tags: ['Lab Setup', 'ISO 17025', 'Energy Audit']
   }
 ];
 
