@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe, ArrowRight, Sparkles, Award, Trophy, Rocket, ShieldCheck, History } from 'lucide-react';
@@ -545,9 +546,9 @@ const Header: React.FC = () => {
     setSuggestions([]);
   };
 
-  const fontBtnClass = (isSelected: boolean) => `
+  const fontBtnClass = (isActive: boolean) => `
     w-auto h-auto px-2 py-1 rounded flex items-center justify-center font-bold text-sm transition-all border min-w-[32px] outline-none
-    ${isSelected 
+    ${isActive 
       ? 'bg-primary text-white border-primary shadow-sm' 
       : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}
   `;
@@ -561,10 +562,10 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="w-full z-[1000] font-sans sticky top-0 shadow-lg">
+    <header className="w-full z-[1000] font-sans sticky top-0 shadow-lg notranslate">
       <div className="w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md transition-colors duration-200">
         
-        <div className="bg-[#1b3270] text-white py-1.5 text-[10px] sm:text-xs relative z-[102]">
+        <div className="bg-[#1b3270] text-white py-1 text-[10px] sm:text-xs relative z-[102]">
             <div className="container mx-auto px-4 flex justify-between items-center">
                 <div className="flex items-center gap-2">
                     <img 
@@ -581,49 +582,70 @@ const Header: React.FC = () => {
         </div>
 
         <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-[101] relative border-b border-gray-200 dark:border-gray-800">
-            <div className="container mx-auto px-4 py-2 sm:py-4 flex justify-between items-center">
-                <Link to="/" className="flex items-center gap-3 sm:gap-5 group focus:outline-none rounded p-1 flex-1 min-w-0 mr-2 sm:mr-4" aria-label="IDEMI Home">
-                    <img src="https://idemi.org/assets/images/LOGO-27042023.png" alt="IDEMI Logo" className="h-10 sm:h-20 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
-                    <div className="leading-tight text-gray-800 dark:text-white min-w-0 flex flex-col justify-center">
-                        <div className="sm:hidden flex flex-col justify-center">
-                            <h1 className="font-bold text-[11px] xs:text-xs leading-tight text-[#1e3a8a] dark:text-white uppercase tracking-tight mb-0.5">
-                                Institute for Design of Electrical Measuring Instruments
-                            </h1>
-                            <span className="text-[9px] xs:text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">
-                                MSME Technology Centre Mumbai, Govt. of India Society
-                            </span>
-                        </div>
+            <div className="container mx-auto px-4 py-2 sm:py-3 lg:py-4">
+                {/* Desktop Header Content (Symmetric Dual Logos) */}
+                <div className="hidden sm:flex items-center justify-between gap-4 md:gap-6 lg:gap-8">
+                    <Link to="/" className="shrink-0 focus:outline-none" aria-label="IDEMI Logo Left">
+                        <img 
+                            src="https://idemi.org/assets/TechTransfer/logo1.png" 
+                            alt="IDEMI Logo Left" 
+                            className="h-16 md:h-20 lg:h-24 xl:h-28 w-auto object-contain" 
+                        />
+                    </Link>
 
-                        <div className="hidden sm:block">
-                            <h1 className="font-bold text-xl md:text-2xl lg:text-3xl uppercase leading-tight text-[#1e3a8a] dark:text-white mb-1 tracking-tight">
-                                Institute for Design of Electrical Measuring Instruments
-                            </h1>
-                            <div className="flex flex-col">
-                                <span className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wide leading-tight">
-                                    सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय
-                                </span>
-                                <span className="text-xs font-semibold text-[#1e3a8a] dark:text-blue-300 uppercase tracking-wide leading-tight mt-0.5">
-                                    Ministry of Micro, Small and Medium Enterprises
-                                </span>
-                                <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider leading-tight mt-0.5">
-                                    MSME Technology Centre, Government of India Society
-                                </span>
-                            </div>
+                    <div className="flex-1 text-center px-2">
+                        <h1 className="font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl uppercase leading-tight text-[#1e3a8a] dark:text-white mb-2 tracking-tight drop-shadow-sm w-full">
+                            Institute for Design of Electrical Measuring Instruments
+                        </h1>
+                        <div className="flex flex-col gap-1 sm:gap-1.5 font-black uppercase tracking-wide leading-tight">
+                            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base">
+                                <span className="text-[#1e3a8a] dark:text-blue-300">Ministry of Micro, Small and Medium Enterprises</span>
+                                <span className="text-gray-400 mx-2">||</span>
+                                <span className="text-red-600 dark:text-red-400">सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय</span>
+                            </p>
+                            <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm tracking-widest opacity-90">
+                                <span className="text-[#1e3a8a] dark:text-blue-300">MSME Technology Centre</span>
+                                <span className="text-gray-400 mx-2">||</span>
+                                <span className="text-[#1e3a8a] dark:text-blue-300">Government of India Society</span>
+                            </p>
                         </div>
                     </div>
-                </Link>
 
-                <div className="flex items-center gap-2 xl:hidden shrink-0">
-                    <button 
-                    type="button"
-                    className="text-gray-700 dark:text-white p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition focus:outline-none" 
-                    onClick={toggleMenu} 
-                    aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-                    aria-expanded={isMenuOpen}
-                    aria-controls="mobile-menu"
-                    >
-                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
+                    <Link to="/" className="shrink-0 focus:outline-none" aria-label="IDEMI Logo Right">
+                        <img 
+                            src="https://idemi.org/assets/TechTransfer/logo2.png" 
+                            alt="IDEMI Logo Right" 
+                            className="h-16 md:h-20 lg:h-24 xl:h-28 w-auto object-contain" 
+                        />
+                    </Link>
+                </div>
+
+                {/* Mobile Header Content */}
+                <div className="sm:hidden flex justify-between items-center">
+                    <Link to="/" className="flex items-center gap-3 focus:outline-none" aria-label="IDEMI Home">
+                        <img src="https://idemi.org/assets/TechTransfer/logo1.png" alt="IDEMI Logo" className="h-12 w-auto object-contain shrink-0" />
+                        <div className="leading-tight">
+                            <h1 className="font-bold text-[11px] leading-tight text-[#1e3a8a] dark:text-white uppercase tracking-tight mb-0.5">
+                                Institute for Design of Electrical Measuring Instruments
+                            </h1>
+                            <span className="text-[9px] font-bold text-red-600 dark:text-red-400 leading-tight">
+                                MSME Technology Centre Mumbai, Govt. of India
+                            </span>
+                        </div>
+                    </Link>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                        <button 
+                            type="button"
+                            className="text-gray-700 dark:text-white p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition focus:outline-none" 
+                            onClick={toggleMenu} 
+                            aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+                            aria-expanded={isMenuOpen}
+                            aria-controls="mobile-menu"
+                        >
+                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -711,7 +733,7 @@ const Header: React.FC = () => {
             <ChevronDown size={14} className={`transition-transform duration-300 ${isCertInfoOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
             </button>
 
-            <div className={`${isCertInfoOpen ? 'flex py-2 opacity-100 visible' : 'hidden'} md:flex container mx-auto px-4 flex-wrap justify-center gap-x-6 gap-y-1.5 text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-bold py-2 transition-all duration-300`}>
+            <div className={`${isCertInfoOpen ? 'flex py-1.5 opacity-100 visible' : 'hidden'} md:flex container mx-auto px-4 flex-wrap justify-center gap-x-6 gap-y-1 text-[9px] md:text-[11px] text-gray-600 dark:text-gray-400 font-bold py-1.5 transition-all duration-300`}>
                 <Link to="/ISO-9001-2015-Certificate" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ISO 9001:2015</Link>
                 <span className="hidden sm:inline text-gray-300 dark:text-gray-600" aria-hidden="true">•</span>
                 
@@ -753,7 +775,7 @@ const Header: React.FC = () => {
             </div>
         </div>
 
-        <div className={`absolute top-full left-0 w-full bg-white/95 dark:bg-gray-950 backdrop-blur-md shadow-2xl border-t border-gray-200 dark:border-gray-800 transition-all duration-300 origin-top ${isSearchOpen ? 'opacity-100 visible scale-y-100' : 'opacity-0 invisible scale-y-0'} z-[99]`}>
+        <div className={`absolute top-full left-0 w-full bg-white/95 dark:bg-gray-955 backdrop-blur-md shadow-2xl border-t border-gray-200 dark:border-gray-800 transition-all duration-300 origin-top ${isSearchOpen ? 'opacity-100 visible scale-y-100' : 'opacity-0 invisible scale-y-0'} z-[99]`}>
             <div className="container mx-auto px-4 py-4 md:py-6">
             <form onSubmit={handleSearch} className="relative max-w-4xl mx-auto group">
                 {/* Glowing Background Effect for AI Feel */}
