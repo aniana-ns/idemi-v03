@@ -271,7 +271,7 @@ const LongTermCourses: React.FC = () => {
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                         <FileText size={24} className="text-secondary" /> Required Documents
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
                         Please keep the following documents ready for upload/verification. Max file size: <strong>1 MB</strong> per document.
                     </p>
                     
@@ -297,17 +297,20 @@ const LongTermCourses: React.FC = () => {
                         </table>
                     </div>
 
-                    {/* Mobile Cards */}
-                    <div className="md:hidden space-y-3">
+                    {/* Mobile Card-based View */}
+                    <div className="md:hidden grid grid-cols-1 gap-4">
                         {DATA.documents.map((doc) => (
-                            <div key={doc.id} className="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-lg border border-gray-100 dark:border-gray-600 flex justify-between items-center">
-                                <div>
-                                    <span className="text-xs font-mono text-gray-400 block mb-1">#{doc.id}</span>
-                                    <h4 className="font-medium text-gray-900 dark:text-white text-sm">{doc.name}</h4>
+                            <div key={doc.id} className="bg-gray-50 dark:bg-gray-700/30 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col gap-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-primary/10 dark:bg-blue-400/10 flex items-center justify-center text-[10px] font-black text-primary dark:text-blue-400 border border-primary/20">
+                                        {doc.id}
+                                    </div>
+                                    <h4 className="font-bold text-gray-900 dark:text-white text-sm">{doc.name}</h4>
                                 </div>
-                                <span className="text-xs bg-white dark:bg-gray-800 px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400">
-                                    {doc.format}
-                                </span>
+                                <div className="flex justify-between items-center bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-50 dark:border-gray-600">
+                                    <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Accepted Format</span>
+                                    <span className="text-xs font-bold text-secondary dark:text-amber-500">{doc.format}</span>
+                                </div>
                             </div>
                         ))}
                     </div>

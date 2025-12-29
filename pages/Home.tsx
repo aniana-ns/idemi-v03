@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, BookOpen, FileText, Calendar, Briefcase, ChevronRight, Award, Users, Activity, Zap, GraduationCap, Shield, Newspaper } from 'lucide-react';
+import { ArrowRight, CheckCircle, BookOpen, FileText, Calendar, Briefcase, ChevronRight, Award, Users, Activity, Zap, GraduationCap, Shield, Newspaper, X, TrendingUp, BarChart3, Building2 } from 'lucide-react';
 import ServiceCard from '../components/ServiceCard';
 import ImageSlider from '../components/ImageSlider';
 import NewsTicker from '../components/NewsTicker';
@@ -12,16 +13,16 @@ import CountUp from '../components/CountUp';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
 import { ServiceItem, SlideItem, NewsItem, Testimonial } from '../types';
 
-// --- IMAGES CONFIGURATION (Hardcoded for reliability) ---
+// --- IMAGES CONFIGURATION ---
 const IMAGES = {
-  slider1: "https://images.unsplash.com/photo-1668198991378-59ee7fdd264a?auto=format&fit=crop&q=80", // Lab technician / Calibration
-  slider2: "https://images.unsplash.com/photo-1717386255773-1e3037c81788?auto=format&fit=crop&q=80", // CNC Machine / Tool Room
-  slider3: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80", // Classroom / Training
-  feature: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80", // Rocket/Space/Engineering
-  serviceCalibration: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80", // Measurement
-  serviceTesting: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80", // Lab Equipment
-  serviceToolRoom: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80", // Lathe/Machining
-  service3D: "https://images.unsplash.com/photo-1597739239353-50270a473397?auto=format&fit=crop&q=80", // 3D Printing
+  slider1: "https://images.unsplash.com/photo-1668198991378-59ee7fdd264a?auto=format&fit=crop&q=80", 
+  slider2: "https://images.unsplash.com/photo-1717386255773-1e3037c81788?auto=format&fit=crop&q=80", 
+  slider3: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80", 
+  feature: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80", 
+  serviceCalibration: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80", 
+  serviceTesting: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80", 
+  serviceToolRoom: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80", 
+  service3D: "https://images.unsplash.com/photo-1597739239353-50270a473397?auto=format&fit=crop&q=80", 
 };
 
 const INITIAL_SLIDES: SlideItem[] = [
@@ -77,14 +78,57 @@ const INITIAL_NEWS: NewsItem[] = [
 
 const INITIAL_STATS = [
   { value: 56, suffix: '+', label: "Years of Excellence" },
-  { value: 15000, suffix: '+', label: "Students Trained/Yr" },
+  { value: 8500, suffix: '+', label: "Units Assisted" },
   { value: 25000, suffix: '+', label: "Instruments Calibrated" },
   { value: 50, suffix: '+', label: "R&D Projects" }
 ];
 
+const PERFORMANCE_DATA = [
+  {
+    title: "Years of Excellence",
+    description: "Our journey of precision and supporting Indian industries since 1968.",
+    years: [
+      { year: "1968", value: "Established", remarks: "Ministry of MSME" },
+      { year: "1994", value: "Silver Jubilee", remarks: "NABL Accreditation" },
+      { year: "2018", value: "Golden Jubilee", remarks: "50 Years Celebration" },
+      { year: "2024", value: "56 Years", remarks: "Excellence Continued" }
+    ]
+  },
+  {
+    title: "Number of Units Assisted",
+    description: "Annual support provided to MSMEs and large industries across India.",
+    years: [
+      { year: "2023-24", value: "8540", remarks: "+12% Growth" },
+      { year: "2022-23", value: "7620", remarks: "Industrial Rebound" },
+      { year: "2021-22", value: "6890", remarks: "Post-Pandemic Support" },
+      { year: "2020-21", value: "5240", remarks: "Essential Services Only" }
+    ]
+  },
+  {
+    title: "Instruments Calibrated",
+    description: "High-precision calibration services across multiple parameters.",
+    years: [
+      { year: "2023-24", value: "25890", remarks: "Peak Performance" },
+      { year: "2022-23", value: "24150", remarks: "Standard Operations" },
+      { year: "2021-22", value: "22800", remarks: "Expansion of Scope" },
+      { year: "2020-21", value: "21200", remarks: "Critical Infrastructure" }
+    ]
+  },
+  {
+    title: "R&D Projects",
+    description: "Indigenous product development and technology transfer initiatives.",
+    years: [
+      { year: "2023-24", value: "12", remarks: "Aerospace focus" },
+      { year: "2022-23", value: "10", remarks: "Health-tech focus" },
+      { year: "2021-22", value: "8", remarks: "Energy-sector focus" },
+      { year: "2020-21", value: "7", remarks: "Automation focus" }
+    ]
+  }
+];
+
 const STAT_ICONS = [
   <Award key="i1" size={32} className="text-secondary dark:text-amber-500 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
-  <Users key="i2" size={32} className="text-primary dark:text-blue-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
+  <Building2 key="i2" size={32} className="text-primary dark:text-blue-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
   <Activity key="i3" size={32} className="text-green-600 dark:text-green-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />,
   <Zap key="i4" size={32} className="text-purple-600 dark:text-purple-400 mb-3 mx-auto drop-shadow-sm" aria-hidden="true" />
 ];
@@ -219,10 +263,22 @@ const QUICK_LINKS = [
 
 const Home: React.FC = () => {
   const { refreshObserver } = useScrollAnimation();
+  const [selectedStat, setSelectedStat] = useState<number | null>(null);
   
   useEffect(() => {
     refreshObserver();
   }, [refreshObserver]);
+
+  // Handle body scroll locking when modal is open
+  useEffect(() => {
+    if (selectedStat !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [selectedStat]);
+
+  const closeModal = () => setSelectedStat(null);
 
   return (
     <>
@@ -260,26 +316,140 @@ const Home: React.FC = () => {
       {/* Popup with Updates */}
       <HomePopup />
 
-      {/* Stats Section with Dynamic Count Up */}
+      {/* Stats Section with Dynamic Count Up and Clickable Modal */}
       <section className="py-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative z-10" aria-label="Key Statistics">
         <div className="container mx-auto px-4">
           <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-gray-100 dark:border-gray-700 overflow-hidden reveal-on-scroll transform hover:-translate-y-1 transition-transform duration-300">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-gray-100 dark:divide-gray-700">
               {INITIAL_STATS.map((stat, index) => (
-                <div key={index} className="p-8 flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors group">
+                <button 
+                  key={index} 
+                  onClick={() => setSelectedStat(index)}
+                  className="p-8 flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-all group outline-none focus:bg-blue-50 dark:focus:bg-blue-900/10"
+                  aria-label={`View performance for ${stat.label}`}
+                >
                   <div className="transform group-hover:scale-110 transition-transform duration-300 filter drop-shadow-md">
                     {STAT_ICONS[index]}
                   </div>
-                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 mb-2 tracking-tight drop-shadow-sm">
+                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 mb-2 tracking-tight drop-shadow-sm group-hover:from-primary group-hover:to-blue-600 dark:group-hover:from-blue-400 dark:group-hover:to-blue-200 transition-all duration-300">
                     <CountUp end={stat.value} suffix={stat.suffix} duration={2500} />
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">{stat.label}</div>
-                </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider group-hover:text-primary dark:group-hover:text-blue-400 transition-colors flex items-center gap-1">
+                    {stat.label}
+                    <BarChart3 size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </button>
               ))}
             </div>
           </div>
         </div>
       </section>
+
+      {/* Performance Data Modal */}
+      {selectedStat !== null && (
+        <div 
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 animate-fade-in"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md" onClick={closeModal}></div>
+          
+          <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden animate-scale-up flex flex-col max-h-[90vh]">
+            {/* Header */}
+            <div className="bg-primary dark:bg-slate-800 p-8 text-white relative shrink-0">
+              <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+              <button 
+                onClick={closeModal}
+                className="absolute top-6 right-6 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white outline-none"
+                aria-label="Close performance modal"
+              >
+                <X size={20} />
+              </button>
+              
+              <div className="flex items-center gap-4 mb-3">
+                <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md">
+                  {STAT_ICONS[selectedStat]}
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black uppercase tracking-tight">{PERFORMANCE_DATA[selectedStat].title}</h3>
+                  <p className="text-blue-100/70 text-xs font-bold uppercase tracking-widest">Performance Track Record</p>
+                </div>
+              </div>
+              <p className="text-sm text-blue-100/90 leading-relaxed max-w-lg mt-4 font-medium">
+                {PERFORMANCE_DATA[selectedStat].description}
+              </p>
+            </div>
+
+            {/* Content Body - Responsive Table to Cards */}
+            <div className="p-6 sm:p-8 overflow-y-auto flex-1 bg-gray-50/30 dark:bg-slate-900/50">
+              {/* Desktop Table View */}
+              <div className="hidden md:block overflow-hidden rounded-2xl border border-gray-100 dark:border-slate-800 shadow-inner bg-white dark:bg-slate-800">
+                <table className="w-full text-left border-collapse">
+                  <thead className="bg-gray-50 dark:bg-slate-800/50">
+                    <tr>
+                      <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Year / Period</th>
+                      <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity / Milestone</th>
+                      <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Growth / Remarks</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                    {PERFORMANCE_DATA[selectedStat].years.map((row, idx) => (
+                      <tr key={idx} className="group hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors">
+                        <td className="p-4 text-sm font-black text-slate-900 dark:text-white">{row.year}</td>
+                        <td className="p-4">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 dark:bg-blue-400/5 text-primary dark:text-blue-400 font-bold text-sm">
+                            {row.value}
+                          </span>
+                        </td>
+                        <td className="p-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                          <div className="flex items-center gap-2">
+                             <TrendingUp size={14} className="text-green-500" />
+                             {row.remarks}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden space-y-4">
+                {PERFORMANCE_DATA[selectedStat].years.map((row, idx) => (
+                    <div key={idx} className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col gap-4">
+                        <div className="flex justify-between items-center border-b border-gray-50 dark:border-slate-700 pb-3">
+                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Year / Period</span>
+                            <span className="text-sm font-black text-slate-900 dark:text-white">{row.year}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Value</span>
+                            <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/5 dark:bg-blue-400/10 text-primary dark:text-blue-400 font-bold text-xs">
+                                {row.value}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center bg-gray-50 dark:bg-slate-700/50 p-3 rounded-xl">
+                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Remarks</span>
+                            <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 dark:text-green-400">
+                                <TrendingUp size={12} />
+                                {row.remarks}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+              </div>
+              
+              <div className="mt-8 flex justify-end">
+                <button 
+                  onClick={closeModal}
+                  className="w-full sm:w-auto px-8 py-3 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-secondary transition-all shadow-lg active:scale-95"
+                >
+                  Close View
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Services Preview */}
       <section className="py-24 bg-gray-50 dark:bg-gray-950 relative">
