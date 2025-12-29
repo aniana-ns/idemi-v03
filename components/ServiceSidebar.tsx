@@ -103,16 +103,6 @@ const SERVICE_MENU = [
         { label: 'Professional Training', path: '/training/professional-courses#dnd' },
         { label: "Tech X'fer", path: '/services/design-development/techtransfer' },
     ]
-  },
-  {
-    title: 'Other Services',
-    path: '/services/consultancy',
-    items: [
-        { label: 'Library', path: '/services/library' },
-        { label: 'Hostel Facilities', path: '/services/hostel' },
-        { label: 'Auditorium', path: '/services/auditorium' },
-        { label: 'Consultancy', path: '/services/consultancy' },
-    ]
   }
 ];
 
