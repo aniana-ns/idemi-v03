@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, User, Mail, Layers, MessageSquare, CheckCircle, Loader2, Send, AlertCircle } from 'lucide-react';
 import SimpleCaptcha from './SimpleCaptcha';
 
@@ -79,7 +80,7 @@ const HomePopup: React.FC = () => {
             setFormData({ name: '', email: '', service: '', message: '' });
             setIsCaptchaValid(false);
             
-            // Auto-close after success with slightly longer delay to allow reading the success message
+            // Auto-close after success
             setTimeout(() => {
                 setIsOpen(false);
                 setStatus('idle');
@@ -99,17 +100,17 @@ const HomePopup: React.FC = () => {
 
   const inputClass = "w-full pl-10 pr-4 py-2 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-gray-900 dark:text-white";
 
-  return (
+  const content = (
     <>
-      {/* TRIGGER BUTTON */}
+      {/* TRIGGER BUTTON - Set to extreme z-index to stay above mobile menu */}
       <div 
-        className={`fixed z-[1001] right-0 top-[60%] md:top-[70%] transition-transform duration-300 ease-out origin-right scale-90 md:scale-100 ${
+        className={`fixed z-[99999] right-0 top-[60%] md:top-[70%] transition-transform duration-300 ease-out origin-right scale-90 md:scale-100 ${
           isOpen ? 'translate-x-full opacity-0' : 'translate-x-[calc(100%-60px)] hover:translate-x-0 opacity-100'
         }`}
       >
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-3 pl-3 pr-5 rounded-l-2xl shadow-[0_4px_25px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_25px_rgba(0,0,0,0.5)] border-y border-l border-gray-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] transition-all duration-300 active:scale-95 border-l-4 border-l-secondary"
+          className="group relative flex items-center bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-3 pl-3 pr-5 rounded-l-2xl shadow-[0_10px_30px_rgba(0,0,0,0.2)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.5)] border-y border-l border-gray-100 dark:border-slate-700 hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] transition-all duration-300 active:scale-95 border-l-4 border-l-secondary"
           aria-label="Open Quick Enquiry"
         >
           <span className="absolute top-1.5 left-2.5 flex h-3 w-3 z-20">
@@ -128,25 +129,25 @@ const HomePopup: React.FC = () => {
         </button>
       </div>
 
-      {/* MODAL OVERLAY */}
+      {/* MODAL OVERLAY - Extreme z-index */}
       <div 
-        className={`fixed inset-0 z-[2000] flex items-center justify-center sm:items-end sm:justify-end sm:p-6 transition-all duration-500 ${
+        className={`fixed inset-0 z-[100000] flex items-center justify-center sm:items-end sm:justify-end sm:p-6 transition-all duration-500 ${
           isOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
         }`}
       >
         <div 
-          className={`absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-500 ${
+          className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-500 ${
             isOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setIsOpen(false)}
         />
 
         <div 
-          className={`relative w-[90vw] max-w-[360px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col max-h-[90vh] sm:mr-2 sm:mb-16 transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ring-1 ring-black/5 ${
+          className={`relative w-[90vw] max-w-[360px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-white/10 dark:border-gray-700 overflow-hidden flex flex-col max-h-[90vh] sm:mr-2 sm:mb-20 transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ${
             isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-10'
           }`}
         >
-          {/* Header - Updated to Secondary Color */}
+          {/* Header */}
           <div className="relative p-5 pb-6 bg-gradient-to-br from-secondary to-amber-700 text-white shrink-0 overflow-hidden">
             <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
             <div className="relative z-10 flex justify-between items-start">
@@ -156,7 +157,7 @@ const HomePopup: React.FC = () => {
                 </div>
                 <div>
                     <h2 className="text-lg font-bold leading-tight tracking-tight uppercase">Quick Enquiry</h2>
-                    <p className="text-[10px] text-amber-50 font-medium opacity-90 mt-1 uppercase tracking-widest">Get a response within 1 hour</p>
+                    <p className="text-[10px] text-amber-50 font-medium opacity-90 mt-1 uppercase tracking-widest leading-none">Response within 1 hour</p>
                 </div>
               </div>
               <button 
@@ -255,7 +256,7 @@ const HomePopup: React.FC = () => {
                     </div>
 
                     <button 
-                        type="submit"
+                        type="submit" 
                         disabled={status === 'submitting' || !isCaptchaValid}
                         className="w-full py-3 bg-primary hover:bg-blue-800 text-white rounded-xl font-bold text-sm transition-all shadow-lg flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
                     >
@@ -272,7 +273,6 @@ const HomePopup: React.FC = () => {
             )}
           </div>
           
-          {/* Subtle Tip */}
           <div className="px-6 pb-4 pt-2 bg-white dark:bg-gray-900">
               <p className="text-[10px] text-gray-400 dark:text-gray-500 text-center italic">
                   Prefer direct call? +91-22-2405 0301
@@ -282,6 +282,8 @@ const HomePopup: React.FC = () => {
       </div>
     </>
   );
+
+  return createPortal(content, document.body);
 };
 
 export default HomePopup;

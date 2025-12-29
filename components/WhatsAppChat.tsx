@@ -4,7 +4,7 @@ import { MessageCircle, X, ChevronRight } from 'lucide-react';
 
 const WhatsAppChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const phoneNumber = "918332081120"; // Added 91 country code
+  const phoneNumber = "919019870803"; // Added 91 country code
 
   const options = [
     { label: "Admission / Training Enquiry", message: "Hi, I am interested in IDEMI Training Courses. Can you please guide me?" },
@@ -20,7 +20,7 @@ const WhatsAppChat: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-20 right-4 md:bottom-24 md:right-8 z-50 flex flex-col items-end animate-fade-in">
+    <div className="fixed bottom-20 right-4 md:bottom-24 md:right-8 z-[99990] flex flex-col items-end animate-fade-in">
       {/* Chat Menu */}
       {isOpen && (
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 mb-4 w-64 md:w-72 overflow-hidden animate-slide-up origin-bottom-right">

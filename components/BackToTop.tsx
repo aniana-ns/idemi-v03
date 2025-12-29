@@ -47,7 +47,7 @@ const BackToTop: React.FC = () => {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40 p-2.5 md:p-3 bg-primary text-white rounded-full shadow-lg hover:bg-secondary transition-all duration-300 transform hover:scale-110 active:scale-90 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary animate-fade-in"
+      className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-[99980] p-2.5 md:p-3 bg-primary text-white rounded-full shadow-lg hover:bg-secondary transition-all duration-300 transform hover:scale-110 active:scale-90 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary animate-fade-in"
       aria-label="Back to top"
     >
       <ArrowUp className="w-5 h-5 md:w-6 md:h-6" />
