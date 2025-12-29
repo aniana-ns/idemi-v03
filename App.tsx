@@ -109,10 +109,6 @@ const LocaTestFacility = lazy(() => import('./pages/LocaTestFacility'));
 
 const SMTAssembly = lazy(() => import('./pages/SMTAssembly'));
 const TechTransfer = lazy(() => import('./pages/TechTransfer'));
-const Library = lazy(() => import('./pages/Library'));
-const Hostel = lazy(() => import('./pages/Hostel'));
-const Auditorium = lazy(() => import('./pages/Auditorium'));
-const Consultancy = lazy(() => import('./pages/Consultancy'));
 
 // Schemes
 const PMKVYScheme = lazy(() => import('./pages/PMKVYScheme'));
@@ -245,11 +241,6 @@ const App: React.FC = () => {
                 <Route path="/services/design-development/smt-assembly" element={<SMTAssembly />} />
                 <Route path="/design-development/smt-assembly" element={<SMTAssembly />} />
                 <Route path="/services/design-development/techtransfer" element={<TechTransfer />} />
-                
-                <Route path="/services/library" element={<Library />} />
-                <Route path="/services/hostel" element={<Hostel />} />
-                <Route path="/services/auditorium" element={<Auditorium />} />
-                <Route path="/services/consultancy" element={<Consultancy />} />
 
                 {/* --- TRAINING --- */}
                 <Route path="/training/introduction" element={<TrainingIntroduction />} />
