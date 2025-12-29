@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, BookOpen, FileText, Calendar, Briefcase, ChevronRight, Award, Users, Activity, Zap, GraduationCap, Shield, Newspaper } from 'lucide-react';
@@ -466,57 +465,6 @@ const Home: React.FC = () => {
 
       {/* Testimonials Carousel */}
       <TestimonialCarousel testimonials={TESTIMONIALS} />
-
-      {/* Press Releases Section - REDESIGNED WITH ORANGE ACCENT */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 reveal-on-scroll">
-            <div className="text-center md:text-left mb-6 md:mb-0">
-              <span className="text-secondary dark:text-amber-500 font-bold uppercase tracking-widest text-xs mb-2 block">Latest News</span>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white drop-shadow-sm">Press Releases</h2>
-              <p className="text-gray-600 dark:text-gray-400 mt-2">Recent announcements, updates, and major milestones.</p>
-            </div>
-            <Link to="/downloads/notifications" className="inline-flex items-center gap-2 text-secondary dark:text-amber-500 font-bold hover:text-primary dark:hover:text-blue-400 transition-colors uppercase text-sm tracking-wider group">
-                View Archive <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {INITIAL_NEWS.slice(0, 3).map((item, index) => (
-                <article key={item.id} className={`group relative flex flex-col h-full bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 overflow-hidden reveal-on-scroll stagger-${index + 1}`}>
-                
-                <div className="flex items-center gap-4 mb-6 relative z-10">
-                  <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-full shadow-md group-hover:scale-110 transition-transform text-secondary dark:text-amber-500">
-                    <Newspaper size={32} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block">{item.date}</span>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-secondary dark:group-hover:text-amber-500 transition-colors leading-tight line-clamp-2">
-                        {item.title}
-                    </h3>
-                  </div>
-                </div>
-                
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-8 flex-grow relative z-10 leading-relaxed">
-                    {item.summary}
-                </p>
-
-                <div className="mt-auto relative z-10">
-                    <Link 
-                        to={item.link || '#'} 
-                        className="w-full py-3 px-4 bg-gray-50 dark:bg-gray-700/50 text-secondary dark:text-amber-500 text-center rounded-xl font-bold text-sm transition-all duration-300 group-hover:bg-secondary group-hover:text-white dark:group-hover:bg-amber-600 dark:group-hover:text-white flex items-center justify-center gap-2 border border-gray-200 dark:border-gray-700 group-hover:border-transparent shadow-md hover:shadow-lg"
-                    >
-                        Read Full Story <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                </div>
-
-                {/* Subtle border gradient on hover */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-secondary/10 dark:group-hover:border-amber-400/20 rounded-2xl pointer-events-none transition-all duration-300"></div>
-                </article>
-            ))}
-          </div>
-        </div>
-      </section>
     </>
   );
 };
