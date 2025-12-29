@@ -604,11 +604,6 @@ const Header: React.FC = () => {
                                 <span className="text-red-600 dark:text-red-400">सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय</span>
                             </p>
                             <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm tracking-widest opacity-90">
-                                <span className="text-[#1e3a8a] dark:text-blue-300">DEVELOPMENT COMMISSIONER</span>
-                                <span className="text-gray-400 mx-2">||</span>
-                                <span className="text-red-600 dark:text-red-400">विकास आयुक्त</span>
-                            </p>
-                            <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm tracking-widest opacity-90">
                                 <span className="text-[#1e3a8a] dark:text-blue-300">MINISTRY OF MICRO, SMALL & MEDIUM ENTERPRISES</span>
                                 <span className="text-gray-400 mx-2">||</span>
                                 <span className="text-[#1e3a8a] dark:text-blue-300">Government of India Society</span>
