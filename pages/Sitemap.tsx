@@ -147,10 +147,6 @@ const SITEMAP_DATA = [
       { label: 'Bangalore Extension', path: '/extension-centre/bangalore' },
       { label: 'Nagpur Extension', path: '/extension-centre/nagpur' },
       { label: 'Sakinaka Sub-Centre', path: '/extension-centre/sakinaka' },
-      { label: 'Technical Library', path: '/services/library' },
-      { label: 'Hostel Facilities', path: '/services/hostel' },
-      { label: 'Auditorium & Events', path: '/services/auditorium' },
-      { label: 'Consultancy', path: '/services/consultancy' },
     ]
   },
   {
