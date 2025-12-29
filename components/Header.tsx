@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe, ArrowRight, Sparkles } from 'lucide-react';
+import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe, ArrowRight, Sparkles, Award, Trophy, Rocket, ShieldCheck, History } from 'lucide-react';
 import { useAccessibility } from '../lib/AccessibilityContext';
 import { SEARCH_INDEX } from '../constants';
 import { SearchItem } from '../types';
@@ -553,6 +552,14 @@ const Header: React.FC = () => {
       : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}
   `;
 
+  const achievements = [
+    { label: "Winner: Prof. S.K. Joshi Laboratory Excellence Award (Gold Category)", icon: <Trophy size={14} className="text-amber-500" /> },
+    { label: "Critical Component Supplier for ISRO's Chandrayaan-3 Mission", icon: <Rocket size={14} className="text-blue-400" /> },
+    { label: "Premier NABL Accredited Calibration Laboratory in Asia", icon: <ShieldCheck size={14} className="text-green-500" /> },
+    { label: "Over 50 Years of Excellence in Instrumentation & Metrology", icon: <History size={14} className="text-secondary" /> },
+    { label: "Empowering National Defense and Aerospace Sectors (AS9100 Certified)", icon: <Award size={14} className="text-purple-400" /> }
+  ];
+
   return (
     <header className="w-full z-[1000] font-sans sticky top-0 shadow-lg">
       <div className="w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md transition-colors duration-200">
@@ -696,15 +703,15 @@ const Header: React.FC = () => {
         <div className="bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-200 relative z-[98]">
             <button 
             onClick={() => setIsCertInfoOpen(!isCertInfoOpen)}
-            className="md:hidden w-full flex justify-center items-center gap-1 py-1.5 text-[10px] font-medium text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 uppercase tracking-wide focus:outline-none"
+            className="md:hidden w-full flex justify-center items-center gap-1 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 uppercase tracking-wide focus:outline-none"
             aria-expanded={isCertInfoOpen}
             aria-label="Toggle Certifications and IDs information"
             >
             <span>View Certifications & IDs</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${isCertInfoOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+            <ChevronDown size={14} className={`transition-transform duration-300 ${isCertInfoOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
             </button>
 
-            <div className={`${isCertInfoOpen ? 'flex py-1.5 opacity-100 visible' : 'hidden'} md:flex container mx-auto px-4 flex-wrap justify-center gap-x-4 gap-y-1 text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 font-medium py-1.5 transition-all duration-300`}>
+            <div className={`${isCertInfoOpen ? 'flex py-2 opacity-100 visible' : 'hidden'} md:flex container mx-auto px-4 flex-wrap justify-center gap-x-6 gap-y-1.5 text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-bold py-2 transition-all duration-300`}>
                 <Link to="/ISO-9001-2015-Certificate" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ISO 9001:2015</Link>
                 <span className="hidden sm:inline text-gray-300 dark:text-gray-600" aria-hidden="true">•</span>
                 
@@ -721,6 +728,28 @@ const Header: React.FC = () => {
                 <span className="hidden sm:inline text-gray-300 dark:text-gray-600" aria-hidden="true">•</span>
                 
                 <Link to="/view-document?url=https://idemi.org/assets/uploads/IDEMI%20GSTIN%20Certificate.pdf&title=GSTIN Certificate" className="hover:text-primary dark:hover:text-blue-400 transition-colors">GSTIN: 27AAAAI0012M1Z1</Link>
+            </div>
+        </div>
+
+        {/* --- MAJOR ACHIEVEMENTS RUNNING LINE --- */}
+        <div className="bg-slate-900 dark:bg-black text-white h-9 flex overflow-hidden relative shadow-inner z-[97]">
+            <div className="bg-secondary text-white px-4 flex items-center gap-2 font-black text-[10px] uppercase shrink-0 z-20 relative shadow-xl skew-x-[-10deg] -ml-4 pl-8 border-r border-white/20">
+                <div className="skew-x-[10deg] flex items-center gap-2">
+                    <Trophy size={14} className="text-amber-400 animate-pulse" />
+                    <span className="hidden sm:inline tracking-[0.15em] whitespace-nowrap">Major Achievements</span>
+                </div>
+            </div>
+            
+            <div className="flex-grow flex items-center relative overflow-hidden group">
+                <div className="animate-marquee whitespace-nowrap flex items-center gap-16 pl-6 group-hover:[animation-play-state:paused]">
+                    {achievements.concat(achievements).map((item, idx) => (
+                        <div key={idx} className="inline-flex items-center gap-2.5 text-xs font-bold tracking-wide cursor-default">
+                            {item.icon}
+                            <span className="opacity-90 hover:opacity-100 transition-opacity text-slate-100">{item.label}</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-slate-700 mx-4"></span>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
 

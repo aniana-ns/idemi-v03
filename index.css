@@ -83,13 +83,13 @@ body {
 
 /* === Marquee Animation === */
 @keyframes marquee {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 .animate-marquee {
   display: inline-flex;
   white-space: nowrap;
-  animation: marquee 40s linear infinite;
+  animation: marquee 50s linear infinite;
 }
 .animate-marquee:hover {
   animation-play-state: paused;
@@ -162,3 +162,13 @@ html.dark .goog-te-combo {
   background: #64748b;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
