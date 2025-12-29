@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -109,7 +110,6 @@ const SITEMAP_DATA = [
       { label: 'Professional Workshops', path: '/training/professional-courses' },
       { label: 'Online Training (Live)', path: '/training/online-training' },
       { label: 'PG / Post Diploma', path: '/training/post-graduate-post-diploma' },
-      { label: 'SC-ST Beneficiary Data', path: '/training/sc_st_beneficiaries' },
       { label: 'Enquiry / Helpdesk', path: '/training/enquiry' },
     ]
   },
@@ -124,19 +124,6 @@ const SITEMAP_DATA = [
       { label: 'Mega Job Fair', path: '/jobfair' },
       { label: 'Student Testimonials', path: '/testimonials' },
       { label: 'Careers at IDEMI', path: '/careers' },
-    ]
-  },
-  {
-    category: 'Government Schemes',
-    icon: <Users className="text-slate-500" size={20} />,
-    links: [
-      { label: 'Sponsored (DAY-NULM)', path: '/training/schemes/day-nulm' },
-      { label: 'PMKVY Scheme', path: '/schemes/pmkvy' },
-      { label: 'National SC-ST Hub', path: '/schemes/sc-st-hub' },
-      { label: 'ESDP-ATI Scheme', path: '/schemes/esdpati' },
-      { label: 'NSQF Compliant', path: '/schemes/nsqf' },
-      { label: 'Kiman Kaushalya', path: '/schemes/kiman-kaushalya' },
-      { label: 'MeitY Dashboard', path: '/meity/dashboard' },
     ]
   },
   {

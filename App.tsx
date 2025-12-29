@@ -1,3 +1,4 @@
+
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
@@ -42,7 +43,6 @@ const NationalAssociations = lazy(() => import('./pages/NationalAssociations'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const Terms = lazy(() => import('./pages/Terms'));
 const JobFair = lazy(() => import('./pages/JobFair'));
-const MeitySchemes = lazy(() => import('./pages/MeitySchemes'));
 const Careers = lazy(() => import('./pages/Careers'));
 const Sitemap = lazy(() => import('./pages/Sitemap'));
 const Testimonials = lazy(() => import('./pages/Testimonials'));
@@ -63,10 +63,8 @@ const AICTECourses = lazy(() => import('./pages/AICTECourses'));
 const AICTESchedule = lazy(() => import('./pages/AICTESchedule'));
 const ShortTermCourses = lazy(() => import('./pages/ShortTermCourses'));
 const ProfessionalCourses = lazy(() => import('./pages/ProfessionalCourses'));
-const SponsoredSchemes = lazy(() => import('./pages/SponsoredSchemes'));
 const OnlineTraining = lazy(() => import('./pages/OnlineTraining'));
 const LongTermCourses = lazy(() => import('./pages/LongTermCourses'));
-const SCSTBeneficiaries = lazy(() => import('./pages/SCSTBeneficiaries'));
 const TrainingIntroduction = lazy(() => import('./pages/TrainingIntroduction'));
 const AnsysTraining = lazy(() => import('./pages/AnsysTraining'));
 const UnigraphicsTraining = lazy(() => import('./pages/UnigraphicsTraining'));
@@ -108,15 +106,6 @@ const LocaTestFacility = lazy(() => import('./pages/LocaTestFacility'));
 
 const SMTAssembly = lazy(() => import('./pages/SMTAssembly'));
 const TechTransfer = lazy(() => import('./pages/TechTransfer'));
-
-// Schemes
-const PMKVYScheme = lazy(() => import('./pages/PMKVYScheme'));
-const SCSTHubScheme = lazy(() => import('./pages/SCSTHubScheme'));
-const ESDPATIScheme = lazy(() => import('./pages/ESDPATIScheme'));
-const NSQFScheme = lazy(() => import('./pages/NSQFScheme'));
-const KimanKaushalyaScheme = lazy(() => import('./pages/KimanKaushalyaScheme'));
-const NBCFDCScheme = lazy(() => import('./pages/NBCFDCScheme'));
-const BMCScheme = lazy(() => import('./pages/BMCScheme'));
 
 // Downloads
 const ActiveTenders = lazy(() => import('./pages/ActiveTenders'));
@@ -161,13 +150,11 @@ const App: React.FC = () => {
                 {/* --- REDIRECTS FOR HIERARCHY --- */}
                 <Route path="/services/training" element={<Navigate to="/training" replace />} />
                 <Route path="/downloads" element={<Navigate to="/downloads/active-tenders" replace />} />
-                <Route path="/training/schemes" element={<Navigate to="/training/schemes/day-nulm" replace />} />
                 <Route path="/courses" element={<Navigate to="/training" replace />} />
                 <Route path="/courses/mechanical-courses" element={<Navigate to="/training" replace />} />
                 <Route path="/courses/animation" element={<Navigate to="/training" replace />} />
                 <Route path="/design-development" element={<Navigate to="/services/design-development" replace />} />
                 <Route path="/extension-centre" element={<Navigate to="/extensions" replace />} />
-                <Route path="/schemes" element={<Navigate to="/training/schemes/day-nulm" replace />} />
 
                 {/* --- UTILITIES --- */}
                 <Route path="/view-document" element={<DocumentViewer />} />
@@ -248,38 +235,19 @@ const App: React.FC = () => {
                 <Route path="/training/online-training" element={<OnlineTraining />} />
                 <Route path="/training/post-graduate-post-diploma" element={<LongTermCourses />} />
                 <Route path="/training/professional-courses" element={<ProfessionalCourses />} />
-                <Route path="/training/schemes/day-nulm" element={<SponsoredSchemes />} />
                 <Route path="/jobfair" element={<JobFair />} />
                 <Route path="/training/job-openings" element={<PlacementPortal />} />
                 <Route path="/training/recruiter-enquiry" element={<RecruiterEnquiry />} />
                 <Route path="/student-registration" element={<StudentRegistration />} />
                 <Route path="/alumni-registration" element={<AlumniRegistration />} />
-                <Route path="/training/sc_st_beneficiaries" element={<SCSTBeneficiaries />} />
                 <Route path="/enquiry" element={<TrainingEnquiry />} />
                 <Route path="/training/enquiry" element={<TrainingEnquiry />} />
-                <Route path="/enquiry.php" element={<Navigate to="/training/enquiry" replace />} />
                 
                 <Route path="/courses/mechanical-courses/ansys" element={<AnsysTraining />} />
                 <Route path="/courses/mechanical-courses/unigraphics" element={<UnigraphicsTraining />} />
                 <Route path="/courses/mechanical-courses/autocad" element={<AutoCADTraining />} />
                 <Route path="/courses/animation/arvr" element={<ARVRTraining />} />
                 <Route path="/uxui" element={<UXUITraining />} />
-
-                {/* --- SCHEMES --- */}
-                <Route path="/meity/dashboard" element={<MeitySchemes />} />
-                <Route path="/meity/testimonials" element={<MeitySchemes />} />
-                
-                <Route path="/schemes/pmkvy" element={<PMKVYScheme />} />
-                <Route path="/training/schemes/pmkvy" element={<PMKVYScheme />} />
-                <Route path="/schemes/sc-st-hub" element={<SCSTHubScheme />} />
-                <Route path="/training/schemes/sc-st-hub" element={<SCSTHubScheme />} />
-                <Route path="/schemes/esdpati" element={<ESDPATIScheme />} />
-                <Route path="/training/schemes/esdpati" element={<ESDPATIScheme />} />
-                
-                <Route path="/schemes/nsqf" element={<NSQFScheme />} />
-                <Route path="/schemes/kiman-kaushalya" element={<KimanKaushalyaScheme />} />
-                <Route path="/schemes/nbcfdc" element={<NBCFDCScheme />} />
-                <Route path="/schemes/bmc" element={<BMCScheme />} />
 
                 {/* --- DOWNLOADS --- */}
                 <Route path="/downloads/active-tenders" element={<ActiveTenders />} />

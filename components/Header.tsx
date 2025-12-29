@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe, ArrowRight, Sparkles } from 'lucide-react';
@@ -99,9 +100,7 @@ const MENU_ITEMS: MenuItem[] = [
           { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
           { label: 'Short / Medium Term Courses', path: '/training/short-term-courses' },
           { label: 'Professional Courses', path: '/training/professional-courses' },
-          { label: 'Sponsored Programmes', path: '/training/schemes/day-nulm' },
           { label: 'Enquiry Form', path: '/training/enquiry' },
-          { label: 'SC-ST Beneficiaries', path: '/training/sc_st_beneficiaries' },
           { label: 'AICTE Mandatory Disclosure', path: `/view-document?url=https://idemi.org/assets/uploads/Mandatory_Disclosure.pdf&title=AICTE Mandatory Disclosure` },
           {
             label: 'Jobs / Placement',
@@ -139,7 +138,6 @@ const MENU_ITEMS: MenuItem[] = [
             { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
             { label: 'Short / Medium Term Courses', path: '/training/short-term-courses' },
             { label: 'Professional Courses', path: '/training/professional-courses' },
-            { label: 'Sponsored Programmes', path: '/training/schemes/day-nulm' },
             {
                 label: 'Jobs / Placement',
                 children: [
@@ -174,7 +172,6 @@ const MENU_ITEMS: MenuItem[] = [
           label: 'Information',
           children: [
             { label: 'AICTE Mandatory Disclosure', path: `/view-document?url=https://idemi.org/assets/uploads/Mandatory_Disclosure.pdf&title=AICTE Mandatory Disclosure` },
-            { label: 'SC-ST Beneficiaries', path: '/training/sc_st_beneficiaries' },
           ]
       }
     ]

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, ChevronDown, ChevronUp, Menu, Briefcase } from 'lucide-react';
@@ -60,28 +61,11 @@ const SERVICE_MENU = [
       { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
       { label: 'Short / Medium Term Courses', path: '/training/short-term-courses' },
       { label: 'Professional Courses', path: '/training/professional-courses' },
-      { label: 'Sponsored Programmes', path: '/training/schemes/day-nulm' },
       { label: 'Job Openings', path: '/training/job-openings' },
       { label: 'Job Fair', path: '/jobfair' },
       { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
       { label: 'Alumni Registration', path: '/alumni-registration' },
       { label: 'Student Registration', path: '/student-registration' },
-    ]
-  },
-  {
-    title: 'Government Schemes',
-    path: '/training/schemes/day-nulm',
-    items: [
-      { label: 'Sponsored Programmes (DAY-NULM)', path: '/training/schemes/day-nulm' },
-      { label: 'PMKVY Scheme', path: '/schemes/pmkvy' },
-      { label: 'National SC-ST Hub', path: '/schemes/sc-st-hub' },
-      { label: 'SC-ST Beneficiaries', path: '/training/sc_st_beneficiaries' },
-      { label: 'ESDP-ATI Scheme', path: '/schemes/esdpati' },
-      { label: 'NSQF Compliant Courses', path: '/schemes/nsqf' },
-      { label: 'Kiman Kaushalya Yojana', path: '/schemes/kiman-kaushalya' },
-      { label: 'NBCFDC Schemes', path: '/schemes/nbcfdc' },
-      { label: 'BMC Sponsored Training', path: '/schemes/bmc' },
-      { label: 'MeitY Dashboard', path: '/meity/dashboard' },
     ]
   },
   {
