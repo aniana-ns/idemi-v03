@@ -1,75 +1,107 @@
 
 import React, { useState, useEffect } from 'react';
-import { X, Bell, ChevronRight, ArrowRight, Megaphone } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { X, User, Mail, Layers, MessageSquare, CheckCircle, Loader2, Send, AlertCircle } from 'lucide-react';
+import SimpleCaptcha from './SimpleCaptcha';
 
-const UPDATES = [
-  { 
-    id: 1, 
-    text: "AICTE Diploma 2025 Admission Schedule Announced", 
-    link: "/training/aicte/schedule",
-    tag: "Admissions",
-    color: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
-    date: "New"
-  },
-  { 
-    id: 2, 
-    text: "Recruitment: Engagement of Trade Apprentices", 
-    link: "/careers",
-    tag: "Jobs",
-    color: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
-    date: "Urgent"
-  },
-  { 
-    id: 3, 
-    text: "Upcoming Batch: 3D Printing & Additive Mfg.", 
-    link: "/training/short-term-courses",
-    tag: "Training",
-    color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-    date: "Soon"
-  },
-  { 
-    id: 4, 
-    text: "Active Tender: Supply of CNC Machines", 
-    link: "/downloads/active-tenders",
-    tag: "Tenders",
-    color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-    date: "Active"
-  }
+const SERVICES = [
+  "Calibration Services",
+  "Testing Services",
+  "Training / Courses",
+  "Tool Room / Manufacturing",
+  "Design & Development",
+  "Consultancy",
+  "Other"
 ];
 
 const HomePopup: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    service: '',
+    message: ''
+  });
 
   useEffect(() => {
     setIsMounted(true);
-    let closeTimer: ReturnType<typeof setTimeout>;
-
-    // Auto-open after 5 seconds delay (let website load first)
+    // Auto-open after 4 seconds delay
     const openTimer = setTimeout(() => {
       setIsOpen(true);
+    }, 4000);
 
-      // Auto-close after 5 seconds if not interacted
-      closeTimer = setTimeout(() => {
-        setIsOpen(false);
-      }, 5000);
-    }, 5000);
-
-    return () => {
-      clearTimeout(openTimer);
-      clearTimeout(closeTimer);
-    };
+    return () => clearTimeout(openTimer);
   }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleCaptchaVerify = (isValid: boolean) => {
+    setIsCaptchaValid(isValid);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.service || !formData.message || !isCaptchaValid) {
+        return;
+    }
+
+    setStatus('submitting');
+    
+    const TARGET_EMAIL = 'anians.890@gmail.com';
+    const ENDPOINT = `https://formsubmit.co/ajax/${TARGET_EMAIL}`;
+
+    try {
+        const response = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                _subject: `New Quick Enquiry: ${formData.name}`,
+                _template: 'table',
+                _captcha: 'false',
+                'Name': formData.name,
+                'Email': formData.email,
+                'Department': formData.service,
+                'Enquiry': formData.message
+            })
+        });
+
+        if (response.ok) {
+            setStatus('success');
+            setFormData({ name: '', email: '', service: '', message: '' });
+            setIsCaptchaValid(false);
+            
+            // Auto-close after success with slightly longer delay to allow reading the success message
+            setTimeout(() => {
+                setIsOpen(false);
+                setStatus('idle');
+            }, 4000);
+        } else {
+            setStatus('error');
+            setTimeout(() => setStatus('idle'), 3000);
+        }
+    } catch (error) {
+        console.error("Submission error:", error);
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 3000);
+    }
+  };
 
   if (!isMounted) return null;
 
+  const inputClass = "w-full pl-10 pr-4 py-2 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-gray-900 dark:text-white";
+
   return (
     <>
-      {/* 
-        --- TRIGGER BUTTON --- 
-        Fixed to the right side. Added high contrast border and shadow.
-      */}
+      {/* TRIGGER BUTTON */}
       <div 
         className={`fixed z-[1001] right-0 top-[60%] md:top-[70%] transition-transform duration-300 ease-out origin-right scale-90 md:scale-100 ${
           isOpen ? 'translate-x-full opacity-0' : 'translate-x-[calc(100%-60px)] hover:translate-x-0 opacity-100'
@@ -77,35 +109,31 @@ const HomePopup: React.FC = () => {
       >
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-3 pl-3 pr-5 rounded-l-2xl shadow-[0_4px_25px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_25px_rgba(0,0,0,0.5)] border-y border-l border-gray-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] transition-all duration-300 active:scale-95 border-l-4 border-l-red-500"
-          aria-label="Open Updates"
+          className="group relative flex items-center bg-white dark:bg-slate-800 text-slate-900 dark:text-white py-3 pl-3 pr-5 rounded-l-2xl shadow-[0_4px_25px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_25px_rgba(0,0,0,0.5)] border-y border-l border-gray-100 dark:border-slate-700 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] transition-all duration-300 active:scale-95 border-l-4 border-l-secondary"
+          aria-label="Open Quick Enquiry"
         >
-          {/* Pulsing Dot */}
           <span className="absolute top-1.5 left-2.5 flex h-3 w-3 z-20">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 border-2 border-white dark:border-gray-800"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary border-2 border-white dark:border-gray-800"></span>
           </span>
 
-          <div className="bg-red-50 dark:bg-red-900/20 p-2 rounded-full text-red-600 dark:text-red-400 group-hover:rotate-12 transition-transform duration-300 shrink-0 shadow-sm">
-            <Bell size={20} fill="currentColor" />
+          <div className="bg-amber-50 dark:bg-amber-900/20 p-2 rounded-full text-secondary dark:text-amber-500 group-hover:rotate-12 transition-transform duration-300 shrink-0 shadow-sm">
+            <MessageSquare size={20} fill="currentColor" />
           </div>
 
           <div className="flex flex-col items-start ml-3 whitespace-nowrap">
-            <span className="text-[10px] font-bold text-red-600 dark:text-red-400 uppercase tracking-widest leading-none">Latest</span>
-            <span className="text-sm font-black uppercase leading-none mt-1">Updates</span>
+            <span className="text-[10px] font-bold text-secondary dark:text-amber-500 uppercase tracking-widest leading-none">Quick</span>
+            <span className="text-sm font-black uppercase leading-none mt-1">Enquiry</span>
           </div>
         </button>
       </div>
 
-      {/* 
-        --- MODAL OVERLAY --- 
-      */}
+      {/* MODAL OVERLAY */}
       <div 
         className={`fixed inset-0 z-[2000] flex items-center justify-center sm:items-end sm:justify-end sm:p-6 transition-all duration-500 ${
           isOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
         }`}
       >
-        {/* Backdrop Area */}
         <div 
           className={`absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-500 ${
             isOpen ? 'opacity-100' : 'opacity-0'
@@ -113,86 +141,142 @@ const HomePopup: React.FC = () => {
           onClick={() => setIsOpen(false)}
         />
 
-        {/* Floating Card */}
         <div 
-          className={`relative w-[85vw] max-w-[340px] sm:w-full sm:max-w-sm bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col max-h-[80vh] sm:mr-2 sm:mb-16 transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ring-1 ring-black/5 ${
-            isOpen 
-              ? 'opacity-100 scale-100 translate-y-0 sm:translate-x-0' 
-              : 'opacity-0 scale-95 translate-y-10 sm:translate-x-8'
+          className={`relative w-[90vw] max-w-[360px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col max-h-[90vh] sm:mr-2 sm:mb-16 transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) ring-1 ring-black/5 ${
+            isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-10'
           }`}
         >
-          {/* Header */}
-          <div className="relative p-5 pb-6 md:p-6 md:pb-8 bg-gradient-to-br from-red-600 to-orange-600 text-white shrink-0 overflow-hidden">
-            {/* Background Shapes */}
-            <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white/20 rounded-full blur-xl"></div>
-            <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-20 h-20 bg-yellow-400/30 rounded-full blur-xl"></div>
-
+          {/* Header - Updated to Secondary Color */}
+          <div className="relative p-5 pb-6 bg-gradient-to-br from-secondary to-amber-700 text-white shrink-0 overflow-hidden">
+            <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
             <div className="relative z-10 flex justify-between items-start">
               <div className="flex gap-3">
-                <div className="bg-white/20 backdrop-blur-md p-2 md:p-2.5 rounded-xl border border-white/20 shadow-inner">
-                    <Megaphone size={20} className="text-yellow-300 md:w-6 md:h-6" />
+                <div className="bg-white/20 backdrop-blur-md p-2 rounded-xl border border-white/20">
+                    <MessageSquare size={20} className="text-amber-100" />
                 </div>
                 <div>
-                    <h2 className="text-lg md:text-xl font-bold leading-tight">News Flash</h2>
-                    <p className="text-[10px] md:text-xs text-red-100 font-medium opacity-90 mt-1">Important Announcements</p>
+                    <h2 className="text-lg font-bold leading-tight tracking-tight uppercase">Quick Enquiry</h2>
+                    <p className="text-[10px] text-amber-50 font-medium opacity-90 mt-1 uppercase tracking-widest">Get a response within 1 hour</p>
                 </div>
               </div>
-              
               <button 
                 onClick={() => setIsOpen(false)}
-                className="bg-black/20 hover:bg-black/40 text-white p-1.5 rounded-full transition-colors backdrop-blur-sm"
+                className="bg-black/20 hover:bg-black/40 text-white p-1.5 rounded-full transition-colors"
                 aria-label="Close"
               >
-                <X size={16} className="md:w-[18px] md:h-[18px]" />
+                <X size={16} />
               </button>
             </div>
           </div>
 
-          {/* Body */}
-          <div className="relative flex-1 overflow-y-auto -mt-4 bg-white dark:bg-gray-900 rounded-t-2xl px-2 py-4">
-            <div className="space-y-1">
-              {UPDATES.map((item) => (
-                <Link 
-                  key={item.id} 
-                  to={item.link}
-                  onClick={() => setIsOpen(false)}
-                  className="group block p-3 mx-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 border border-transparent hover:border-gray-100 dark:hover:border-gray-700 relative overflow-hidden"
-                >
-                  <div className="flex justify-between items-start gap-3 relative z-10">
-                    <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1.5">
-                            <span className={`text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider ${item.color}`}>
-                                {item.tag}
-                            </span>
-                            {item.date === 'New' && (
-                                <span className="flex h-2 w-2 relative">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                                </span>
-                            )}
+          {/* Form Body */}
+          <div className="flex-1 overflow-y-auto -mt-4 bg-white dark:bg-gray-900 rounded-t-2xl px-6 py-6">
+            {status === 'success' ? (
+                <div className="flex flex-col items-center justify-center text-center py-8 animate-fade-in">
+                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mb-4">
+                        <CheckCircle size={32} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">Message Sent!</h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Thank you for reaching out. We will contact you shortly.</p>
+                </div>
+            ) : status === 'error' ? (
+                <div className="flex flex-col items-center justify-center text-center py-8 animate-fade-in">
+                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mb-4">
+                        <AlertCircle size={32} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">Submission Failed</h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">There was an issue sending your message. Please try again.</p>
+                </div>
+            ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <div className="relative">
+                            <User size={16} className="absolute left-3 top-2.5 text-gray-400" />
+                            <input 
+                                required
+                                type="text" 
+                                name="name" 
+                                value={formData.name}
+                                onChange={handleChange}
+                                placeholder="Full Name" 
+                                className={inputClass} 
+                            />
                         </div>
-                        <h3 className="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-100 leading-snug group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
-                            {item.text}
-                        </h3>
                     </div>
-                    <div className="text-gray-300 dark:text-gray-600 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors pt-2">
-                        <ChevronRight size={16} className="md:w-[18px] md:h-[18px]" />
+                    
+                    <div>
+                        <div className="relative">
+                            <Mail size={16} className="absolute left-3 top-2.5 text-gray-400" />
+                            <input 
+                                required
+                                type="email" 
+                                name="email" 
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="Email Address" 
+                                className={inputClass} 
+                            />
+                        </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
 
-          {/* Footer */}
-          <div className="p-3 md:p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
-            <Link 
-                to="/downloads/notifications" 
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-2 md:py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-blue-400 hover:border-primary dark:hover:border-blue-400 transition-all shadow-sm hover:shadow"
-            >
-                View All Archives <ArrowRight size={12} className="md:w-[14px] md:h-[14px]" />
-            </Link>
+                    <div>
+                        <div className="relative">
+                            <Layers size={16} className="absolute left-3 top-2.5 text-gray-400 pointer-events-none" />
+                            <select 
+                                required
+                                name="service" 
+                                value={formData.service}
+                                onChange={handleChange}
+                                className={`${inputClass} appearance-none`}
+                            >
+                                <option value="" disabled>Select Department</option>
+                                {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="relative">
+                            <Send size={16} className="absolute left-3 top-2.5 text-gray-400" />
+                            <textarea 
+                                required
+                                name="message" 
+                                value={formData.message}
+                                onChange={handleChange}
+                                placeholder="Your enquiry (Pricing, Training details...)" 
+                                rows={3}
+                                className={`${inputClass} resize-none`}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex justify-center py-2 scale-90 origin-center">
+                        <SimpleCaptcha onVerify={handleCaptchaVerify} />
+                    </div>
+
+                    <button 
+                        type="submit"
+                        disabled={status === 'submitting' || !isCaptchaValid}
+                        className="w-full py-3 bg-primary hover:bg-blue-800 text-white rounded-xl font-bold text-sm transition-all shadow-lg flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                        {status === 'submitting' ? (
+                            <Loader2 className="animate-spin" size={18} />
+                        ) : (
+                            <>
+                                <span>Send Message</span>
+                                <Send size={16} className="group-hover:translate-x-1 transition-transform" />
+                            </>
+                        )}
+                    </button>
+                </form>
+            )}
+          </div>
+          
+          {/* Subtle Tip */}
+          <div className="px-6 pb-4 pt-2 bg-white dark:bg-gray-900">
+              <p className="text-[10px] text-gray-400 dark:text-gray-500 text-center italic">
+                  Prefer direct call? +91-22-2405 0301
+              </p>
           </div>
         </div>
       </div>
