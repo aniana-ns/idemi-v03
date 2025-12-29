@@ -64,6 +64,17 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'Services',
     children: [
       {
+        label: 'Training Services',
+        children: [
+          { label: 'AICTE Approved Diploma', path: '/training/aicte' },
+          { label: 'PG / Post Diploma', path: '/training/post-graduate-post-diploma' },
+          { label: 'Short / Medium Term', path: '/training/short-term-courses' },
+          { label: 'Professional Workshops', path: '/training/professional-courses' },
+          { label: 'Online Training (Live)', path: '/training/online-training' },
+          { label: 'Job Openings & Placement', path: '/training/job-openings' },
+        ]
+      },
+      {
         label: 'Tool Room Services',
         children: [
           { label: 'Tool Design', path: '/services/tool-design' },
@@ -91,27 +102,15 @@ const MENU_ITEMS: MenuItem[] = [
         ]
       },
       {
-        label: 'Training Services',
+        label: 'Testing Services',
         children: [
-          { label: 'Introduction', path: '/training/introduction' },
-          { label: 'Online Training Courses', path: '/training/online-training' },
-          { label: 'Long Term Courses', path: '/training/post-graduate-post-diploma' },
-          { label: 'AICTE Approved Diploma Courses', path: '/training/aicte' },
-          { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
-          { label: 'Short / Medium Term Courses', path: '/training/short-term-courses' },
-          { label: 'Professional Courses', path: '/training/professional-courses' },
-          { label: 'Enquiry Form', path: '/training/enquiry' },
-          { label: 'AICTE Mandatory Disclosure', path: `/view-document?url=https://idemi.org/assets/uploads/Mandatory_Disclosure.pdf&title=AICTE Mandatory Disclosure` },
-          {
-            label: 'Jobs / Placement',
-            children: [
-              { label: 'Job Openings', path: '/training/job-openings' },
-              { label: 'Job Fair', path: '/jobfair' },
-              { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
-              { label: 'Alumni Registration', path: '/alumni-registration' },
-              { label: 'Student Registration', path: '/student-registration' },
-            ]
-          },
+          { label: 'Overview', path: '/services/testing' },
+          { label: 'Safety Testing', path: '/services/testing/safety' },
+          { label: 'EMI-EMC Testing', path: '/services/testing/emi_emc' },
+          { label: 'Environmental Testing', path: '/services/testing/environmental' },
+          { label: 'Type Testing', path: '/services/testing/type' },
+          { label: 'LED Testing', path: '/services/testing/led' },
+          { label: 'Pump Testing', path: '/services/testing/monoblock_pumpset' },
         ]
       },
       {
@@ -119,7 +118,6 @@ const MENU_ITEMS: MenuItem[] = [
         children: [
           { label: 'R&D Projects', path: '/services/design-development' },
           { label: 'SMT Assembly', path: '/design-development/smt-assembly' },
-          { label: 'Professional Training', path: '/training/professional-courses#dnd' },
           { label: "Tech X'fer", path: '/services/design-development/techtransfer' },
         ]
       }
@@ -129,29 +127,34 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'Training / Courses',
     children: [
       { 
-          label: 'Training Programs',
+          label: 'AICTE',
           children: [
-            { label: 'Introduction', path: '/training/introduction' },
-            { label: 'Online Training Courses', path: '/training/online-training' },
-            { label: 'Long Term Courses', path: '/training/post-graduate-post-diploma' },
             { label: 'AICTE Approved Diploma Courses', path: '/training/aicte' },
             { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
-            { label: 'Short / Medium Term Courses', path: '/training/short-term-courses' },
-            { label: 'Professional Courses', path: '/training/professional-courses' },
-            {
-                label: 'Jobs / Placement',
-                children: [
-                  { label: 'Job Openings', path: '/training/job-openings' },
-                  { label: 'Job Fair', path: '/jobfair' },
-                  { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
-                  { label: 'Alumni Registration', path: '/alumni-registration' },
-                  { label: 'Student Registration', path: '/student-registration' },
-                ]
-            },
+            { label: 'Mandatory Disclosure', path: `/view-document?url=https://idemi.org/assets/uploads/Mandatory_Disclosure.pdf&title=AICTE Mandatory Disclosure` },
           ]
       },
       {
-          label: 'Featured Specialized Courses',
+          label: 'Long Term',
+          children: [
+            { label: 'PG / Post Diploma Courses', path: '/training/post-graduate-post-diploma' },
+          ]
+      },
+      {
+          label: 'Short / Medium Term',
+          children: [
+            { label: 'Certificate Courses', path: '/training/short-term-courses' },
+            { label: 'Online Training (Live)', path: '/training/online-training' },
+          ]
+      },
+      {
+          label: 'Weekend Programs',
+          children: [
+            { label: 'Professional Courses', path: '/training/professional-courses' },
+          ]
+      },
+      {
+          label: 'Feature Specialized Courses',
           children: [
             { label: 'ANSYS (FEA)', path: '/courses/mechanical-courses/ansys' },
             { label: 'Unigraphics (NX)', path: '/courses/mechanical-courses/unigraphics' },
@@ -161,17 +164,13 @@ const MENU_ITEMS: MenuItem[] = [
           ]
       },
       {
-          label: 'Admissions & Forms',
+          label: 'Jobs / Placement',
           children: [
-            { label: 'Alumni Registration Form', path: '/alumni-registration' },
-            { label: 'Enquiry Form', path: '/training/enquiry' },
+            { label: 'Job Openings', path: '/training/job-openings' },
+            { label: 'Job Fair', path: '/jobfair' },
+            { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
+            { label: 'Alumni Registration', path: '/alumni-registration' },
             { label: 'Student Registration', path: '/student-registration' },
-          ]
-      },
-      {
-          label: 'Information',
-          children: [
-            { label: 'AICTE Mandatory Disclosure', path: `/view-document?url=https://idemi.org/assets/uploads/Mandatory_Disclosure.pdf&title=AICTE Mandatory Disclosure` },
           ]
       }
     ]
@@ -793,7 +792,7 @@ const Header: React.FC = () => {
                             className="w-full text-left px-8 py-4 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors border-b border-gray-50 dark:border-gray-800/50 last:border-none flex justify-between items-center group/item"
                         >
                             <div className="min-w-0">
-                                <p className="font-bold text-gray-900 dark:text-white text-sm group-hover/item:text-primary dark:group-hover:text-blue-400">{item.title}</p>
+                                <p className="font-bold text-gray-900 dark:text-white text-sm group-hover:text-primary dark:group-hover:text-blue-400">{item.title}</p>
                                 <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 truncate max-w-lg">{item.desc}</p>
                             </div>
                             <div className="flex items-center gap-3 shrink-0 ml-4">

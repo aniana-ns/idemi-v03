@@ -1,9 +1,41 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight, ChevronDown, ChevronUp, Menu, Briefcase } from 'lucide-react';
+import { ChevronRight, ChevronDown, ChevronUp, Menu, Briefcase, GraduationCap } from 'lucide-react';
 
 const SERVICE_MENU = [
+  {
+    title: 'Training & Placements',
+    path: '/training',
+    items: [
+      { label: '--- AICTE ---', path: '/training/aicte', isHeader: true },
+      { label: 'Diploma Courses', path: '/training/aicte' },
+      { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
+      
+      { label: '--- Long Term ---', path: '/training/post-graduate-post-diploma', isHeader: true },
+      { label: 'PG / Post Diploma Courses', path: '/training/post-graduate-post-diploma' },
+      
+      { label: '--- Short / Medium Term ---', path: '/training/short-term-courses', isHeader: true },
+      { label: 'Certificate Courses', path: '/training/short-term-courses' },
+      { label: 'Online Training (Live)', path: '/training/online-training' },
+
+      { label: '--- Weekend Programs ---', path: '/training/professional-courses', isHeader: true },
+      { label: 'Professional Workshops', path: '/training/professional-courses' },
+
+      { label: '--- Featured Courses ---', path: '/training', isHeader: true },
+      { label: 'ANSYS (FEA)', path: '/courses/mechanical-courses/ansys' },
+      { label: 'Unigraphics (NX)', path: '/courses/mechanical-courses/unigraphics' },
+      { label: 'AutoCAD Mechanical', path: '/courses/mechanical-courses/autocad' },
+      { label: 'AR / VR & Graphics', path: '/courses/animation/arvr' },
+      { label: 'UX / UI Design', path: '/uxui' },
+
+      { label: '--- Jobs / Placement ---', path: '/training/job-openings', isHeader: true },
+      { label: 'Job Openings', path: '/training/job-openings' },
+      { label: 'Job Fair', path: '/jobfair' },
+      { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
+      { label: 'Alumni Registration', path: '/alumni-registration' },
+    ]
+  },
   {
     title: 'Tool Room Services',
     path: '/services/tool-room',
@@ -46,26 +78,15 @@ const SERVICE_MENU = [
       { label: 'Monoblock Pumpset Testing', path: '/services/testing/monoblock_pumpset' },
       { label: 'Centrifugal Pump Testing', path: '/services/testing/centrifugal_pump' },
       { label: 'Steam Boiler / LOCA Test Facility', path: '/services/testing/loca-test-facility' },
-      { label: 'TEC - Accreditation', path: `/view-document?url=https://idemi.org/assets/uploads/TEC%20accreditation.pdf&title=TEC Accreditation` },
-      { label: 'TEC - Test Fees Schedule', path: `/view-document?url=https://idemi.org/assets/uploads/TEC%20-%20Test%20Fee%20Schedule.pdf&title=TEC Test Fees Schedule` },
     ]
   },
   {
-    title: 'Training & Placements',
-    path: '/training',
+    title: 'Design & Development',
+    path: '/services/design-development',
     items: [
-      { label: 'Introduction', path: '/training/introduction' },
-      { label: 'Online Training Courses', path: '/training/online-training' },
-      { label: 'Long Term Courses', path: '/training/post-graduate-post-diploma' },
-      { label: 'AICTE Approved Diploma Courses', path: '/training/aicte' },
-      { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
-      { label: 'Short / Medium Term Courses', path: '/training/short-term-courses' },
-      { label: 'Professional Courses', path: '/training/professional-courses' },
-      { label: 'Job Openings', path: '/training/job-openings' },
-      { label: 'Job Fair', path: '/jobfair' },
-      { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
-      { label: 'Alumni Registration', path: '/alumni-registration' },
-      { label: 'Student Registration', path: '/student-registration' },
+        { label: 'R&D Projects', path: '/services/design-development' },
+        { label: 'SMT Assembly', path: '/services/design-development/smt-assembly' },
+        { label: "Tech X'fer", path: '/services/design-development/techtransfer' },
     ]
   },
   {
@@ -76,16 +97,6 @@ const SERVICE_MENU = [
         { label: 'Bangalore Centre', path: '/extension-centre/bangalore' },
         { label: 'Sakinaka Sub-Centre', path: '/extension-centre/sakinaka' },
     ]
-  },
-  {
-    title: 'Design & Development Services',
-    path: '/services/design-development',
-    items: [
-        { label: 'R&D Projects', path: '/services/design-development' },
-        { label: 'SMT Assembly', path: '/services/design-development/smt-assembly' },
-        { label: 'Professional Training', path: '/training/professional-courses#dnd' },
-        { label: "Tech X'fer", path: '/services/design-development/techtransfer' },
-    ]
   }
 ];
 
@@ -94,11 +105,8 @@ const ServiceSidebar: React.FC = () => {
   const currentPath = location.pathname;
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  // Helper to check if a path matches the current location
   const isPathActive = (path: string) => {
     if (path.startsWith('http')) return false;
-    // Exact match required to prevent parent paths (e.g. /services/calibration)
-    // from matching child paths (e.g. /services/calibration/thermal)
     return currentPath === path;
   };
 
@@ -113,7 +121,7 @@ const ServiceSidebar: React.FC = () => {
       >
         <div className="flex items-center gap-2 font-bold text-gray-900 dark:text-white">
             <Menu size={20} className="text-primary dark:text-blue-400" />
-            <span>Service Categories</span>
+            <span>Navigation Menu</span>
         </div>
         {isMobileOpen ? <ChevronUp size={20} className="text-gray-500" /> : <ChevronDown size={20} className="text-gray-500" />}
       </button>
@@ -121,10 +129,9 @@ const ServiceSidebar: React.FC = () => {
       {/* Sidebar Content */}
       <div id="service-sidebar-content" className={`${isMobileOpen ? 'block' : 'hidden'} lg:block space-y-8 animate-fade-in`}>
         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700">
-          <h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">Service Categories</h3>
+          <h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">Categories</h3>
           <div className="space-y-4">
             {SERVICE_MENU.map((group, idx) => {
-              // Check if any child is active to expand the group
               const isGroupActive = 
                   isPathActive(group.path) || 
                   group.items.some(item => isPathActive(item.path));
@@ -146,7 +153,15 @@ const ServiceSidebar: React.FC = () => {
                   {/* Submenu */}
                   {isGroupActive && (
                     <div className="pl-3 ml-3 border-l-2 border-gray-200 dark:border-gray-700 space-y-1 mt-1">
-                      {group.items.map((item, subIdx) => {
+                      {group.items.map((item: any, subIdx) => {
+                          if (item.isHeader) {
+                              return (
+                                  <div key={subIdx} className="px-3 pt-3 pb-1 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
+                                      {item.label.replace(/---/g, '').trim()}
+                                  </div>
+                              );
+                          }
+
                           const isExternal = item.path.startsWith('http');
                           const linkProps = isExternal ? { href: item.path, target: "_blank", rel: "noopener noreferrer" } : { to: item.path };
                           const LinkComponent = isExternal ? 'a' : Link;
@@ -175,10 +190,10 @@ const ServiceSidebar: React.FC = () => {
         </div>
 
         <div className="bg-secondary text-white p-6 rounded-xl shadow-xl border border-secondary/20 hover:shadow-2xl transition-shadow">
-          <h3 className="font-bold text-lg mb-2 text-shadow-sm">Need Assistance?</h3>
-          <p className="text-sm opacity-90 mb-4 text-shadow-sm">Our experts are here to help you choose the right service.</p>
-          <Link to="/contact" className="block w-full text-center bg-white text-secondary font-bold py-2 rounded hover:bg-gray-100 transition transform hover:scale-[1.02] active:scale-[0.98] shadow-md">
-              Contact Us
+          <h3 className="font-bold text-lg mb-2 text-shadow-sm">Need Help?</h3>
+          <p className="text-sm opacity-90 mb-4 text-shadow-sm">Our team is available for counseling and guidance.</p>
+          <Link to="/training/enquiry" className="block w-full text-center bg-white text-secondary font-bold py-2 rounded hover:bg-gray-100 transition transform hover:scale-[1.02] active:scale-[0.98] shadow-md">
+              Training Helpdesk
           </Link>
         </div>
       </div>
