@@ -90,7 +90,6 @@ const SERVICE_MENU = [
     items: [
         { label: 'Centres Overview', path: '/extensions' },
         { label: 'Bangalore Centre', path: '/extension-centre/bangalore' },
-        { label: 'Nagpur Centre', path: '/extension-centre/nagpur' },
         { label: 'Sakinaka Sub-Centre', path: '/extension-centre/sakinaka' },
     ]
   },

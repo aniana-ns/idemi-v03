@@ -145,9 +145,8 @@ export const SEARCH_INDEX: SearchItem[] = [
   { title: 'MeitY ESDM Scheme', path: '/meity/dashboard', type: 'Scheme', desc: 'Skill development in ESDM sector.' },
 
   // --- EXTENSION CENTRES ---
-  { title: 'Extension Centres', path: '/extensions', type: 'Page', desc: 'Bangalore, Nagpur, and Sakinaka centres.' },
+  { title: 'Extension Centres', path: '/extensions', type: 'Page', desc: 'Bangalore and Sakinaka centres.' },
   { title: 'Bangalore Extension Centre', path: '/extension-centre/bangalore', type: 'Page', desc: 'IDEMI centre in Rajajinagar, Bangalore.' },
-  { title: 'Nagpur Extension Centre', path: '/extension-centre/nagpur', type: 'Page', desc: 'IDEMI centre in MIDC, Nagpur.' },
   { title: 'Sakinaka Sub-Centre', path: '/extension-centre/sakinaka', type: 'Page', desc: 'IDEMI centre in Andheri, Mumbai.' },
 
   // --- INFO & PAGES ---

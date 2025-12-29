@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, MapPin, Phone, ExternalLink } from 'lucide-react';
@@ -22,14 +21,6 @@ const CENTRES = [
     desc: "Located in the industrial heart of Andheri, focusing on supporting local manufacturing units with quick-turnaround testing.",
     address: "Andheri-Kurla Road, Sakinaka, Mumbai - 400072",
     phone: "022-28520301"
-  },
-  {
-    slug: 'nagpur',
-    name: "Extension Centre - Nagpur",
-    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80",
-    desc: "Providing technical support, training, and consultancy to industries in the Vidarbha region.",
-    address: "MIDC Industrial Area, Nagpur",
-    phone: "0712-2222222"
   }
 ];
 
@@ -40,7 +31,7 @@ const ExtensionCentres: React.FC = () => {
       <SEO 
         seo={{ 
           title: 'Extension Centres | IDEMI', 
-          description: 'IDEMI Extension Centres in Bangalore, Sakinaka, and Nagpur providing local testing and training services.' 
+          description: 'IDEMI Extension Centres in Bangalore and Sakinaka providing local testing and training services.' 
         }} 
         path="/extensions" 
       />

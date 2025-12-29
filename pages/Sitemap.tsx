@@ -145,7 +145,6 @@ const SITEMAP_DATA = [
     links: [
       { label: 'Extension Centres Overview', path: '/extensions' },
       { label: 'Bangalore Extension', path: '/extension-centre/bangalore' },
-      { label: 'Nagpur Extension', path: '/extension-centre/nagpur' },
       { label: 'Sakinaka Sub-Centre', path: '/extension-centre/sakinaka' },
     ]
   },

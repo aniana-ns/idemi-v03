@@ -56,7 +56,6 @@ const QualityPolicyISO = lazy(() => import('./pages/QualityPolicyISO'));
 
 // Extension Centres
 const BangaloreExtension = lazy(() => import('./pages/BangaloreExtension'));
-const NagpurExtension = lazy(() => import('./pages/NagpurExtension'));
 const SakinakaExtension = lazy(() => import('./pages/SakinakaExtension'));
 
 // Training Pages
@@ -194,7 +193,6 @@ const App: React.FC = () => {
                 
                 <Route path="/extensions" element={<ExtensionCentres />} />
                 <Route path="/extension-centre/bangalore" element={<BangaloreExtension />} />
-                <Route path="/extension-centre/nagpur" element={<NagpurExtension />} />
                 <Route path="/extension-centre/sakinaka" element={<SakinakaExtension />} />
 
                 {/* --- CERTIFICATES --- */}
