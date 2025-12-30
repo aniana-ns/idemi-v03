@@ -292,9 +292,9 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
             </button>
           )}
 
-          {hasChildren && isOpen && (
+          {hasChildren && (
             isMega ? (
-                 <div id={uniqueId} className="absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-xl border-t border-gray-200 dark:border-gray-800 animate-fade-in z-50">
+                 <div id={uniqueId} className={`absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-xl border-t border-gray-200 dark:border-gray-800 transition-all duration-300 z-50 ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2 pointer-events-none'}`}>
                     <div className="container mx-auto px-4 py-6">
                         <div className="grid grid-cols-4 gap-8" role="menu">
                             {item.children!.map((col, idx) => (
@@ -315,7 +315,7 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
                     </div>
                  </div>
             ) : (
-                <div id={uniqueId} className="absolute top-full left-0 w-72 bg-white dark:bg-gray-800 shadow-xl rounded-md py-2 animate-fade-in z-50 border border-gray-200 dark:border-gray-700 text-left ring-1 ring-black ring-opacity-5" role="menu">
+                <div id={uniqueId} className={`absolute top-full left-0 w-72 bg-white dark:bg-gray-800 shadow-xl rounded-md py-2 transition-all duration-300 z-50 border border-gray-200 dark:border-gray-700 text-left ring-1 ring-black ring-opacity-5 ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2 pointer-events-none'}`} role="menu">
                     {item.children!.map((child, idx) => (
                         <div key={idx} role="none">
                           <NavItem item={child} depth={depth + 1} />
@@ -364,8 +364,8 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
            </button>
         )}
 
-        {hasChildren && isOpen && (
-           <div id={uniqueId} className="absolute top-0 left-full w-72 bg-white dark:bg-gray-800 shadow-xl rounded-md py-2 animate-fade-in z-50 border border-gray-200 dark:border-gray-700 -ml-1 text-left ring-1 ring-black ring-opacity-5" role="menu">
+        {hasChildren && (
+           <div id={uniqueId} className={`absolute top-0 left-full w-72 bg-white dark:bg-gray-800 shadow-xl rounded-md py-2 transition-all duration-300 z-50 border border-gray-200 dark:border-gray-700 -ml-1 text-left ring-1 ring-black ring-opacity-5 ${isOpen ? 'opacity-100 visible translate-x-0' : 'opacity-0 invisible -translate-x-2 pointer-events-none'}`} role="menu">
              {item.children!.map((child, idx) => (
                <div key={idx} role="none">
                 <NavItem item={child} depth={depth + 1} />
@@ -589,10 +589,10 @@ const Header: React.FC = () => {
         </div>
 
         <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-[101] relative border-b border-gray-200 dark:border-gray-800">
-            <div className="container mx-auto px-4 py-1 sm:py-1.5 lg:py-2">
+            <div className="container mx-auto px-4 py-1.5 sm:py-2 lg:py-3">
                 {/* Desktop Header Content (Symmetric Dual Logos) */}
                 <div className="hidden sm:flex items-center justify-between gap-4 md:gap-6 lg:gap-8">
-                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Logo Left - Go to home">
+                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Left Logo - Go to home">
                         <img 
                             src="https://idemi.org/assets/TechTransfer/logo1.png" 
                             alt="IDEMI Left Logo" 
@@ -600,11 +600,11 @@ const Header: React.FC = () => {
                         />
                     </Link>
 
-                    <Link to="/" className="flex-1 text-center px-2 hover:opacity-90 transition-opacity focus:outline-none block" aria-label="IDEMI - Institute for Design of Electrical Measuring Instruments">
-                        <h1 className="font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl uppercase leading-tight text-[#1e3a8a] dark:text-white mb-1.5 tracking-tight drop-shadow-sm w-full notranslate">
+                    <Link to="/" className="flex-1 text-center px-2 hover:opacity-90 transition-opacity focus:outline-none block notranslate" aria-label="IDEMI - Institute for Design of Electrical Measuring Instruments">
+                        <h1 className="font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl uppercase leading-tight text-[#1e3a8a] dark:text-white mb-1.5 tracking-tight drop-shadow-sm w-full">
                             Institute for Design of Electrical Measuring Instruments
                         </h1>
-                        <div className="flex flex-col gap-1 sm:gap-1.5 font-black uppercase tracking-wide leading-tight notranslate">
+                        <div className="flex flex-col gap-1 sm:gap-1.5 font-black uppercase tracking-wide leading-tight">
                             <p className="text-[10px] sm:text-xs md:text-sm lg:text-base">
                                 <span className="text-[#1e3a8a] dark:text-blue-300">Ministry of Micro, Small and Medium Enterprises</span>
                                 <span className="text-gray-400 mx-2" aria-hidden="true">||</span>
@@ -618,7 +618,7 @@ const Header: React.FC = () => {
                         </div>
                     </Link>
 
-                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Logo Right - Go to home">
+                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Right Logo - Go to home">
                         <img 
                             src="https://idemi.org/assets/TechTransfer/logo2.png" 
                             alt="IDEMI Right Logo" 
@@ -629,9 +629,9 @@ const Header: React.FC = () => {
 
                 {/* Mobile Header Content */}
                 <div className="sm:hidden flex justify-between items-center">
-                    <Link to="/" className="flex items-center gap-3 focus:outline-none group" aria-label="IDEMI Home">
-                        <img src="https://idemi.org/assets/TechTransfer/logo1.png" alt="IDEMI Logo" className="h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
-                        <div className="leading-tight notranslate">
+                    <Link to="/" className="flex items-center gap-3 focus:outline-none group notranslate" aria-label="IDEMI Home">
+                        <img src="https://idemi.org/assets/TechTransfer/logo1.png" alt="IDEMI Left Logo" className="h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
+                        <div className="leading-tight">
                             <h1 className="font-bold text-[11px] leading-tight text-[#1e3a8a] dark:text-white uppercase tracking-tight mb-0.5">
                                 Institute for Design of Electrical Measuring Instruments
                             </h1>
@@ -790,7 +790,6 @@ const Header: React.FC = () => {
         <div id="search-panel" className={`absolute top-full left-0 w-full bg-white/95 dark:bg-gray-955 backdrop-blur-md shadow-2xl border-t border-gray-200 dark:border-gray-800 transition-all duration-300 origin-top ${isSearchOpen ? 'opacity-100 visible scale-y-100' : 'opacity-0 invisible scale-y-0'} z-[99]`}>
             <div className="container mx-auto px-4 py-4 md:py-6">
             <form onSubmit={handleSearch} className="relative max-w-4xl mx-auto group" role="search">
-                {/* Glowing Background Effect for AI Feel */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 rounded-full blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="relative flex items-center bg-white dark:bg-gray-900 rounded-full border border-gray-200 dark:border-gray-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] group-focus-within:border-primary/50 group-focus-within:shadow-[0_10px_50px_-12px_rgba(30,58,138,0.3)] transition-all p-1 pr-2">
