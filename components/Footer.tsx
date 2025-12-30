@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Facebook, Twitter, Linkedin, Users, Instagram, Loader2 } from 'lucide-react';
 import { CONTACT_INFO } from '../constants';
+import CountUp from './CountUp';
 
 const Footer: React.FC = () => {
   const [visitorCount, setVisitorCount] = useState<number | null>(null);
@@ -138,7 +138,7 @@ const Footer: React.FC = () => {
                     <Loader2 size={14} className="animate-spin text-slate-400" aria-hidden="true" />
                 ) : (
                     <span className="text-white font-mono text-base font-bold tracking-tighter drop-shadow-md">
-                        {visitorCount?.toLocaleString()}
+                        <CountUp end={visitorCount || 0} duration={2500} />
                     </span>
                 )}
             </div>
