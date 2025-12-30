@@ -234,7 +234,19 @@ const StudentRegistration: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files: selectedFiles } = e.target;
     if (selectedFiles && selectedFiles[0]) {
-      setFiles(prev => ({ ...prev, [name]: selectedFiles[0] }));
+      const file = selectedFiles[0];
+      // Check size (max 5MB for FormSubmit)
+      if (file.size > 5 * 1024 * 1024) {
+          alert("File is too large. Max size allowed is 5MB.");
+          e.target.value = ''; // clear input
+          return;
+      }
+      setFiles(prev => ({ ...prev, [name]: file }));
+      setFormErrors(prev => {
+          const newErrors = { ...prev };
+          delete newErrors[name];
+          return newErrors;
+      });
     }
   };
 
@@ -274,7 +286,7 @@ const StudentRegistration: React.FC = () => {
         }
     }
 
-    // Simple file requirements check
+    // File requirements check
     if (!files.aadharCard) { newErrors.aadharCard = "Aadhar Card is required"; isValid = false; }
     if (!files.educationCertificate) { newErrors.educationCertificate = "Education Certificate is required"; isValid = false; }
 
@@ -301,30 +313,38 @@ const StudentRegistration: React.FC = () => {
     const TARGET_EMAIL = 'anians.890@gmail.com';
     const ENDPOINT = `https://formsubmit.co/ajax/${TARGET_EMAIL}`;
 
-    // For files, we MUST use FormData
+    // For files, we MUST use FormData and not set manual headers for Content-Type
     const submissionData = new FormData();
     submissionData.append('_subject', `New Student Registration: ${formData.fullname}`);
     submissionData.append('_template', 'table');
     submissionData.append('_captcha', 'false');
 
+    // Add all text fields
     Object.entries(formData).forEach(([key, value]) => {
         submissionData.append(key.toUpperCase(), value);
     });
 
-    if (files.aadharCard) submissionData.append('AADHAR_CARD_FILE', files.aadharCard);
-    if (files.educationCertificate) submissionData.append('EDUCATION_CERTIFICATE_FILE', files.educationCertificate);
-    if (files.casteCertificate) submissionData.append('CASTE_CERTIFICATE_FILE', files.casteCertificate);
+    // Add files with explicit names
+    if (files.aadharCard) {
+        submissionData.append('AADHAR_CARD', files.aadharCard, files.aadharCard.name);
+    }
+    if (files.educationCertificate) {
+        submissionData.append('EDUCATION_CERTIFICATE', files.educationCertificate, files.educationCertificate.name);
+    }
+    if (files.casteCertificate) {
+        submissionData.append('CASTE_CERTIFICATE', files.casteCertificate, files.casteCertificate.name);
+    }
 
     try {
         const response = await fetch(ENDPOINT, {
             method: 'POST',
-            // Do NOT set Content-Type header when sending FormData, the browser will set it automatically with the boundary
+            // IMPORTANT: Browser automatically sets multipart/form-data + boundary when body is FormData
             body: submissionData
         });
 
         const result = await response.json();
 
-        if (response.ok) {
+        if (response.ok && result.success === "true") {
             setStatus('success');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
@@ -423,7 +443,7 @@ const StudentRegistration: React.FC = () => {
                             value={formData.coursename}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className={`w-full px-4 py-3 rounded-lg border ${formErrors.coursename ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition appearance-none`}
+                            className={`w-full px-4 py-3 rounded-lg border ${formErrors.coursename ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition appearance-none`}
                         >
                             <option value="">Select Course</option>
                             {COURSE_DATA.map((group, idx) => (
@@ -455,7 +475,7 @@ const StudentRegistration: React.FC = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             maxLength={50}
-                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.fullname ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.fullname ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                             placeholder="As per documents"
                             />
                         </div>
@@ -463,7 +483,7 @@ const StudentRegistration: React.FC = () => {
                       </div>
 
                       <div>
-                        <label htmlFor="aadharNumber" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Aadhar Number</label>
+                        <label htmlFor="aadharNumber" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Aadhar Number (Optional)</label>
                         <div className="relative">
                             <Hash size={18} className="absolute left-3 top-3.5 text-gray-400" />
                             <input
@@ -474,7 +494,7 @@ const StudentRegistration: React.FC = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             maxLength={12}
-                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.aadharNumber ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.aadharNumber ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                             placeholder="12 digit number"
                             />
                         </div>
@@ -512,7 +532,7 @@ const StudentRegistration: React.FC = () => {
                             value={formData.dateofbirth}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.dateofbirth ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.dateofbirth ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                             />
                         </div>
                         {formErrors.dateofbirth && <p className="text-red-500 text-xs mt-1 flex items-center gap-1 error-message animate-fade-in"><AlertCircle size={12}/> {formErrors.dateofbirth}</p>}
@@ -533,7 +553,7 @@ const StudentRegistration: React.FC = () => {
                             onBlur={handleBlur}
                             maxLength={10}
                             placeholder="10 digit number"
-                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.mobilenumber ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.mobilenumber ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                             />
                         </div>
                         {formErrors.mobilenumber && <p className="text-red-500 text-xs mt-1 flex items-center gap-1 error-message animate-fade-in"><AlertCircle size={12}/> {formErrors.mobilenumber}</p>}
@@ -552,7 +572,7 @@ const StudentRegistration: React.FC = () => {
                             onBlur={handleBlur}
                             maxLength={50}
                             placeholder="student@example.com"
-                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.emailid ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.emailid ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                             />
                         </div>
                         {formErrors.emailid && <p className="text-red-500 text-xs mt-1 flex items-center gap-1 error-message animate-fade-in"><AlertCircle size={12}/> {formErrors.emailid}</p>}
@@ -611,7 +631,7 @@ const StudentRegistration: React.FC = () => {
                         <Upload size={20} className="text-primary dark:text-blue-400" />
                         Document Upload
                       </h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Please upload clear copies of your documents. Max size: 2MB per file.</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Please upload clear copies of your documents. Max size: 5MB per file.</p>
                       
                       <div className="grid md:grid-cols-3 gap-6">
                           <div>
@@ -708,7 +728,7 @@ const StudentRegistration: React.FC = () => {
                         onBlur={handleBlur}
                         maxLength={120}
                         rows={3}
-                        className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.address ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                        className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.address ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                         placeholder="Max 120 characters"
                         ></textarea>
                     </div>
