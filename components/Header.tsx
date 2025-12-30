@@ -733,7 +733,7 @@ const Header: React.FC = () => {
             <ChevronDown size={14} className={`transition-transform duration-300 ${isCertInfoOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
             </button>
 
-            <div className={`${isCertInfoOpen ? 'flex py-1.5 opacity-100 visible' : 'hidden'} md:flex container mx-auto px-4 flex-wrap justify-center gap-x-6 gap-y-1 text-[8px] md:text-[9.5px] text-gray-600 dark:text-gray-400 font-bold py-1.5 transition-all duration-300`}>
+            <div className={`${isCertInfoOpen ? 'flex py-1.5 opacity-100 visible' : 'hidden'} md:flex container mx-auto px-4 flex-wrap justify-center gap-x-6 gap-y-1 text-[8px] md:text-[12px] text-gray-600 dark:text-gray-400 font-bold py-1.5 transition-all duration-300`}>
                 <Link to="/ISO-9001-2015-Certificate" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ISO 9001:2015</Link>
                 <span className="hidden sm:inline text-gray-300 dark:text-gray-600" aria-hidden="true">•</span>
                 
