@@ -1,4 +1,3 @@
-
 export interface ServiceItem {
   id: string;
   title: string;
@@ -112,7 +111,6 @@ export interface ExtensionCentreData {
 export interface SearchItem {
   title: string;
   path: string;
-  type: 'Service' | 'Training' | 'Page' | 'Download' | 'Person' | 'Facility' | 'Scheme' | 'News';
+  type: 'Service' | 'Training' | 'Page' | 'Download' | 'Person' | 'Facility' | 'News';
   desc: string;
 }
-
