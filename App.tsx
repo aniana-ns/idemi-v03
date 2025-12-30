@@ -1,3 +1,4 @@
+
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
@@ -64,7 +65,6 @@ const ShortTermCourses = lazy(() => import('./pages/ShortTermCourses'));
 const ProfessionalCourses = lazy(() => import('./pages/ProfessionalCourses'));
 const OnlineTraining = lazy(() => import('./pages/OnlineTraining'));
 const LongTermCourses = lazy(() => import('./pages/LongTermCourses'));
-const TrainingIntroduction = lazy(() => import('./pages/TrainingIntroduction'));
 const AnsysTraining = lazy(() => import('./pages/AnsysTraining'));
 const UnigraphicsTraining = lazy(() => import('./pages/UnigraphicsTraining'));
 const AutoCADTraining = lazy(() => import('./pages/AutoCADTraining'));
@@ -147,6 +147,7 @@ const App: React.FC = () => {
                 <Route path="/newsletter" element={<Newsletter />} />
 
                 {/* --- REDIRECTS FOR HIERARCHY --- */}
+                <Route path="/training/introduction" element={<Navigate to="/training" replace />} />
                 <Route path="/services/training" element={<Navigate to="/training" replace />} />
                 <Route path="/downloads" element={<Navigate to="/downloads/active-tenders" replace />} />
                 <Route path="/courses" element={<Navigate to="/training" replace />} />
@@ -227,7 +228,6 @@ const App: React.FC = () => {
                 <Route path="/services/design-development/techtransfer" element={<TechTransfer />} />
 
                 {/* --- TRAINING --- */}
-                <Route path="/training/introduction" element={<TrainingIntroduction />} />
                 <Route path="/training/aicte" element={<AICTECourses />} />
                 <Route path="/training/aicte/schedule" element={<AICTESchedule />} />
                 <Route path="/training/short-term-courses" element={<ShortTermCourses />} />

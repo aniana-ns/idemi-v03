@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -101,8 +102,7 @@ const SITEMAP_DATA = [
     category: 'Training Programs',
     icon: <GraduationCap className="text-indigo-500" size={20} />,
     links: [
-      { label: 'Training Introduction', path: '/training/introduction' },
-      { label: 'All Courses Overview', path: '/training' },
+      { label: 'Consolidated Training Portal', path: '/training' },
       { label: 'AICTE Diploma Courses', path: '/training/aicte' },
       { label: 'Admission Schedule 2025', path: '/training/aicte/schedule' },
       { label: 'Short Term Courses', path: '/training/short-term-courses' },

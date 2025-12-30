@@ -66,6 +66,7 @@ const MENU_ITEMS: MenuItem[] = [
       {
         label: 'Training Services',
         children: [
+          { label: 'Overview', path: '/training' },
           { label: 'AICTE Approved Diploma', path: '/training/aicte' },
           { label: 'PG / Post Diploma', path: '/training/post-graduate-post-diploma' },
           { label: 'Short / Medium Term', path: '/training/short-term-courses' },
@@ -126,6 +127,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     label: 'Training / Courses',
     children: [
+      { label: 'Training Overview', path: '/training' },
       { label: 'Student Registration', path: '/student-registration' },
       { 
           label: 'AICTE',

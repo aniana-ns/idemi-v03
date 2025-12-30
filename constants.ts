@@ -1,3 +1,4 @@
+
 import { SearchItem } from './types';
 
 // Google reCAPTCHA v2 Test Key (Always validates for testing purposes)
@@ -139,7 +140,7 @@ export const SEARCH_INDEX: SearchItem[] = [
   { title: 'Tool Room Infrastructure', path: '/services/tool-room-infrastructure', type: 'Facility', desc: 'List of CNC milling, Lathe, and EDM machinery available at IDEMI.' },
 
   // --- TRAINING & EDUCATION ---
-  { title: 'Training Introduction', path: '/training/introduction', type: 'Page', desc: 'Overview of IDEMI Training Division and skill development goals.' },
+  { title: 'Training Portal', path: '/training', type: 'Page', desc: 'Overview of IDEMI Training Division and vocational skill development goals.' },
   { title: 'AICTE Diploma Courses', path: '/training/aicte', type: 'Training', desc: 'Full-time diplomas in Tool & Die Making, Mechatronics, and 3D Animation.' },
   { title: 'Admission Schedule 2025', path: '/training/aicte/schedule', type: 'Page', desc: 'Merit list dates and counseling schedule for AICTE courses.' },
   { title: 'PG / Post Diploma Courses', path: '/training/post-graduate-post-diploma', type: 'Training', desc: 'Advanced NSQF Level 8 courses for Engineering graduates.' },
