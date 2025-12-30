@@ -8,8 +8,8 @@ const Footer: React.FC = () => {
   const [visitorCount, setVisitorCount] = useState<number | null>(null);
   const [isLoadingCount, setIsLoadingCount] = useState(true);
 
-  const socialLinkClass = "p-2 bg-slate-800 rounded hover:bg-secondary transition focus:outline-none text-white";
-  const footerLinkClass = "hover:text-secondary transition flex items-center gap-2 focus:outline-none rounded px-1 -ml-1";
+  const socialLinkClass = "p-2 bg-slate-800 rounded hover:bg-secondary transition focus:outline-none focus:ring-2 focus:ring-white text-white";
+  const footerLinkClass = "hover:text-secondary transition flex items-center gap-2 focus:outline-none focus:ring-1 focus:ring-secondary rounded px-1 -ml-1";
 
   // Dynamic Visitor Counter Logic
   useEffect(() => {
@@ -47,17 +47,17 @@ const Footer: React.FC = () => {
             <p className="text-sm leading-relaxed mb-6">
               A Government of India Society under Ministry of MSME. We provide services in Calibration, Testing, Training, and Tool Manufacturing to support the growth of Indian Industry.
             </p>
-            <div className="flex gap-4" role="list" aria-label="Social media links">
-              <a href="https://www.facebook.com/IDEMIMumbai/" target="_blank" rel="noopener noreferrer" className={socialLinkClass} aria-label="Visit our Facebook page">
+            <div className="flex gap-4" role="list" aria-label="Social media profiles">
+              <a href="https://www.facebook.com/IDEMIMumbai/" target="_blank" rel="noopener noreferrer" className={socialLinkClass} aria-label="Visit IDEMI Mumbai Facebook page" role="listitem">
                 <Facebook size={18} aria-hidden="true" />
               </a>
-              <a href="https://twitter.com/idemimumbai" target="_blank" rel="noopener noreferrer" className={socialLinkClass} aria-label="Visit our Twitter profile">
+              <a href="https://twitter.com/idemimumbai" target="_blank" rel="noopener noreferrer" className={socialLinkClass} aria-label="Visit IDEMI Mumbai Twitter profile" role="listitem">
                 <Twitter size={18} aria-hidden="true" />
               </a>
-              <a href="https://www.linkedin.com/company/idemi-mumbai" target="_blank" rel="noopener noreferrer" className={socialLinkClass} aria-label="Visit our LinkedIn page">
+              <a href="https://www.linkedin.com/company/idemi-mumbai" target="_blank" rel="noopener noreferrer" className={socialLinkClass} aria-label="Visit IDEMI Mumbai LinkedIn page" role="listitem">
                 <Linkedin size={18} aria-hidden="true" />
               </a>
-              <a href="https://www.instagram.com/idemi_mumbai/" target="_blank" rel="noopener noreferrer" className={socialLinkClass} aria-label="Visit our Instagram profile">
+              <a href="https://www.instagram.com/idemi_mumbai/" target="_blank" rel="noopener noreferrer" className={socialLinkClass} aria-label="Visit IDEMI Mumbai Instagram profile" role="listitem">
                 <Instagram size={18} aria-hidden="true" />
               </a>
             </div>
@@ -66,15 +66,15 @@ const Footer: React.FC = () => {
           {/* Column 2: Quick Links */}
           <div>
             <h3 className="text-white text-xl font-bold mb-4">Quick Links</h3>
-            <nav aria-label="Footer Quick Links">
-              <ul className="space-y-3 text-sm">
-                <li><Link to="/" className={footerLinkClass}>Home</Link></li>
-                <li><Link to="/about" className={footerLinkClass}>About Us</Link></li>
-                <li><Link to="/services" className={footerLinkClass}>Our Services</Link></li>
-                <li><Link to="/training" className={footerLinkClass}>Training Programs</Link></li>
-                <li><Link to="/contact" className={footerLinkClass}>Contact Us</Link></li>
-                <li><Link to="/newsletter" className={footerLinkClass}>Newsletter</Link></li>
-                <li><Link to="/sitemap" className={footerLinkClass}>Sitemap</Link></li>
+            <nav aria-label="Footer navigation secondary">
+              <ul className="space-y-3 text-sm" role="list">
+                <li role="listitem"><Link to="/" className={footerLinkClass}>Home</Link></li>
+                <li role="listitem"><Link to="/about" className={footerLinkClass}>About Us</Link></li>
+                <li role="listitem"><Link to="/services" className={footerLinkClass}>Our Services</Link></li>
+                <li role="listitem"><Link to="/training" className={footerLinkClass}>Training Programs</Link></li>
+                <li role="listitem"><Link to="/contact" className={footerLinkClass}>Contact Us</Link></li>
+                <li role="listitem"><Link to="/newsletter" className={footerLinkClass}>Newsletter</Link></li>
+                <li role="listitem"><Link to="/sitemap" className={footerLinkClass}>Sitemap</Link></li>
               </ul>
             </nav>
           </div>
@@ -82,12 +82,12 @@ const Footer: React.FC = () => {
           {/* Column 3: Services */}
           <div>
             <h3 className="text-white text-xl font-bold mb-4">Our Core Services</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-2"><span aria-hidden="true">•</span> Electrical Calibration</li>
-              <li className="flex items-center gap-2"><span aria-hidden="true">•</span> Mechanical Testing</li>
-              <li className="flex items-center gap-2"><span aria-hidden="true">•</span> Product Design (CAD)</li>
-              <li className="flex items-center gap-2"><span aria-hidden="true">•</span> 3D Prototyping</li>
-              <li className="flex items-center gap-2"><span aria-hidden="true">•</span> Skill Development</li>
+            <ul className="space-y-3 text-sm" role="list" aria-label="List of core services offered">
+              <li className="flex items-center gap-2" role="listitem"><span aria-hidden="true">•</span> Electrical Calibration</li>
+              <li className="flex items-center gap-2" role="listitem"><span aria-hidden="true">•</span> Mechanical Testing</li>
+              <li className="flex items-center gap-2" role="listitem"><span aria-hidden="true">•</span> Product Design (CAD)</li>
+              <li className="flex items-center gap-2" role="listitem"><span aria-hidden="true">•</span> 3D Prototyping</li>
+              <li className="flex items-center gap-2" role="listitem"><span aria-hidden="true">•</span> Skill Development</li>
             </ul>
           </div>
 
@@ -97,15 +97,18 @@ const Footer: React.FC = () => {
             <address className="not-italic space-y-4 text-sm">
               <div className="flex items-start gap-3">
                 <MapPin className="text-secondary shrink-0" size={20} aria-hidden="true" />
+                <span className="sr-only">Address:</span>
                 <span>{CONTACT_INFO.address}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="text-secondary shrink-0" size={20} aria-hidden="true" />
-                <a href={`tel:${CONTACT_INFO.phone.split('/')[0].trim()}`} className={footerLinkClass}>{CONTACT_INFO.phone}</a>
+                <span className="sr-only">Phone Number:</span>
+                <a href={`tel:${CONTACT_INFO.phone.split('/')[0].trim()}`} className={footerLinkClass} aria-label={`Call us at ${CONTACT_INFO.phone}`}>{CONTACT_INFO.phone}</a>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="text-secondary shrink-0" size={20} aria-hidden="true" />
-                <a href={`mailto:${CONTACT_INFO.email}`} className={footerLinkClass}>{CONTACT_INFO.email}</a>
+                <span className="sr-only">Email:</span>
+                <a href={`mailto:${CONTACT_INFO.email}`} className={footerLinkClass} aria-label={`Email us at ${CONTACT_INFO.email}`}>{CONTACT_INFO.email}</a>
               </div>
             </address>
           </div>
@@ -119,7 +122,7 @@ const Footer: React.FC = () => {
             className="flex items-center gap-3 bg-white/10 dark:bg-slate-800/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/20 dark:border-slate-700 shadow-xl group hover:border-secondary transition-all"
             role="status"
             aria-live="polite"
-            aria-label="Website Visitor Counter"
+            aria-label="Website total visitor count"
           >
             <div className="relative">
                 <Users size={16} className="text-secondary shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
@@ -132,7 +135,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center gap-2">
                 <span className="text-slate-100 dark:text-slate-300 text-[11px] font-black uppercase tracking-wider whitespace-nowrap">Total Visitors:</span>
                 {isLoadingCount ? (
-                    <Loader2 size={14} className="animate-spin text-slate-400" />
+                    <Loader2 size={14} className="animate-spin text-slate-400" aria-hidden="true" />
                 ) : (
                     <span className="text-white font-mono text-base font-bold tracking-tighter drop-shadow-md">
                         {visitorCount?.toLocaleString()}
@@ -141,10 +144,10 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex gap-6">
-            <Link to="/privacy-policy" className="hover:text-white transition focus:outline-none rounded px-1">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-white transition focus:outline-none rounded px-1">Terms of Use</Link>
-          </div>
+          <nav className="flex gap-6" aria-label="Legal navigation">
+            <Link to="/privacy-policy" className="hover:text-white transition focus:outline-none focus:ring-1 focus:ring-white rounded px-1">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-white transition focus:outline-none focus:ring-1 focus:ring-white rounded px-1">Terms of Use</Link>
+          </nav>
         </div>
       </div>
     </footer>

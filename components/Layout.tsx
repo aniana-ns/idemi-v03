@@ -8,6 +8,7 @@ import Breadcrumbs from './Breadcrumbs';
 import WhatsAppChat from './WhatsAppChat';
 import ScrollProgress from './ScrollProgress';
 
+// Fix: Corrected interface definition to explicitly include 'children' of type ReactNode
 interface LayoutProps {
   children: ReactNode;
 }
@@ -45,14 +46,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Accessibility Skip Link */}
       <a 
         href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md shadow-lg"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md shadow-lg outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
       >
         Skip to main content
       </a>
       
       <Header />
       <ScrollProgress />
-      <Breadcrumbs />
+      
+      <div role="none" className="z-40">
+        <Breadcrumbs />
+      </div>
       
       {/* 
         The key={location.pathname} forces the main component to remount on route change,
@@ -63,6 +67,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         className="flex-grow focus:outline-none animate-fade-in" 
         tabIndex={-1}
         key={location.pathname}
+        role="main"
       >
         {children}
       </main>

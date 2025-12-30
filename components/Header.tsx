@@ -214,7 +214,6 @@ interface NavItemProps {
   depth?: number;
 }
 
-// Desktop Navigation Item
 const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
     const location = useLocation();
     const isActive = (path?: string) => path ? location.pathname === path : false;
@@ -269,9 +268,10 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
             onMouseLeave={handleMouseLeave}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            role="none"
         >
           {item.path && !hasChildren ? (
-            <Link to={item.path} className={topLevelBaseClass} aria-current={active ? 'page' : undefined}>
+            <Link to={item.path} className={topLevelBaseClass} aria-current={active ? 'page' : undefined} role="menuitem">
               {item.label}
               <span className={`absolute bottom-0 left-2 right-2 h-0.5 bg-primary dark:bg-blue-400 transition-all duration-300 ease-out ${active ? 'w-[calc(100%-16px)]' : 'w-0 group-hover:w-[calc(100%-16px)]'}`}></span>
             </Link>
@@ -284,6 +284,7 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
                 aria-controls={uniqueId}
                 onKeyDown={handleKeyDown}
                 onClick={() => hasChildren && setIsOpen(!isOpen)}
+                role="menuitem"
             >
               {item.label}
               <ChevronDown size={14} className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
@@ -295,15 +296,15 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
             isMega ? (
                  <div id={uniqueId} className="absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-xl border-t border-gray-200 dark:border-gray-800 animate-fade-in z-50">
                     <div className="container mx-auto px-4 py-6">
-                        <div className="grid grid-cols-4 gap-8">
+                        <div className="grid grid-cols-4 gap-8" role="menu">
                             {item.children!.map((col, idx) => (
-                                <div key={idx}>
+                                <div key={idx} role="none">
                                     <h4 className="font-bold text-primary dark:text-blue-400 border-b border-gray-200 dark:border-gray-800 pb-2 mb-3 text-sm uppercase tracking-wider">
                                         {col.label}
                                     </h4>
-                                    <ul className="space-y-1">
+                                    <ul className="space-y-1" role="menu">
                                         {col.children?.map((child, cIdx) => (
-                                            <li key={cIdx}>
+                                            <li key={cIdx} role="none">
                                                 <NavItem item={child} depth={depth + 1} />
                                             </li>
                                         ))}
@@ -314,9 +315,11 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
                     </div>
                  </div>
             ) : (
-                <div id={uniqueId} className="absolute top-full left-0 w-72 bg-white dark:bg-gray-800 shadow-xl rounded-md py-2 animate-fade-in z-50 border border-gray-200 dark:border-gray-700 text-left ring-1 ring-black ring-opacity-5">
+                <div id={uniqueId} className="absolute top-full left-0 w-72 bg-white dark:bg-gray-800 shadow-xl rounded-md py-2 animate-fade-in z-50 border border-gray-200 dark:border-gray-700 text-left ring-1 ring-black ring-opacity-5" role="menu">
                     {item.children!.map((child, idx) => (
-                        <NavItem key={idx} item={child} depth={depth + 1} />
+                        <div key={idx} role="none">
+                          <NavItem item={child} depth={depth + 1} />
+                        </div>
                     ))}
                 </div>
             )
@@ -334,14 +337,15 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
         onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        role="none"
       >
         {item.path && !hasChildren ? (
           item.external ? (
-            <a href={item.path} target="_blank" rel="noopener noreferrer" className={dropdownItemClass} onClick={() => setIsOpen(false)}>
+            <a href={item.path} target="_blank" rel="noopener noreferrer" className={dropdownItemClass} onClick={() => setIsOpen(false)} role="menuitem">
                {item.label}
             </a>
           ) : (
-            <Link to={item.path} className={dropdownItemClass} aria-current={active ? 'page' : undefined} onClick={() => setIsOpen(false)}>
+            <Link to={item.path} className={dropdownItemClass} aria-current={active ? 'page' : undefined} onClick={() => setIsOpen(false)} role="menuitem">
               {item.label}
             </Link>
           )
@@ -353,6 +357,7 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
             aria-expanded={isOpen}
             aria-controls={uniqueId}
             onKeyDown={handleKeyDown}
+            role="menuitem"
            >
               <span className="text-left flex-1">{item.label}</span>
               <ChevronRight size={14} className="shrink-0 ml-2" aria-hidden="true" />
@@ -360,9 +365,11 @@ const NavItem: React.FC<NavItemProps> = ({ item, depth = 0 }) => {
         )}
 
         {hasChildren && isOpen && (
-           <div id={uniqueId} className="absolute top-0 left-full w-72 bg-white dark:bg-gray-800 shadow-xl rounded-md py-2 animate-fade-in z-50 border border-gray-200 dark:border-gray-700 -ml-1 text-left ring-1 ring-black ring-opacity-5">
+           <div id={uniqueId} className="absolute top-0 left-full w-72 bg-white dark:bg-gray-800 shadow-xl rounded-md py-2 animate-fade-in z-50 border border-gray-200 dark:border-gray-700 -ml-1 text-left ring-1 ring-black ring-opacity-5" role="menu">
              {item.children!.map((child, idx) => (
-               <NavItem key={idx} item={child} depth={depth + 1} />
+               <div key={idx} role="none">
+                <NavItem item={child} depth={depth + 1} />
+               </div>
              ))}
            </div>
         )}
@@ -565,7 +572,7 @@ const Header: React.FC = () => {
     <header className="w-full z-[1000] font-sans sticky top-0 shadow-lg">
       <div className="w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md transition-colors duration-200">
         
-        <div className="bg-[#1b3270] text-white py-1 text-[10px] sm:text-xs relative z-[102]">
+        <div className="bg-[#1b3270] text-white py-1 text-[10px] sm:text-xs relative z-[102]" role="complementary" aria-label="Official Government Label">
             <div className="container mx-auto px-4 flex justify-between items-center">
                 <div className="flex items-center gap-2 notranslate">
                     <img 
@@ -585,36 +592,36 @@ const Header: React.FC = () => {
             <div className="container mx-auto px-4 py-1 sm:py-1.5 lg:py-2">
                 {/* Desktop Header Content (Symmetric Dual Logos) */}
                 <div className="hidden sm:flex items-center justify-between gap-4 md:gap-6 lg:gap-8">
-                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Logo Left">
+                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Logo Left - Go to home">
                         <img 
                             src="https://idemi.org/assets/TechTransfer/logo1.png" 
-                            alt="IDEMI Logo Left" 
+                            alt="IDEMI Left Logo" 
                             className="h-16 md:h-20 lg:h-24 xl:h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
                         />
                     </Link>
 
-                    <Link to="/" className="flex-1 text-center px-2 hover:opacity-90 transition-opacity focus:outline-none block">
+                    <Link to="/" className="flex-1 text-center px-2 hover:opacity-90 transition-opacity focus:outline-none block" aria-label="IDEMI - Institute for Design of Electrical Measuring Instruments">
                         <h1 className="font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl uppercase leading-tight text-[#1e3a8a] dark:text-white mb-1.5 tracking-tight drop-shadow-sm w-full notranslate">
                             Institute for Design of Electrical Measuring Instruments
                         </h1>
                         <div className="flex flex-col gap-1 sm:gap-1.5 font-black uppercase tracking-wide leading-tight notranslate">
                             <p className="text-[10px] sm:text-xs md:text-sm lg:text-base">
                                 <span className="text-[#1e3a8a] dark:text-blue-300">Ministry of Micro, Small and Medium Enterprises</span>
-                                <span className="text-gray-400 mx-2">||</span>
+                                <span className="text-gray-400 mx-2" aria-hidden="true">||</span>
                                 <span className="text-red-600 dark:text-red-400">सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय</span>
                             </p>
                             <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm tracking-widest opacity-90">
                                 <span className="text-[#1e3a8a] dark:text-blue-300">MSME Technology Centre</span>
-                                <span className="text-gray-400 mx-2">||</span>
+                                <span className="text-gray-400 mx-2" aria-hidden="true">||</span>
                                 <span className="text-[#1e3a8a] dark:text-blue-300">Government of India Society</span>
                             </p>
                         </div>
                     </Link>
 
-                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Logo Right">
+                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Logo Right - Go to home">
                         <img 
                             src="https://idemi.org/assets/TechTransfer/logo2.png" 
-                            alt="IDEMI Logo Right" 
+                            alt="IDEMI Right Logo" 
                             className="h-16 md:h-20 lg:h-24 xl:h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
                         />
                     </Link>
@@ -643,7 +650,7 @@ const Header: React.FC = () => {
                             aria-expanded={isMenuOpen}
                             aria-controls="mobile-menu"
                         >
-                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            {isMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
                         </button>
                     </div>
                 </div>
@@ -676,6 +683,7 @@ const Header: React.FC = () => {
                                 className={fontBtnClass(fontSize === 'normal')}
                                 aria-label="Set font size to normal"
                                 title="Normal"
+                                aria-pressed={fontSize === 'normal'}
                             >
                                 A
                             </button>
@@ -684,6 +692,7 @@ const Header: React.FC = () => {
                                 className={fontBtnClass(fontSize === 'large')}
                                 aria-label="Set font size to large"
                                 title="Large"
+                                aria-pressed={fontSize === 'large'}
                             >
                                 A+
                             </button>
@@ -692,6 +701,7 @@ const Header: React.FC = () => {
                                 className={fontBtnClass(fontSize === 'extra-large')}
                                 aria-label="Set font size to extra large"
                                 title="Extra Large"
+                                aria-pressed={fontSize === 'extra-large'}
                             >
                                 A++
                             </button>
@@ -704,7 +714,7 @@ const Header: React.FC = () => {
                             aria-label={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
                             title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
                         >
-                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                            {theme === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
                         </button>
 
                         <button
@@ -713,9 +723,10 @@ const Header: React.FC = () => {
                             className="p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none shrink-0"
                             aria-label="Search website"
                             aria-expanded={isSearchOpen}
+                            aria-controls="search-panel"
                             title="Search"
                         >
-                            <Search size={18} />
+                            <Search size={18} aria-hidden="true" />
                         </button>
                     </div>
                 </nav>
@@ -727,13 +738,14 @@ const Header: React.FC = () => {
             onClick={() => setIsCertInfoOpen(!isCertInfoOpen)}
             className="md:hidden w-full flex justify-center items-center gap-1 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 uppercase tracking-wide focus:outline-none"
             aria-expanded={isCertInfoOpen}
+            aria-controls="certifications-bar"
             aria-label="Toggle Certifications and IDs information"
             >
             <span>View Certifications & IDs</span>
             <ChevronDown size={14} className={`transition-transform duration-300 ${isCertInfoOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
             </button>
 
-            <div className={`${isCertInfoOpen ? 'flex py-1.5 opacity-100 visible' : 'hidden'} md:flex container mx-auto px-4 flex-wrap justify-center gap-x-6 gap-y-1 text-[8px] md:text-[12px] text-gray-600 dark:text-gray-400 font-bold py-1.5 transition-all duration-300`}>
+            <div id="certifications-bar" className={`${isCertInfoOpen ? 'flex py-1.5 opacity-100 visible' : 'hidden'} md:flex container mx-auto px-4 flex-wrap justify-center gap-x-6 gap-y-1 text-[8px] md:text-[12px] text-gray-600 dark:text-gray-400 font-bold py-1.5 transition-all duration-300`}>
                 <Link to="/ISO-9001-2015-Certificate" className="hover:text-primary dark:hover:text-blue-400 transition-colors">ISO 9001:2015</Link>
                 <span className="hidden sm:inline text-gray-300 dark:text-gray-600" aria-hidden="true">•</span>
                 
@@ -754,10 +766,10 @@ const Header: React.FC = () => {
         </div>
 
         {/* --- MAJOR ACHIEVEMENTS RUNNING LINE --- */}
-        <div className="bg-slate-900 dark:bg-black text-white h-9 flex overflow-hidden relative shadow-inner z-[97]">
+        <div className="bg-slate-900 dark:bg-black text-white h-9 flex overflow-hidden relative shadow-inner z-[97]" role="region" aria-label="Major Achievements Ticker">
             <div className="bg-secondary text-white px-4 flex items-center gap-2 font-black text-[10px] uppercase shrink-0 z-20 relative shadow-xl skew-x-[-10deg] -ml-4 pl-8 border-r border-white/20">
                 <div className="skew-x-[10deg] flex items-center gap-2">
-                    <Trophy size={14} className="text-amber-400 animate-pulse" />
+                    <Trophy size={14} className="text-amber-400 animate-pulse" aria-hidden="true" />
                     <span className="hidden sm:inline tracking-[0.15em] whitespace-nowrap">Major Achievements</span>
                 </div>
             </div>
@@ -768,22 +780,22 @@ const Header: React.FC = () => {
                         <div key={idx} className="inline-flex items-center gap-2.5 text-xs font-bold tracking-wide cursor-default">
                             {item.icon}
                             <span className="opacity-90 hover:opacity-100 transition-opacity text-slate-100">{item.label}</span>
-                            <span className="w-1.5 h-1.5 rounded-full bg-slate-700 mx-4"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-slate-700 mx-4" aria-hidden="true"></span>
                         </div>
                     ))}
                 </div>
             </div>
         </div>
 
-        <div className={`absolute top-full left-0 w-full bg-white/95 dark:bg-gray-955 backdrop-blur-md shadow-2xl border-t border-gray-200 dark:border-gray-800 transition-all duration-300 origin-top ${isSearchOpen ? 'opacity-100 visible scale-y-100' : 'opacity-0 invisible scale-y-0'} z-[99]`}>
+        <div id="search-panel" className={`absolute top-full left-0 w-full bg-white/95 dark:bg-gray-955 backdrop-blur-md shadow-2xl border-t border-gray-200 dark:border-gray-800 transition-all duration-300 origin-top ${isSearchOpen ? 'opacity-100 visible scale-y-100' : 'opacity-0 invisible scale-y-0'} z-[99]`}>
             <div className="container mx-auto px-4 py-4 md:py-6">
-            <form onSubmit={handleSearch} className="relative max-w-4xl mx-auto group">
+            <form onSubmit={handleSearch} className="relative max-w-4xl mx-auto group" role="search">
                 {/* Glowing Background Effect for AI Feel */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 rounded-full blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="relative flex items-center bg-white dark:bg-gray-900 rounded-full border border-gray-200 dark:border-gray-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] group-focus-within:border-primary/50 group-focus-within:shadow-[0_10px_50px_-12px_rgba(30,58,138,0.3)] transition-all p-1 pr-2">
                     <div className="pl-5 pr-3 text-gray-400 group-focus-within:text-primary transition-colors">
-                        <Sparkles size={20} className="animate-pulse" />
+                        <Sparkles size={20} className="animate-pulse" aria-hidden="true" />
                     </div>
                     
                     <input
@@ -794,7 +806,7 @@ const Header: React.FC = () => {
                     placeholder="Search for services, training, documents..."
                     className="w-full py-2 text-base md:text-lg font-medium bg-transparent text-gray-900 dark:text-white outline-none placeholder:text-gray-400"
                     autoComplete="off"
-                    aria-label="Search Query"
+                    aria-label="Search IDEMI website content"
                     />
                     
                     <div className="flex items-center gap-2">
@@ -803,9 +815,9 @@ const Header: React.FC = () => {
                             type="button" 
                             onClick={() => setSearchQuery('')}
                             className="p-1.5 text-gray-400 hover:text-red-500 transition-colors"
-                            aria-label="Clear search"
+                            aria-label="Clear search query"
                             >
-                                <X size={18} />
+                                <X size={18} aria-hidden="true" />
                             </button>
                         )}
                         
@@ -815,7 +827,7 @@ const Header: React.FC = () => {
                             aria-label="Submit Search"
                         >
                             <span className="hidden sm:inline">Search</span>
-                            <Search size={18} className="group-hover/btn:scale-110 transition-transform" />
+                            <Search size={18} className="group-hover/btn:scale-110 transition-transform" aria-hidden="true" />
                         </button>
                         
                         <button 
@@ -824,7 +836,7 @@ const Header: React.FC = () => {
                             className="p-1.5 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                             aria-label="Close search panel"
                         >
-                            <X size={20} />
+                            <X size={20} aria-hidden="true" />
                         </button>
                     </div>
                 </div>
@@ -834,7 +846,7 @@ const Header: React.FC = () => {
                     <div className="px-6 py-2.5 bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-800">
                         <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Recommended Results</span>
                     </div>
-                    <ul role="listbox">
+                    <ul role="listbox" aria-label="Search suggestions">
                     {suggestions.map((item, index) => (
                         <li key={index} role="option" aria-selected={false}>
                         <button
@@ -848,14 +860,14 @@ const Header: React.FC = () => {
                             </div>
                             <div className="flex items-center gap-3 shrink-0 ml-4">
                                 <span className="text-[8px] font-black px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">{item.type}</span>
-                                <ChevronRight size={16} className="text-gray-300 group-hover/item:text-primary dark:group-hover:text-blue-400 transition-colors" />
+                                <ChevronRight size={16} className="text-gray-300 group-hover/item:text-primary dark:group-hover:text-blue-400 transition-colors" aria-hidden="true" />
                             </div>
                         </button>
                         </li>
                     ))}
                     <li className="bg-gray-50/50 dark:bg-gray-800/50 p-4 text-center">
                         <button type="submit" className="text-xs text-primary dark:text-blue-400 font-black hover:underline uppercase tracking-widest flex items-center justify-center gap-2 mx-auto transition-transform hover:scale-105">
-                            Show all results for "{searchQuery}" <ArrowRight size={14} />
+                            Show all results for "{searchQuery}" <ArrowRight size={14} aria-hidden="true" />
                         </button>
                     </li>
                     </ul>
@@ -873,11 +885,13 @@ const Header: React.FC = () => {
                 ? 'opacity-100 visible translate-y-0' 
                 : 'opacity-0 invisible -translate-y-2 pointer-events-none'
             }`}
+            role="dialog"
+            aria-label="Mobile Navigation Menu"
         >
             <div className="px-2 mb-4">
-            <form onSubmit={handleSearch} className="relative flex items-center p-1 bg-gray-100 dark:bg-gray-800 rounded-full">
+            <form onSubmit={handleSearch} className="relative flex items-center p-1 bg-gray-100 dark:bg-gray-800 rounded-full" role="search">
                 <div className="pl-4 text-gray-400">
-                    <Sparkles size={18} />
+                    <Sparkles size={18} aria-hidden="true" />
                 </div>
                 <input
                     type="text"
@@ -887,8 +901,8 @@ const Header: React.FC = () => {
                     className="w-full pl-3 pr-12 py-2.5 bg-transparent text-gray-900 dark:text-white outline-none text-sm font-medium"
                     aria-label="Mobile Search"
                 />
-                <button type="submit" className="absolute right-1 p-2 bg-primary text-white rounded-full shadow-lg active:scale-95">
-                    <Search size={16} />
+                <button type="submit" className="absolute right-1 p-2 bg-primary text-white rounded-full shadow-lg active:scale-95" aria-label="Search button">
+                    <Search size={16} aria-hidden="true" />
                 </button>
             </form>
             </div>
@@ -900,7 +914,7 @@ const Header: React.FC = () => {
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors"
                 aria-label={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
-                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                {theme === 'dark' ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
                 <span className="text-xs font-bold uppercase">{theme} Mode</span>
             </button>
             </div>
@@ -914,13 +928,16 @@ const Header: React.FC = () => {
                 ref={mobileTranslateRef} 
                 style={{ minWidth: '140px', minHeight: '30px' }}
                 suppressHydrationWarning={true}
+                aria-label="Language selection dropdown"
               >
               </div>
             </div>
 
-            {MENU_ITEMS.map((item, index) => (
-            <MobileNavItem key={index} item={item} closeMenu={() => setIsMenuOpen(false)} />
-            ))}
+            <nav aria-label="Mobile Navigation Items">
+              {MENU_ITEMS.map((item, index) => (
+              <MobileNavItem key={index} item={item} closeMenu={() => setIsMenuOpen(false)} />
+              ))}
+            </nav>
             <div className="pt-6 pb-20">
             <button onClick={() => { setIsMenuOpen(false); navigate('/contact'); }} className="block w-full text-center bg-primary text-white py-3 rounded-lg font-bold shadow-lg hover:shadow-xl hover:bg-blue-800 transition-all">Contact Us</button>
             </div>
