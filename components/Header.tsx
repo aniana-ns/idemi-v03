@@ -562,12 +562,12 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="w-full z-[1000] font-sans sticky top-0 shadow-lg notranslate">
+    <header className="w-full z-[1000] font-sans sticky top-0 shadow-lg">
       <div className="w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md transition-colors duration-200">
         
         <div className="bg-[#1b3270] text-white py-1 text-[10px] sm:text-xs relative z-[102]">
             <div className="container mx-auto px-4 flex justify-between items-center">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 notranslate">
                     <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg"
                     alt="Emblem of India" 
@@ -575,7 +575,7 @@ const Header: React.FC = () => {
                     />
                     <span className="font-medium">भारत सरकार | Government of India</span>
                 </div>
-                <div className="hidden sm:block opacity-90 font-medium">
+                <div className="hidden sm:block opacity-90 font-medium notranslate">
                     सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय | Ministry of MSME
                 </div>
             </div>
@@ -585,7 +585,7 @@ const Header: React.FC = () => {
             <div className="container mx-auto px-4 py-1 sm:py-1.5 lg:py-2">
                 {/* Desktop Header Content (Symmetric Dual Logos) */}
                 <div className="hidden sm:flex items-center justify-between gap-4 md:gap-6 lg:gap-8">
-                    <Link to="/" className="shrink-0 group focus:outline-none" aria-label="IDEMI Logo Left">
+                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Logo Left">
                         <img 
                             src="https://idemi.org/assets/TechTransfer/logo1.png" 
                             alt="IDEMI Logo Left" 
@@ -594,10 +594,10 @@ const Header: React.FC = () => {
                     </Link>
 
                     <Link to="/" className="flex-1 text-center px-2 hover:opacity-90 transition-opacity focus:outline-none block">
-                        <h1 className="font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl uppercase leading-tight text-[#1e3a8a] dark:text-white mb-1.5 tracking-tight drop-shadow-sm w-full">
+                        <h1 className="font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl uppercase leading-tight text-[#1e3a8a] dark:text-white mb-1.5 tracking-tight drop-shadow-sm w-full notranslate">
                             Institute for Design of Electrical Measuring Instruments
                         </h1>
-                        <div className="flex flex-col gap-1 sm:gap-1.5 font-black uppercase tracking-wide leading-tight">
+                        <div className="flex flex-col gap-1 sm:gap-1.5 font-black uppercase tracking-wide leading-tight notranslate">
                             <p className="text-[10px] sm:text-xs md:text-sm lg:text-base">
                                 <span className="text-[#1e3a8a] dark:text-blue-300">Ministry of Micro, Small and Medium Enterprises</span>
                                 <span className="text-gray-400 mx-2">||</span>
@@ -611,7 +611,7 @@ const Header: React.FC = () => {
                         </div>
                     </Link>
 
-                    <Link to="/" className="shrink-0 group focus:outline-none" aria-label="IDEMI Logo Right">
+                    <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Logo Right">
                         <img 
                             src="https://idemi.org/assets/TechTransfer/logo2.png" 
                             alt="IDEMI Logo Right" 
@@ -624,7 +624,7 @@ const Header: React.FC = () => {
                 <div className="sm:hidden flex justify-between items-center">
                     <Link to="/" className="flex items-center gap-3 focus:outline-none group" aria-label="IDEMI Home">
                         <img src="https://idemi.org/assets/TechTransfer/logo1.png" alt="IDEMI Logo" className="h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
-                        <div className="leading-tight">
+                        <div className="leading-tight notranslate">
                             <h1 className="font-bold text-[11px] leading-tight text-[#1e3a8a] dark:text-white uppercase tracking-tight mb-0.5">
                                 Institute for Design of Electrical Measuring Instruments
                             </h1>
