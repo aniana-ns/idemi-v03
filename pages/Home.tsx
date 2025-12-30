@@ -1,5 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, BookOpen, FileText, Calendar, Briefcase, ChevronRight, Award, Users, Activity, Zap, GraduationCap, Shield, Newspaper, X, TrendingUp, BarChart3, Building2 } from 'lucide-react';
 import ServiceCard from '../components/ServiceCard';
@@ -21,7 +21,7 @@ const IMAGES = {
   feature: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80", 
   serviceCalibration: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80", 
   serviceTesting: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80", 
-  serviceToolRoom: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80", 
+  serviceToolRoom: "https://images.unsplash.com/photo-1617791160536-598cf32026fb?auto=format&fit=crop&q=80", 
   service3D: "https://images.unsplash.com/photo-1597739239353-50270a473397?auto=format&fit=crop&q=80", 
 };
 
@@ -280,6 +280,117 @@ const Home: React.FC = () => {
 
   const closeModal = () => setSelectedStat(null);
 
+  // Performance Modal Content Component for Portal
+  const PerformanceModal = () => {
+    if (selectedStat === null) return null;
+
+    return createPortal(
+      <div 
+        className="fixed inset-0 z-[110000] flex items-center justify-center p-4 animate-fade-in"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md" onClick={closeModal}></div>
+        
+        <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden animate-scale-up flex flex-col max-h-[90vh]">
+          {/* Header */}
+          <div className="bg-primary dark:bg-slate-800 p-8 text-white relative shrink-0">
+            <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+            <button 
+              onClick={closeModal}
+              className="absolute top-6 right-6 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white outline-none"
+              aria-label="Close performance modal"
+            >
+              <X size={20} />
+            </button>
+            
+            <div className="flex items-center gap-4 mb-3">
+              <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md">
+                {STAT_ICONS[selectedStat]}
+              </div>
+              <div>
+                <h3 className="text-2xl font-black uppercase tracking-tight">{PERFORMANCE_DATA[selectedStat].title}</h3>
+                <p className="text-blue-100/70 text-xs font-bold uppercase tracking-widest">Performance Track Record</p>
+              </div>
+            </div>
+            <p className="text-sm text-blue-100/90 leading-relaxed max-w-lg mt-4 font-medium">
+              {PERFORMANCE_DATA[selectedStat].description}
+            </p>
+          </div>
+
+          {/* Content Body - Responsive Table to Cards */}
+          <div className="p-6 sm:p-8 overflow-y-auto flex-1 bg-gray-50/30 dark:bg-slate-900/50">
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-hidden rounded-2xl border border-gray-100 dark:border-slate-800 shadow-inner bg-white dark:bg-slate-800">
+              <table className="w-full text-left border-collapse">
+                <thead className="bg-gray-50 dark:bg-slate-800/50">
+                  <tr>
+                    <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Year / Period</th>
+                    <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity / Milestone</th>
+                    <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Growth / Remarks</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                  {PERFORMANCE_DATA[selectedStat].years.map((row, idx) => (
+                    <tr key={idx} className="group hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors">
+                      <td className="p-4 text-sm font-black text-slate-900 dark:text-white">{row.year}</td>
+                      <td className="p-4">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 dark:bg-blue-400/5 text-primary dark:text-blue-400 font-bold text-sm">
+                          {row.value}
+                        </span>
+                      </td>
+                      <td className="p-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                        <div className="flex items-center gap-2">
+                           <TrendingUp size={14} className="text-green-500" />
+                           {row.remarks}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-4">
+              {PERFORMANCE_DATA[selectedStat].years.map((row, idx) => (
+                  <div key={idx} className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col gap-4">
+                      <div className="flex justify-between items-center border-b border-gray-50 dark:border-slate-700 pb-3">
+                          <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Year / Period</span>
+                          <span className="text-sm font-black text-slate-900 dark:text-white">{row.year}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                          <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Value</span>
+                          <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/5 dark:bg-blue-400/10 text-primary dark:text-blue-400 font-bold text-xs">
+                              {row.value}
+                          </span>
+                      </div>
+                      <div className="flex justify-between items-center bg-gray-50 dark:bg-slate-700/50 p-3 rounded-xl">
+                          <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Remarks</span>
+                          <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 dark:text-green-400">
+                              <TrendingUp size={12} />
+                              {row.remarks}
+                          </div>
+                      </div>
+                  </div>
+              ))}
+            </div>
+            
+            <div className="mt-8 flex justify-end">
+              <button 
+                onClick={closeModal}
+                className="w-full sm:w-auto px-8 py-3 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-secondary transition-all shadow-lg active:scale-95"
+              >
+                Close View
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  };
+
   return (
     <>
       <SEO 
@@ -345,111 +456,8 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Performance Data Modal */}
-      {selectedStat !== null && (
-        <div 
-          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 animate-fade-in"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md" onClick={closeModal}></div>
-          
-          <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden animate-scale-up flex flex-col max-h-[90vh]">
-            {/* Header */}
-            <div className="bg-primary dark:bg-slate-800 p-8 text-white relative shrink-0">
-              <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-              <button 
-                onClick={closeModal}
-                className="absolute top-6 right-6 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white outline-none"
-                aria-label="Close performance modal"
-              >
-                <X size={20} />
-              </button>
-              
-              <div className="flex items-center gap-4 mb-3">
-                <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md">
-                  {STAT_ICONS[selectedStat]}
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black uppercase tracking-tight">{PERFORMANCE_DATA[selectedStat].title}</h3>
-                  <p className="text-blue-100/70 text-xs font-bold uppercase tracking-widest">Performance Track Record</p>
-                </div>
-              </div>
-              <p className="text-sm text-blue-100/90 leading-relaxed max-w-lg mt-4 font-medium">
-                {PERFORMANCE_DATA[selectedStat].description}
-              </p>
-            </div>
-
-            {/* Content Body - Responsive Table to Cards */}
-            <div className="p-6 sm:p-8 overflow-y-auto flex-1 bg-gray-50/30 dark:bg-slate-900/50">
-              {/* Desktop Table View */}
-              <div className="hidden md:block overflow-hidden rounded-2xl border border-gray-100 dark:border-slate-800 shadow-inner bg-white dark:bg-slate-800">
-                <table className="w-full text-left border-collapse">
-                  <thead className="bg-gray-50 dark:bg-slate-800/50">
-                    <tr>
-                      <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Year / Period</th>
-                      <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity / Milestone</th>
-                      <th className="p-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Growth / Remarks</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
-                    {PERFORMANCE_DATA[selectedStat].years.map((row, idx) => (
-                      <tr key={idx} className="group hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors">
-                        <td className="p-4 text-sm font-black text-slate-900 dark:text-white">{row.year}</td>
-                        <td className="p-4">
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 dark:bg-blue-400/5 text-primary dark:text-blue-400 font-bold text-sm">
-                            {row.value}
-                          </span>
-                        </td>
-                        <td className="p-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-                          <div className="flex items-center gap-2">
-                             <TrendingUp size={14} className="text-green-500" />
-                             {row.remarks}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Mobile Card View */}
-              <div className="md:hidden space-y-4">
-                {PERFORMANCE_DATA[selectedStat].years.map((row, idx) => (
-                    <div key={idx} className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col gap-4">
-                        <div className="flex justify-between items-center border-b border-gray-50 dark:border-slate-700 pb-3">
-                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Year / Period</span>
-                            <span className="text-sm font-black text-slate-900 dark:text-white">{row.year}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Value</span>
-                            <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/5 dark:bg-blue-400/10 text-primary dark:text-blue-400 font-bold text-xs">
-                                {row.value}
-                            </span>
-                        </div>
-                        <div className="flex justify-between items-center bg-gray-50 dark:bg-slate-700/50 p-3 rounded-xl">
-                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Remarks</span>
-                            <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 dark:text-green-400">
-                                <TrendingUp size={12} />
-                                {row.remarks}
-                            </div>
-                        </div>
-                    </div>
-                ))}
-              </div>
-              
-              <div className="mt-8 flex justify-end">
-                <button 
-                  onClick={closeModal}
-                  className="w-full sm:w-auto px-8 py-3 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-secondary transition-all shadow-lg active:scale-95"
-                >
-                  Close View
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Performance Data Modal - High Z-Index & Portal for Layer Control */}
+      <PerformanceModal />
 
       {/* Services Preview */}
       <section className="py-24 bg-gray-50 dark:bg-gray-950 relative">
