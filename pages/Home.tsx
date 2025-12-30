@@ -55,24 +55,45 @@ const INITIAL_SLIDES: SlideItem[] = [
 const INITIAL_NEWS: NewsItem[] = [
   { 
     id: 'n1', 
-    date: 'New', 
-    title: 'BARC RT2- 97th Batch Announcement', 
+    date: 'NEW', 
+    title: 'BARC RT2- 97th Batch Announcement: Admissions Open for Radiological Safety Training', 
     summary: 'The 97th batch for BARC Radiography Testing Level 2 has been announced. Admissions open for limited seats.', 
     link: '/downloads/notifications' 
   },
   { 
     id: 'n2', 
-    date: 'Oct 2024', 
-    title: 'AICTE 2025 - Third Merit List Published', 
+    date: 'DEC 2024', 
+    title: 'Admission Open for 2025-26: AICTE Approved Diploma & PG Diploma Courses', 
+    summary: 'Enroll now for specialized technical courses in Tool Design, Mechatronics, and 3D Animation.', 
+    link: '/student-registration' 
+  },
+  { 
+    id: 'n3', 
+    date: 'DEC 2024', 
+    title: 'NABL Scope Expansion: New High Precision Calibration Services Added (CC-2287)', 
+    summary: 'IDEMI expands its accredited calibration scope to include advanced electro-technical parameters.', 
+    link: '/services/calibration' 
+  },
+  { 
+    id: 'n4', 
+    date: 'NOV 2024', 
+    title: 'AICTE 2025 - Third Merit List Published for Diploma Courses', 
     summary: 'Third merit list for Tool & Die Making and other AICTE courses is now available online.', 
     link: `/view-document?url=https://idemi.org/assets/downloads/EC%20Blr%20Newspaper%20Ad%20A5%20Size.pdf&title=AICTE 2025 - Third Merit List` 
   },
   { 
-    id: 'n3', 
-    date: 'Oct 2024', 
-    title: 'New Infrastructure: 5-Axis Hermle CNC', 
-    summary: 'IDEMI adds high-precision 5-axis capabilities to its Mumbai tool room facility.', 
-    link: `/view-document?url=https://idemi.org/assets/downloads/EC%20Blr%20Newspaper%20Ad%20A5%20Size.pdf&title=AICTE 2025 - Third Merit List` 
+    id: 'n5', 
+    date: 'OCT 2024', 
+    title: 'Mega Job Fair 2025: Pre-Registration Started for Hiring Partners and Candidates', 
+    summary: 'Join our annual placement drive connecting skilled trainees with top industries.', 
+    link: '/jobfair' 
+  },
+  { 
+    id: 'n6', 
+    date: 'SEP 2024', 
+    title: 'New Infrastructure: High-Precision 5-Axis Hermle CNC Now Operational at Mumbai', 
+    summary: 'IDEMI adds state-of-the-art 5-axis capabilities to its Mumbai tool room facility.', 
+    link: '/services/tool-room-infrastructure' 
   }
 ];
 
