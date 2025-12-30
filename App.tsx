@@ -117,9 +117,15 @@ const ProcurementRules = lazy(() => import('./pages/ProcurementRules'));
 
 const Success = lazy(() => import('./pages/Success'));
 
+/**
+ * Type-relaxed alias for HelmetProvider to resolve TS(2786) signature mismatch
+ * which occurs in certain React 18 / react-helmet-async version combinations.
+ */
+const SafeHelmetProvider = HelmetProvider as any;
+
 const App: React.FC = () => {
   return (
-    <HelmetProvider>
+    <SafeHelmetProvider>
       <AccessibilityProvider>
         <Router>
           <Layout>
@@ -264,7 +270,7 @@ const App: React.FC = () => {
           </Layout>
         </Router>
       </AccessibilityProvider>
-    </HelmetProvider>
+    </SafeHelmetProvider>
   );
 };
 
