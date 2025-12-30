@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, BookOpen, CheckCircle, Send, AlertCircle, User, Calendar, Phone, Mail, MapPin, Loader2 } from 'lucide-react';
+import { ArrowLeft, BookOpen, CheckCircle, Send, AlertCircle, User, Calendar, Phone, Mail, MapPin, Loader2, Upload, FileText, Hash } from 'lucide-react';
 import SimpleCaptcha from '../components/SimpleCaptcha';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
@@ -124,6 +124,7 @@ const StudentRegistration: React.FC = () => {
   const [formData, setFormData] = useState({
     coursename: '',
     fullname: '',
+    aadharNumber: '',
     gender: '',
     dateofbirth: '',
     mobilenumber: '',
@@ -133,6 +134,16 @@ const StudentRegistration: React.FC = () => {
     reference: '',
     address: '',
     comment: ''
+  });
+
+  const [files, setFiles] = useState<{
+    aadharCard: File | null;
+    educationCertificate: File | null;
+    casteCertificate: File | null;
+  }>({
+    aadharCard: null,
+    educationCertificate: null,
+    casteCertificate: null
   });
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -148,7 +159,6 @@ const StudentRegistration: React.FC = () => {
     const searchParams = new URLSearchParams(location.search);
     const courseParam = searchParams.get('course');
     if (courseParam) {
-        // Try to match exact or partial
         let found = false;
         COURSE_DATA.forEach(cat => {
             cat.courses.forEach(c => {
@@ -169,6 +179,9 @@ const StudentRegistration: React.FC = () => {
               break;
           case 'fullname':
               if (!value.trim()) return "Full name is required";
+              break;
+          case 'aadharNumber':
+              if (value.trim() && !/^[0-9]{12}$/.test(value.replace(/\s/g, ''))) return "Aadhar must be exactly 12 digits";
               break;
           case 'gender':
               if (!value) return "Please select gender";
@@ -202,22 +215,26 @@ const StudentRegistration: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
-    // Numeric only validation for mobile number
-    if (name === 'mobilenumber') {
+    if (name === 'mobilenumber' || name === 'aadharNumber') {
         const numericValue = value.replace(/[^0-9]/g, '');
         setFormData(prev => ({ ...prev, [name]: numericValue }));
-        
-        if (touched.mobilenumber) {
+        if (touched[name]) {
             const error = validateField(name, numericValue);
             setFormErrors(prev => ({ ...prev, [name]: error || '' }));
         }
     } else {
         setFormData(prev => ({ ...prev, [name]: value }));
-        
         if (touched[name]) {
             const error = validateField(name, value);
             setFormErrors(prev => ({ ...prev, [name]: error || '' }));
         }
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files: selectedFiles } = e.target;
+    if (selectedFiles && selectedFiles[0]) {
+      setFiles(prev => ({ ...prev, [name]: selectedFiles[0] }));
     }
   };
 
@@ -235,11 +252,9 @@ const StudentRegistration: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate all fields on submit
     const newErrors: Record<string, string> = {};
     let isValid = true;
     
-    // List of required fields
     const requiredFields = ['coursename', 'fullname', 'gender', 'dateofbirth', 'mobilenumber', 'emailid', 'caste', 'qualification', 'address'];
     
     requiredFields.forEach(field => {
@@ -249,10 +264,22 @@ const StudentRegistration: React.FC = () => {
             isValid = false;
         }
     });
-    
+
+    // Validate Aadhar if provided
+    if (formData.aadharNumber) {
+        const aadharError = validateField('aadharNumber', formData.aadharNumber);
+        if (aadharError) {
+            newErrors.aadharNumber = aadharError;
+            isValid = false;
+        }
+    }
+
+    // Simple file requirements check
+    if (!files.aadharCard) { newErrors.aadharCard = "Aadhar Card is required"; isValid = false; }
+    if (!files.educationCertificate) { newErrors.educationCertificate = "Education Certificate is required"; isValid = false; }
+
     setFormErrors(newErrors);
     
-    // Mark all as touched
     const allTouched: Record<string, boolean> = {};
     requiredFields.forEach(f => allTouched[f] = true);
     setTouched(prev => ({...prev, ...allTouched}));
@@ -271,36 +298,28 @@ const StudentRegistration: React.FC = () => {
     setStatus('submitting');
     setErrorMessage('');
 
-    // Prepare data for FormSubmit.co
-    // We use the AJAX endpoint to keep the user on our site
     const TARGET_EMAIL = 'anians.890@gmail.com';
     const ENDPOINT = `https://formsubmit.co/ajax/${TARGET_EMAIL}`;
+
+    // For files, we MUST use FormData
+    const submissionData = new FormData();
+    submissionData.append('_subject', `New Student Registration: ${formData.fullname}`);
+    submissionData.append('_template', 'table');
+    submissionData.append('_captcha', 'false');
+
+    Object.entries(formData).forEach(([key, value]) => {
+        submissionData.append(key.toUpperCase(), value);
+    });
+
+    if (files.aadharCard) submissionData.append('AADHAR_CARD_FILE', files.aadharCard);
+    if (files.educationCertificate) submissionData.append('EDUCATION_CERTIFICATE_FILE', files.educationCertificate);
+    if (files.casteCertificate) submissionData.append('CASTE_CERTIFICATE_FILE', files.casteCertificate);
 
     try {
         const response = await fetch(ENDPOINT, {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                // Config fields
-                _subject: `New Student Registration: ${formData.fullname}`,
-                _template: 'table',
-                _captcha: 'false',
-                // Form Data
-                'Course Name': formData.coursename,
-                'Full Name': formData.fullname,
-                'Gender': formData.gender,
-                'Date of Birth': formData.dateofbirth,
-                'Mobile Number': formData.mobilenumber,
-                'Email': formData.emailid,
-                'Caste': formData.caste,
-                'Qualification': formData.qualification,
-                'Reference': formData.reference || 'N/A',
-                'Address': formData.address,
-                'Comment': formData.comment || 'N/A'
-            })
+            // Do NOT set Content-Type header when sending FormData, the browser will set it automatically with the boundary
+            body: submissionData
         });
 
         const result = await response.json();
@@ -322,27 +341,24 @@ const StudentRegistration: React.FC = () => {
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
-        seo={{ title: 'Student Registration | IDEMI', description: 'Online Registration for Technical Training Courses' }} 
+        seo={{ title: 'Student Registration | IDEMI', description: 'Online Registration for Technical Training Courses with Document Upload' }} 
         path="/student-registration" 
       />
 
-      {/* Header */}
       <div className="bg-primary text-white py-12 border-b border-blue-800">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Enquiry Form (Training Courses)</h1>
           <p className="text-blue-100 max-w-2xl mx-auto">
-            Kickstart your technical career with IDEMI. Please fill out the form below to register.
+            Kickstart your technical career with IDEMI. Please fill out the form and upload required documents.
           </p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-12 flex flex-col lg:flex-row gap-12">
-        {/* Sidebar */}
         <aside className="lg:w-1/4">
              <ServiceSidebar />
         </aside>
 
-        {/* Main Content */}
         <div className="lg:w-3/4">
           <Link to="/training" className="inline-flex items-center text-sm text-gray-500 hover:text-primary transition-colors mb-6">
             <ArrowLeft size={16} className="mr-1" /> Back to Training
@@ -357,22 +373,16 @@ const StudentRegistration: React.FC = () => {
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Inquiry Registered Successfully!</h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md">
-                  Thank you for your interest in IDEMI Training Courses. Your details have been emailed to our team. Our counselor will contact you shortly.
+                  Thank you for your interest. Your details and uploaded documents have been sent to our team. Our counselor will contact you shortly.
                 </p>
-                <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800 mb-8 w-full max-w-lg">
-                    <p className="text-sm text-gray-700 dark:text-gray-300">
-                        For immediate assistance, please contact the training department at:
-                        <br/>
-                        <span className="font-bold">022-24050301 ext 238</span> or <span className="font-bold">training@idemi.org</span>
-                    </p>
-                </div>
                 <button 
                   onClick={() => {
                       setStatus('idle');
                       setFormData({
-                        coursename: '', fullname: '', gender: '', dateofbirth: '', mobilenumber: '', 
+                        coursename: '', fullname: '', aadharNumber: '', gender: '', dateofbirth: '', mobilenumber: '', 
                         emailid: '', caste: '', qualification: '', reference: '', address: '', comment: ''
                       });
+                      setFiles({ aadharCard: null, educationCertificate: null, casteCertificate: null });
                       setFormErrors({});
                       setTouched({});
                       setIsCaptchaValid(false);
@@ -424,7 +434,6 @@ const StudentRegistration: React.FC = () => {
                                 </optgroup>
                             ))}
                         </select>
-                        {/* Custom Arrow */}
                         <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-500">
                             <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
                         </div>
@@ -433,7 +442,7 @@ const StudentRegistration: React.FC = () => {
                   </div>
 
                   {/* Personal Details */}
-                  <div className="grid md:grid-cols-1 gap-6">
+                  <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="fullname" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Full Name <span className="text-red-500">*</span></label>
                         <div className="relative">
@@ -452,6 +461,25 @@ const StudentRegistration: React.FC = () => {
                         </div>
                         {formErrors.fullname && <p className="text-red-500 text-xs mt-1 flex items-center gap-1 error-message animate-fade-in"><AlertCircle size={12}/> {formErrors.fullname}</p>}
                       </div>
+
+                      <div>
+                        <label htmlFor="aadharNumber" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Aadhar Number</label>
+                        <div className="relative">
+                            <Hash size={18} className="absolute left-3 top-3.5 text-gray-400" />
+                            <input
+                            type="text"
+                            id="aadharNumber"
+                            name="aadharNumber"
+                            value={formData.aadharNumber}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            maxLength={12}
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.aadharNumber ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            placeholder="12 digit number"
+                            />
+                        </div>
+                        {formErrors.aadharNumber && <p className="text-red-500 text-xs mt-1 flex items-center gap-1 animate-fade-in"><AlertCircle size={12}/> {formErrors.aadharNumber}</p>}
+                      </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
@@ -463,7 +491,7 @@ const StudentRegistration: React.FC = () => {
                             value={formData.gender}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className={`w-full px-4 py-3 rounded-lg border ${formErrors.gender ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            className={`w-full px-4 py-3 rounded-lg border ${formErrors.gender ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                         >
                             <option value="">Select</option>
                             <option value="Male">Male</option>
@@ -540,7 +568,7 @@ const StudentRegistration: React.FC = () => {
                             value={formData.caste}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className={`w-full px-4 py-3 rounded-lg border ${formErrors.caste ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            className={`w-full px-4 py-3 rounded-lg border ${formErrors.caste ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                         >
                             <option value="">Select</option>
                             <option value="General">General</option>
@@ -561,7 +589,7 @@ const StudentRegistration: React.FC = () => {
                             value={formData.qualification}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className={`w-full px-4 py-3 rounded-lg border ${formErrors.qualification ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            className={`w-full px-4 py-3 rounded-lg border ${formErrors.qualification ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 outline-none transition`}
                         >
                             <option value="">Select</option>
                             <option value="Below 10th">Below 10th</option>
@@ -577,18 +605,95 @@ const StudentRegistration: React.FC = () => {
                       </div>
                   </div>
 
-                  <div>
-                    <label htmlFor="reference" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Reference (if any)</label>
-                    <input
-                      type="text"
-                      id="reference"
-                      name="reference"
-                      value={formData.reference}
-                      onChange={handleChange}
-                      maxLength={30}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary focus:ring-opacity-20 outline-none transition"
-                      placeholder="Max 30 characters"
-                    />
+                  {/* Document Upload Section */}
+                  <div className="bg-blue-50 dark:bg-gray-700/20 p-6 rounded-xl border border-blue-100 dark:border-gray-700 space-y-6">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <Upload size={20} className="text-primary dark:text-blue-400" />
+                        Document Upload
+                      </h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Please upload clear copies of your documents. Max size: 2MB per file.</p>
+                      
+                      <div className="grid md:grid-cols-3 gap-6">
+                          <div>
+                              <label className="block text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Aadhar Card *</label>
+                              <div className="relative group">
+                                  <input 
+                                    type="file" 
+                                    name="aadharCard" 
+                                    accept="image/*,application/pdf" 
+                                    onChange={handleFileChange}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                  />
+                                  <div className={`p-4 border-2 border-dashed rounded-xl flex flex-col items-center justify-center text-center transition-colors ${files.aadharCard ? 'border-green-500 bg-green-50 dark:bg-green-900/10' : 'border-gray-300 dark:border-gray-600 group-hover:border-primary dark:group-hover:border-blue-500'}`}>
+                                      {files.aadharCard ? (
+                                          <>
+                                            <CheckCircle size={24} className="text-green-500 mb-2" />
+                                            <span className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate w-full px-2">{files.aadharCard.name}</span>
+                                          </>
+                                      ) : (
+                                          <>
+                                            <FileText size={24} className="text-gray-400 mb-2" />
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Select File</span>
+                                          </>
+                                      )}
+                                  </div>
+                              </div>
+                              {formErrors.aadharCard && <p className="text-red-500 text-[10px] mt-1 font-bold italic">{formErrors.aadharCard}</p>}
+                          </div>
+
+                          <div>
+                              <label className="block text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Edu Certificate *</label>
+                              <div className="relative group">
+                                  <input 
+                                    type="file" 
+                                    name="educationCertificate" 
+                                    accept="image/*,application/pdf" 
+                                    onChange={handleFileChange}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                  />
+                                  <div className={`p-4 border-2 border-dashed rounded-xl flex flex-col items-center justify-center text-center transition-colors ${files.educationCertificate ? 'border-green-500 bg-green-50 dark:bg-green-900/10' : 'border-gray-300 dark:border-gray-600 group-hover:border-primary dark:group-hover:border-blue-500'}`}>
+                                      {files.educationCertificate ? (
+                                          <>
+                                            <CheckCircle size={24} className="text-green-500 mb-2" />
+                                            <span className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate w-full px-2">{files.educationCertificate.name}</span>
+                                          </>
+                                      ) : (
+                                          <>
+                                            <FileText size={24} className="text-gray-400 mb-2" />
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Select File</span>
+                                          </>
+                                      )}
+                                  </div>
+                              </div>
+                              {formErrors.educationCertificate && <p className="text-red-500 text-[10px] mt-1 font-bold italic">{formErrors.educationCertificate}</p>}
+                          </div>
+
+                          <div>
+                              <label className="block text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Caste Cert (If applicable)</label>
+                              <div className="relative group">
+                                  <input 
+                                    type="file" 
+                                    name="casteCertificate" 
+                                    accept="image/*,application/pdf" 
+                                    onChange={handleFileChange}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                  />
+                                  <div className={`p-4 border-2 border-dashed rounded-xl flex flex-col items-center justify-center text-center transition-colors ${files.casteCertificate ? 'border-green-500 bg-green-50 dark:bg-green-900/10' : 'border-gray-300 dark:border-gray-600 group-hover:border-primary dark:group-hover:border-blue-500'}`}>
+                                      {files.casteCertificate ? (
+                                          <>
+                                            <CheckCircle size={24} className="text-green-500 mb-2" />
+                                            <span className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate w-full px-2">{files.casteCertificate.name}</span>
+                                          </>
+                                      ) : (
+                                          <>
+                                            <FileText size={24} className="text-gray-400 mb-2" />
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Select File</span>
+                                          </>
+                                      )}
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                   </div>
 
                   <div>
@@ -610,20 +715,6 @@ const StudentRegistration: React.FC = () => {
                     {formErrors.address && <p className="text-red-500 text-xs mt-1 flex items-center gap-1 error-message animate-fade-in"><AlertCircle size={12}/> {formErrors.address}</p>}
                   </div>
 
-                  <div>
-                    <label htmlFor="comment" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Comment (if any)</label>
-                    <textarea
-                      id="comment"
-                      name="comment"
-                      value={formData.comment}
-                      onChange={handleChange}
-                      maxLength={120}
-                      rows={2}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary focus:ring-opacity-20 outline-none transition"
-                      placeholder="Max 120 characters"
-                    ></textarea>
-                  </div>
-
                   <div className="flex flex-col gap-4">
                       <SimpleCaptcha onVerify={handleCaptchaVerify} />
                   </div>
@@ -635,10 +726,10 @@ const StudentRegistration: React.FC = () => {
                       className="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl hover:bg-blue-800 transition shadow-lg hover:shadow-xl transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {status === 'submitting' ? (
-                        <>Sending... <Loader2 className="animate-spin" size={20} /></>
+                        <>Sending Application... <Loader2 className="animate-spin" size={20} /></>
                       ) : (
                         <>
-                          Submit Enquiry <Send size={20} />
+                          Submit Registration <Send size={20} />
                         </>
                       )}
                     </button>
@@ -655,4 +746,3 @@ const StudentRegistration: React.FC = () => {
 };
 
 export default StudentRegistration;
-

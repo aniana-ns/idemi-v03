@@ -126,6 +126,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     label: 'Training / Courses',
     children: [
+      { label: 'Student Registration', path: '/student-registration' },
       { 
           label: 'AICTE',
           children: [
@@ -170,7 +171,6 @@ const MENU_ITEMS: MenuItem[] = [
             { label: 'Job Fair', path: '/jobfair' },
             { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
             { label: 'Alumni Registration', path: '/alumni-registration' },
-            { label: 'Student Registration', path: '/student-registration' },
           ]
       }
     ]
