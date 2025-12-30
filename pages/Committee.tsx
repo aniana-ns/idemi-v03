@@ -103,14 +103,14 @@ const Committee: React.FC = () => {
                             
                             <div className="space-y-6">
                                 {section.members.map((member, idx) => (
-                                    <div key={idx} className="flex flex-col md:flex-row gap-6 p-6 bg-gray-50 dark:bg-gray-700/30 rounded-2xl border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
+                                    <div key={idx} className="flex flex-col md:flex-row gap-6 p-6 bg-gray-50 dark:bg-gray-700/30 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
                                         {/* Serial Number Badge */}
                                         <div className="absolute top-0 right-0 p-3">
                                             <span className="text-[10px] font-mono font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest">Ref: #{member.no}</span>
                                         </div>
 
                                         <div className="shrink-0 flex items-center justify-center">
-                                            <div className="w-20 h-20 rounded-full bg-white dark:bg-gray-800 shadow-inner flex items-center justify-center text-gray-400 dark:text-gray-500 border-2 border-gray-200 dark:border-gray-600 group-hover:border-primary transition-colors">
+                                            <div className="w-20 h-20 rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center text-gray-400 dark:text-gray-500 border-2 border-gray-200 dark:border-gray-600 group-hover:border-primary transition-colors">
                                                 <User size={40} strokeWidth={1.5} />
                                             </div>
                                         </div>
@@ -121,14 +121,14 @@ const Committee: React.FC = () => {
                                                     <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{member.name}</h3>
                                                     <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">{member.designation}</p>
                                                 </div>
-                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest self-start sm:self-center ${member.role === 'Chairman' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800' : 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-100 dark:border-blue-800'}`}>
+                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest self-start sm:self-center ${member.role === 'Chairman' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800 shadow-sm' : 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-100 dark:border-blue-800 shadow-sm'}`}>
                                                     {member.role}
                                                 </span>
                                             </div>
 
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                                <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-sm transition-shadow">
-                                                    <div className="p-2 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg">
+                                                <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+                                                    <div className="p-2 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg shadow-inner">
                                                         <Phone size={16} />
                                                     </div>
                                                     <div>
@@ -137,8 +137,8 @@ const Committee: React.FC = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-sm transition-shadow">
-                                                    <div className="p-2 bg-blue-50 dark:bg-blue-900/30 text-primary dark:text-blue-400 rounded-lg">
+                                                <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+                                                    <div className="p-2 bg-blue-50 dark:bg-blue-900/30 text-primary dark:text-blue-400 rounded-lg shadow-inner">
                                                         <Mail size={16} />
                                                     </div>
                                                     <div className="min-w-0">
@@ -155,7 +155,7 @@ const Committee: React.FC = () => {
                     ))}
                 </div>
 
-                <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800 flex items-start gap-4">
+                <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800 shadow-inner flex items-start gap-4">
                     <CheckCircle className="text-primary dark:text-blue-400 shrink-0 mt-1" size={20} />
                     <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                         <p className="font-bold mb-1">Confidential Reporting</p>
