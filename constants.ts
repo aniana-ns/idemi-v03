@@ -8,7 +8,29 @@ export const CONTACT_INFO = {
   address: "Swatantryaveer Tatya Tope Marg, Chunabhatti, Sion, Mumbai - 400 022, India",
   phone: "+91-22-2405 0301 / 02 / 03 / 04",
   email: "info@idemi.org",
-  workingHours: "Monday - Friday: 9:30 AM - 5:30 PM"
+  workingHours: "Monday - Friday: 9:30 AM - 5:30 PM",
+  latitude: 19.0508815,
+  longitude: 72.8728852,
+  mapUrl: "https://maps.app.goo.gl/YfS5Q2K7F7z9F9e6A"
+};
+
+export const SITE_METADATA = {
+  name: "IDEMI Mumbai",
+  officialName: "Institute for Design of Electrical Measuring Instruments",
+  parentMinistry: "Ministry of Micro, Small and Medium Enterprises (MSME)",
+  governmentBody: "Government of India Society",
+  accreditations: ["NABL", "ISO 9001:2015", "AS9100 Rev.D"],
+  defaultKeywords: [
+    "IDEMI Mumbai",
+    "MSME Technology Centre",
+    "NABL Calibration Lab",
+    "Electrical Testing Laboratory",
+    "Tool Room Mumbai",
+    "Technical Training Institute",
+    "Government of India Society",
+    "Precision Engineering",
+    "Skill Development India"
+  ]
 };
 
 export const DEPARTMENT_CONTACTS = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { SEOData } from '../types';
-import { CONTACT_INFO } from '../constants';
+import { CONTACT_INFO, SITE_METADATA } from '../constants';
 
 interface SEOProps {
   seo: SEOData;
@@ -9,11 +9,17 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({ seo, path }) => {
-  const siteName = "IDEMI Mumbai";
+  const siteName = SITE_METADATA.name;
   const baseUrl = "https://idemi.org";
   const currentUrl = `${baseUrl}${path}`;
-  const defaultImage = "https://idemi.org/assets/images/LOGO-27042023.png";
+  const defaultImage = "https://idemi.org/assets/TechTransfer/logo1.png";
   const ogImage = seo.image || defaultImage;
+
+  // Standardize keywords
+  const combinedKeywords = Array.from(new Set([
+      ...(seo.keywords || []),
+      ...SITE_METADATA.defaultKeywords
+  ]));
 
   // Generate Breadcrumbs Schema
   const generateBreadcrumbs = () => {
@@ -28,7 +34,7 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
     // Add Home
     breadcrumbs.unshift({
       "@type": "ListItem",
-      "position": 0,
+      "position": 1,
       "name": "Home",
       "item": baseUrl
     });
@@ -36,7 +42,7 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
     return {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
-      "itemListElement": breadcrumbs
+      "itemListElement": breadcrumbs.map((b, i) => ({...b, position: i + 1}))
     };
   };
 
@@ -44,14 +50,17 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
   const generateMainSchema = () => {
     const baseContext = { "@context": "https://schema.org" };
 
-    // Organization / LocalBusiness Schema (Always relevant for IDEMI)
     const organizationSchema = {
       "@type": "GovernmentOrganization",
-      "name": "Institute for Design of Electrical Measuring Instruments (IDEMI)",
-      "alternateName": ["IDEMI Mumbai", "MSME Technology Centre Mumbai"],
+      "name": SITE_METADATA.officialName,
+      "alternateName": [SITE_METADATA.name, "MSME Technology Centre Mumbai"],
       "url": baseUrl,
       "logo": defaultImage,
       "image": defaultImage,
+      "parentOrganization": {
+        "@type": "GovernmentOrganization",
+        "name": SITE_METADATA.parentMinistry
+      },
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": CONTACT_INFO.phone,
@@ -70,18 +79,12 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": "19.0509",
-        "longitude": "72.8729"
+        "latitude": CONTACT_INFO.latitude,
+        "longitude": CONTACT_INFO.longitude
       },
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday"
-        ],
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         "opens": "09:30",
         "closes": "17:30"
       },
@@ -96,8 +99,7 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
     if (seo.schemaType === 'Organization' || seo.schemaType === 'WebSite' || path === '/') {
       return { 
         ...baseContext, 
-        ...organizationSchema,
-        "@type": "GovernmentOrganization" // Reinforce type
+        ...organizationSchema
       };
     }
 
@@ -106,18 +108,18 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
          ...baseContext,
          ...organizationSchema,
          "@type": "LocalBusiness",
-         "priceRange": "₹"
+         "priceRange": "₹₹"
        };
     }
 
     if (seo.schemaType === 'Service') {
       return {
         ...baseContext,
-        "@type": "Service",
+        "@type": "GovernmentService",
         "name": seo.title,
         "description": seo.description,
         "provider": organizationSchema,
-        "serviceType": "Technical Service",
+        "serviceType": "Technical Calibration, Testing & Training",
         "areaServed": {
             "@type": "Country",
             "name": "India"
@@ -136,7 +138,11 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
         "provider": organizationSchema,
         "educationalCredentialAwarded": "Diploma/Certificate",
         "url": currentUrl,
-        "image": ogImage
+        "image": ogImage,
+        "offers": {
+          "@type": "Offer",
+          "category": "Educational Training"
+        }
       };
     }
 
@@ -151,7 +157,7 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
                 "name": siteName
             },
             "publisher": organizationSchema,
-            "datePublished": new Date().toISOString(), // Ideally pass this in prop
+            "datePublished": new Date().toISOString(),
             "description": seo.description
         };
     }
@@ -172,7 +178,7 @@ const SEO: React.FC<SEOProps> = ({ seo, path }) => {
       {/* Standard Metadata */}
       <title>{seo.title}</title>
       <meta name="description" content={seo.description} />
-      {seo.keywords && <meta name="keywords" content={seo.keywords.join(", ")} />}
+      <meta name="keywords" content={combinedKeywords.join(", ")} />
       <link rel="canonical" href={currentUrl} />
       <meta name="robots" content="index, follow" />
 

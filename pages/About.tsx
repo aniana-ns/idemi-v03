@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import SEO from '../components/SEO';
 import InfoSidebar from '../components/InfoSidebar';
@@ -121,9 +120,9 @@ const About: React.FC = () => {
     <div className="bg-white dark:bg-gray-900 transition-colors duration-200">
       <SEO 
         seo={{ 
-          title: 'About IDEMI | Government of India Society', 
-          description: 'History, Vision, Mission and Services of IDEMI. Established in 1968 to support the Instrument Industry.',
-          keywords: ['About IDEMI', 'History of IDEMI', 'IDEMI Mission', 'IDEMI Vision', 'Government Society', 'MSME'],
+          title: 'About IDEMI | Government of India Society | MSME Technology Centre', 
+          description: 'Established in 1968, IDEMI Mumbai is a nodal centre for technical services. Learn about our history, mission, vision, and our contribution to Indian industry self-reliance through NABL labs and AICTE training.',
+          keywords: ['IDEMI History', 'MSME Society Mumbai', 'Genesis of IDEMI', 'IDEMI Mission and Vision', 'Government Society India', 'Instrumentation Nodal Centre'],
           schemaType: 'AboutPage'
         }} 
         path="/about" 

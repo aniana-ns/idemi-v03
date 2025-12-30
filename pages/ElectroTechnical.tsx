@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Zap, CheckCircle, Activity, Radio, Cpu, Battery, User, Mail, Phone } from 'lucide-react';
@@ -8,7 +7,6 @@ import { useScrollAnimation } from '../lib/useScrollAnimation';
 
 const ElectroTechnical: React.FC = () => {
   useScrollAnimation();
-  // Removed activeTab state to display all tables sequentially
 
   const SECTIONS = [
     {
@@ -221,9 +219,19 @@ const ElectroTechnical: React.FC = () => {
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
         seo={{ 
-          title: 'Electro-Technical Calibration Services - NABL Accredited | IDEMI', 
-          description: 'High Precision Electro-Technical Calibration for Multimeters, Calibrators, Oscilloscopes, Energy Meters, High Voltage, RF, and EMC equipment. Traceable to National Standards.',
-          keywords: ['electrical calibration', 'oscilloscope calibration', 'multimeter calibration', 'energy meter calibration', 'high voltage calibration', 'NABL', 'EMC calibration', 'Electro-Technical', 'RF Power', 'LCR calibration'],
+          title: 'Electro-Technical Calibration Services | High Precision NABL CC-2287 | IDEMI', 
+          description: 'NABL accredited Electro-Technical Calibration for 8.5 digit Multimeters, Calibrators (Fluke 5730A), Oscilloscopes, Energy Meters, High Voltage equipment up to 200kV, and EMC equipment. Premier lab in Asia with primary standards.',
+          keywords: [
+            'Electro-Technical Calibration Mumbai', 
+            'NABL CC-2287 Electrical Calibration', 
+            'Multifunction Calibrator Calibration', 
+            '8.5 Digit DMM Calibration', 
+            'High Voltage CT PT Calibration', 
+            'Precision Power Energy Meter Calibration', 
+            'EMC Generator Calibration', 
+            'Fluke 5730A Calibration',
+            'Primary Standards Metrology'
+          ],
           schemaType: 'Service'
         }} 
         path="/services/calibration/electro-technical" 

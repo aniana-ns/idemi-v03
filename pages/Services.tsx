@@ -175,9 +175,19 @@ const Services: React.FC = () => {
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
         seo={{ 
-          title: 'IDEMI Services - Calibration, Testing, Tool Room & Training', 
-          description: 'Explore IDEMI\'s wide range of services including NABL Accredited Calibration, Electrical Testing, Tool Room Manufacturing, 3D Printing, and Technical Training.',
-          keywords: ['calibration services', 'testing services', 'tool room', 'IDEMI Services', 'NABL Accredited', '3D Printing', 'Technical Training', 'Manufacturing', 'Consultancy'],
+          title: 'IDEMI Technical Services - NABL Calibration, Testing & Tool Room', 
+          description: 'Explore our wide range of technical services including High Precision NABL Accredited Calibration (CC-2287), Electrical Safety & EMI/EMC Testing (TC-5538), 5-Axis CNC Machining, 3D Printing, and R&D support for Indian Industry.',
+          keywords: [
+            'NABL Calibration Services Mumbai', 
+            'EMI EMC Testing Lab', 
+            'Electrical Safety Testing IEC 60335', 
+            'Tool Room & Die Making Mumbai', 
+            '3D Printing SLS FDM Service', 
+            'Dimensional Metrology CMM', 
+            'Flow Meter Calibration India',
+            'MSME Technical Support',
+            'Indigenization Defence Components'
+          ],
           schemaType: 'Service'
         }} 
         path="/services" 

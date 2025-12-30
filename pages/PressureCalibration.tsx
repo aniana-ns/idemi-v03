@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Gauge, CheckCircle, FileText, ExternalLink, Star, User, Mail, Phone } from 'lucide-react';
@@ -12,9 +11,18 @@ const PressureCalibration: React.FC = () => {
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
         seo={{ 
-          title: 'Pressure & Vacuum Calibration Services - Dead Weight Testers | IDEMI', 
-          description: 'NABL accredited calibration for Pressure & Vacuum. Equipped with Fluke PG7202 Nitrogen Operated Piston Gauge and Dead Weight Testers up to 2500 bar. High precision measurements.',
-          keywords: ['pressure calibration', 'vacuum calibration', 'dead weight tester', 'fluke pg7202', 'piston gauge', 'magnehelic gauge', 'manometer', 'NABL'],
+          title: 'Pressure & Vacuum Calibration | Fluke PG7202 Piston Gauge | IDEMI', 
+          description: 'NABL accredited Pressure & Vacuum Calibration (CC-2287). Featuring Nitrogen Operated Piston Gauge up to 1000 bar with 35 ppm uncertainty. Specialized low-pressure calibration for pharmaceutical industries using Ruska/Fluke standards.',
+          keywords: [
+            'Pressure Calibration Mumbai', 
+            'Nitrogen Piston Gauge 1000 bar', 
+            'Fluke PG7202 Calibration', 
+            'Dead Weight Tester Calibration', 
+            'Low Pressure Magnehelic Gauge Calibration', 
+            'NABL Vacuum Calibration', 
+            'Cross Float System Pressure', 
+            'Ruska 7250LP Calibration'
+          ],
           schemaType: 'Service'
         }} 
         path="/services/calibration/pressure" 
@@ -192,7 +200,7 @@ const PressureCalibration: React.FC = () => {
                                 <div className="flex justify-between"><span className="text-gray-600 dark:text-gray-300">2 - 2800 bar</span> <span className="font-medium">0.007%</span></div>
                             </div>
                         </div>
-                        <div className="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <div className="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
                             <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-2">Negative Pressure</h4>
                             <div className="text-xs space-y-2">
                                 <div className="flex justify-between"><span className="text-gray-600 dark:text-gray-300">0 to -0.9750 bar</span> <span className="font-medium">0.01%</span></div>

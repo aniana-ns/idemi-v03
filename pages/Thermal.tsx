@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Thermometer, FileText, ExternalLink, User, Mail, Phone, ChevronRight, Zap } from 'lucide-react';
@@ -21,9 +20,18 @@ const Thermal: React.FC = () => {
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
         seo={{ 
-          title: 'Thermal Calibration Services - Temperature & Humidity | IDEMI', 
-          description: 'NABL Accredited Thermal Calibration laboratory equipped with Fixed Point Cells, SPRT, Black Body Sources, and High Temperature Furnaces. Ranges from -196°C to 1500°C.',
-          keywords: ['thermal calibration', 'temperature calibration', 'SPRT', 'RTD', 'fixed point', 'NABL', 'black body source', 'humidity calibration'],
+          title: 'Thermal & Humidity Calibration Services | NABL Accredited Lab | IDEMI', 
+          description: 'NABL Accredited Thermal Calibration laboratory equipped with Fixed Point Cells (ITS-90), SPRT, Black Body Sources, and Furnaces. Precision temperature calibration from -196°C to 1500°C for pharma, aerospace, and processing industries.',
+          keywords: [
+            'Thermal Calibration Mumbai', 
+            'Temperature Calibration -196 to 1500 C', 
+            'Fixed Point Calibration ITS-90', 
+            'SPRT PRT Sensor Calibration', 
+            'NABL Thermal Lab CC-2287', 
+            'Relative Humidity Calibration', 
+            'Dry Block Calibrator Calibration', 
+            'Thermocouple Calibration'
+          ],
           schemaType: 'Service'
         }} 
         path="/services/calibration/thermal" 

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, AlertCircle, CheckCircle, Send, MessageSquare, Loader2 } from 'lucide-react';
@@ -213,9 +212,11 @@ const Contact: React.FC = () => {
     <div className="bg-white dark:bg-gray-900 transition-colors duration-200 min-h-screen">
       <SEO
         seo={{
-          title: isGrievance ? 'Public Grievance | IDEMI' : 'Contact Us | IDEMI',
-          description: 'Get in touch with IDEMI Mumbai. Contact information, address, phone number, and grievance redressal.',
-          keywords: ['IDEMI Contact', 'IDEMI Address', 'IDEMI Phone Number', 'Public Grievance', 'Enquiry IDEMI', 'Mumbai'],
+          title: isGrievance ? 'Public Grievance Redressal | IDEMI' : 'Contact Us | IDEMI Mumbai | Technical Helpdesk',
+          description: isGrievance 
+            ? 'Submit your grievances regarding IDEMI technical services or training programs. We ensure timely resolution as per government norms.'
+            : 'Get in touch with IDEMI Mumbai for calibration quotes, testing enquiries, admission support, or general information. Visit our campus in Chunabhatti, Sion.',
+          keywords: ['Contact IDEMI', 'IDEMI Mumbai Address', 'Public Grievance Cell', 'MSME Helpdesk Mumbai', 'Calibration Quotation', 'IDEMI Map'],
           schemaType: 'ContactPage'
         }}
         path={location.pathname}
@@ -475,4 +476,3 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
-

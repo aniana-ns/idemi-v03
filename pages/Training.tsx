@@ -94,17 +94,17 @@ const Training: React.FC = () => {
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
        <SEO 
          seo={{ 
-            title: 'Technical Training Programs | AICTE Diploma & Vocational Courses | IDEMI', 
-            description: 'Government certified skill development courses. AICTE approved Diploma in Tool & Die Making, Mechatronics. Short term courses in CNC, PLC, Automation, and Animation.',
+            title: 'Technical Training & Vocational Courses | AICTE & NSQF Certified | IDEMI', 
+            description: 'Enroll in Government certified skill development courses at IDEMI Mumbai. Offering AICTE approved Diploma in Tool & Die Making, Mechatronics, 3D Animation, and short-term courses in CNC, PLC, and Embedded Systems with 100% placement support.',
             keywords: [
-                'AICTE Diploma Courses',
-                'Vocational Training India',
-                'Skill Development Programs',
-                'Tool & Die Making Course',
-                'Mechatronics Diploma',
-                'CNC Programming Course',
-                'Industrial Automation Training',
-                'NSQF Compliant Courses'
+                'AICTE Approved Diploma Courses',
+                'NSQF Level 8 Courses Mumbai',
+                'Vocational Training MSME',
+                'Skill India Technical Courses',
+                'Tool & Die Making Training',
+                'Industrial Automation Course',
+                '3D Animation Diploma Mumbai',
+                'Placement Oriented Training India'
             ],
             schemaType: 'Course'
          }} 

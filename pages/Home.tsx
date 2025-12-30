@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
@@ -426,17 +425,17 @@ const Home: React.FC = () => {
       <SEO 
         seo={{ 
           title: 'IDEMI Mumbai | MSME Technology Centre | Government of India Society', 
-          description: 'IDEMI Mumbai - A premier MSME Technology Centre under Ministry of MSME, Govt. of India. Offering NABL Accredited Calibration, Testing, Tool Room Services, and AICTE Approved Technical Training.',
+          description: 'IDEMI Mumbai is a premier MSME Technology Centre under the Ministry of MSME, Govt. of India. Specialized in NABL Accredited Calibration, Testing, Tool Design, 3D Printing, and AICTE Approved Technical Training for over 56 years.',
           keywords: [
             'IDEMI Mumbai', 
-            'MSME Technology Centre', 
+            'MSME Technology Centre Mumbai', 
             'Government of India Society', 
-            'NABL Calibration Laboratory', 
+            'NABL Accredited Calibration Mumbai', 
             'Electrical Testing Lab', 
-            'Tool Room Mumbai', 
-            'Technical Training Institute', 
-            'Skill India',
-            'Sion Chunabhatti'
+            'Tool Room Services', 
+            'AICTE Diploma Training', 
+            'Skill India Training Centre',
+            'Calibration & Testing Services India'
           ],
           schemaType: 'Organization'
         }} 
