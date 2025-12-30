@@ -48,7 +48,7 @@ const INITIAL_SLIDES: SlideItem[] = [
     id: 's3', 
     image: IMAGES.slider3, 
     title: 'Skill Development Programs', 
-    subtitle: 'Job-oriented training in Automation, CAD/CAM, and ESDM for future-ready careers.', 
+    subtitle: 'Job-oriented training in AR/VR, 3D Animation, Web Development, Livelihood, Entrepreneurship, Automation, CAD/CAM, and ESDM for future-ready careers.', 
     ctaText: 'Find Courses', 
     ctaLink: '/training' 
   }
