@@ -18,7 +18,7 @@ import { ServiceItem, SlideItem, NewsItem, Testimonial } from '../types';
 const IMAGES = {
   slider1: "https://images.unsplash.com/photo-1668198991378-59ee7fdd264a?auto=format&fit=crop&q=80", 
   slider2: "https://images.unsplash.com/photo-1717386255773-1e3037c81788?auto=format&fit=crop&q=80", 
-  slider3: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80", 
+  slider3: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&q=80", 
   feature: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80", 
   serviceCalibration: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80", 
   serviceTesting: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80", 
