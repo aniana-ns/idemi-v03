@@ -88,7 +88,7 @@ body {
 .animate-marquee {
   display: inline-flex;
   white-space: nowrap;
-  animation: marquee 60s linear infinite;
+  animation: marquee 60s linear infinite; /* Increased speed from 60s */
 }
 .animate-marquee:hover {
   animation-play-state: paused;
