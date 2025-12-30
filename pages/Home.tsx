@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
@@ -22,7 +23,8 @@ const IMAGES = {
   serviceCalibration: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80", 
   serviceTesting: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80", 
   serviceToolRoom: "https://images.unsplash.com/photo-1617791160536-598cf32026fb?auto=format&fit=crop&q=80", 
-  service3D: "https://images.unsplash.com/photo-1597739239353-50270a473397?auto=format&fit=crop&q=80", 
+  serviceDesign: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80",
+  serviceTraining: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80"
 };
 
 const INITIAL_SLIDES: SlideItem[] = [
@@ -216,7 +218,7 @@ const SERVICES_PREVIEW: ServiceItem[] = [
   },
   { 
     id: '3', 
-    title: 'Tool Room Services', 
+    title: 'Tool Room & Tool Design', 
     slug: 'tool-room', 
     description: 'Design and manufacturing of Press Tools, Moulds, Die Casting Dies, Jigs & Fixtures using CNC technology.', 
     iconName: 'Wrench',
@@ -225,12 +227,21 @@ const SERVICES_PREVIEW: ServiceItem[] = [
   },
   { 
     id: '4', 
-    title: '3D Printing (Additive Mfg)', 
-    slug: 'eos-formiga', 
-    description: 'Rapid prototyping and batch production using advanced Selective Laser Sintering (SLS) technology.', 
-    iconName: 'Printer',
-    image: IMAGES.service3D,
-    tags: ['SLS Tech', 'Rapid Prototyping', 'Nylon PA12']
+    title: 'Design & Development', 
+    slug: 'design-development', 
+    description: 'Specialized R&D cell focusing on innovation, indigenization, and technology transfer for Indian industry.', 
+    iconName: 'Settings',
+    image: IMAGES.serviceDesign,
+    tags: ['R&D Projects', 'Tech Transfer', 'Indigenous Tech']
+  },
+  { 
+    id: '5', 
+    title: 'Training Services', 
+    slug: 'training', 
+    description: 'Job-oriented technical training in Automation, CAD/CAM, and ESDM through AICTE approved and certificate courses.', 
+    iconName: 'Zap',
+    image: IMAGES.serviceTraining,
+    tags: ['Skill India', 'Job Oriented', 'AICTE Approved']
   }
 ];
 
@@ -339,9 +350,8 @@ const Home: React.FC = () => {
             </p>
           </div>
 
-          {/* Content Body - Responsive Table to Cards */}
+          {/* Body */}
           <div className="p-6 sm:p-8 overflow-y-auto flex-1 bg-gray-50/30 dark:bg-slate-900/50">
-            {/* Desktop Table View */}
             <div className="hidden md:block overflow-hidden rounded-2xl border border-gray-100 dark:border-slate-800 shadow-inner bg-white dark:bg-slate-800">
               <table className="w-full text-left border-collapse">
                 <thead className="bg-gray-50 dark:bg-slate-800/50">
@@ -372,7 +382,6 @@ const Home: React.FC = () => {
               </table>
             </div>
 
-            {/* Mobile Card View */}
             <div className="md:hidden space-y-4">
               {PERFORMANCE_DATA[selectedStat].years.map((row, idx) => (
                   <div key={idx} className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col gap-4">
@@ -448,7 +457,7 @@ const Home: React.FC = () => {
       {/* Popup with Updates */}
       <HomePopup />
 
-      {/* Stats Section with Dynamic Count Up and Clickable Modal */}
+      {/* Stats Section */}
       <section className="py-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative z-10" aria-label="Key Statistics">
         <div className="container mx-auto px-4">
           <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-gray-100 dark:border-gray-700 overflow-hidden reveal-on-scroll transform hover:-translate-y-1 transition-transform duration-300">
@@ -477,7 +486,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Performance Data Modal - High Z-Index & Portal for Layer Control */}
       <PerformanceModal />
 
       {/* Services Preview */}
@@ -491,10 +499,10 @@ const Home: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {SERVICES_PREVIEW.map((service, index) => (
-                <div key={service.id} className={`reveal-on-scroll stagger-${(index % 4) + 1} h-full`}>
-                <Link to={service.id === '4' ? '/services/eos-formiga' : `/services/${service.slug}`} className="h-full block">
+                <div key={service.id} className={`reveal-on-scroll stagger-${(index % 5) + 1} h-full`}>
+                <Link to={`/services/${service.slug}`} className="h-full block">
                     <ServiceCard service={service} />
                 </Link>
                 </div>
@@ -592,8 +600,6 @@ const Home: React.FC = () => {
                         View Course Details <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
-
-                {/* Subtle border gradient on hover */}
                 <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/10 dark:group-hover:border-blue-400/20 rounded-2xl pointer-events-none transition-all duration-300"></div>
               </div>
             ))}
@@ -653,8 +659,6 @@ const Home: React.FC = () => {
                         View Details <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
-
-                {/* Subtle border gradient on hover */}
                 <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/10 dark:group-hover:border-blue-400/20 rounded-2xl pointer-events-none transition-all duration-300"></div>
               </div>
             ))}
