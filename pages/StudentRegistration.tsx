@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, BookOpen, CheckCircle, Send, AlertCircle, User, Calendar, Phone, Mail, MapPin, Loader2 } from 'lucide-react';
+import { ArrowLeft, BookOpen, CheckCircle, Send, AlertCircle, User, Calendar, Phone, Mail, MapPin, Loader2, CreditCard } from 'lucide-react';
 import SimpleCaptcha from '../components/SimpleCaptcha';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
@@ -127,6 +127,7 @@ const StudentRegistration: React.FC = () => {
     gender: '',
     dateofbirth: '',
     mobilenumber: '',
+    aadharNumber: '',
     emailid: '',
     caste: '',
     qualification: '',
@@ -180,6 +181,10 @@ const StudentRegistration: React.FC = () => {
               if (!value.trim()) return "Mobile number is required";
               if (!/^[0-9]{10}$/.test(value.replace(/[^0-9]/g, ''))) return "Valid 10-digit mobile number required";
               break;
+          case 'aadharNumber':
+              if (!value.trim()) return "Aadhar number is required";
+              if (!/^[0-9]{12}$/.test(value.replace(/[^0-9]/g, ''))) return "Valid 12-digit Aadhar number required";
+              break;
           case 'emailid':
               if (!value.trim()) return "Email is required";
               if (!/^\S+@\S+\.\S+$/.test(value)) return "Valid email is required";
@@ -202,13 +207,16 @@ const StudentRegistration: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
-    // Numeric only validation for mobile number
-    if (name === 'mobilenumber') {
+    // Numeric only validation for mobile number and aadhar
+    if (name === 'mobilenumber' || name === 'aadharNumber') {
         const numericValue = value.replace(/[^0-9]/g, '');
-        setFormData(prev => ({ ...prev, [name]: numericValue }));
+        const maxLength = name === 'mobilenumber' ? 10 : 12;
+        const slicedValue = numericValue.slice(0, maxLength);
         
-        if (touched.mobilenumber) {
-            const error = validateField(name, numericValue);
+        setFormData(prev => ({ ...prev, [name]: slicedValue }));
+        
+        if (touched[name]) {
+            const error = validateField(name, slicedValue);
             setFormErrors(prev => ({ ...prev, [name]: error || '' }));
         }
     } else {
@@ -240,7 +248,7 @@ const StudentRegistration: React.FC = () => {
     let isValid = true;
     
     // List of required fields
-    const requiredFields = ['coursename', 'fullname', 'gender', 'dateofbirth', 'mobilenumber', 'emailid', 'caste', 'qualification', 'address'];
+    const requiredFields = ['coursename', 'fullname', 'gender', 'dateofbirth', 'mobilenumber', 'aadharNumber', 'emailid', 'caste', 'qualification', 'address'];
     
     requiredFields.forEach(field => {
         const error = validateField(field, formData[field as keyof typeof formData]);
@@ -272,7 +280,6 @@ const StudentRegistration: React.FC = () => {
     setErrorMessage('');
 
     // Prepare data for FormSubmit.co
-    // We use the AJAX endpoint to keep the user on our site
     const TARGET_EMAIL = 'anians.890@gmail.com';
     const ENDPOINT = `https://formsubmit.co/ajax/${TARGET_EMAIL}`;
 
@@ -294,6 +301,7 @@ const StudentRegistration: React.FC = () => {
                 'Gender': formData.gender,
                 'Date of Birth': formData.dateofbirth,
                 'Mobile Number': formData.mobilenumber,
+                'Aadhar Number': formData.aadharNumber,
                 'Email': formData.emailid,
                 'Caste': formData.caste,
                 'Qualification': formData.qualification,
@@ -370,7 +378,7 @@ const StudentRegistration: React.FC = () => {
                   onClick={() => {
                       setStatus('idle');
                       setFormData({
-                        coursename: '', fullname: '', gender: '', dateofbirth: '', mobilenumber: '', 
+                        coursename: '', fullname: '', gender: '', dateofbirth: '', mobilenumber: '', aadharNumber: '',
                         emailid: '', caste: '', qualification: '', reference: '', address: '', comment: ''
                       });
                       setFormErrors({});
@@ -511,6 +519,27 @@ const StudentRegistration: React.FC = () => {
                         {formErrors.mobilenumber && <p className="text-red-500 text-xs mt-1 flex items-center gap-1 error-message animate-fade-in"><AlertCircle size={12}/> {formErrors.mobilenumber}</p>}
                       </div>
 
+                      <div>
+                        <label htmlFor="aadharNumber" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Aadhar Number <span className="text-red-500">*</span></label>
+                        <div className="relative">
+                            <CreditCard size={18} className="absolute left-3 top-3.5 text-gray-400" />
+                            <input
+                            type="tel"
+                            id="aadharNumber"
+                            name="aadharNumber"
+                            value={formData.aadharNumber}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            maxLength={12}
+                            placeholder="12 digit aadhar number"
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border ${formErrors.aadharNumber ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-primary'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-opacity-20 outline-none transition`}
+                            />
+                        </div>
+                        {formErrors.aadharNumber && <p className="text-red-500 text-xs mt-1 flex items-center gap-1 error-message animate-fade-in"><AlertCircle size={12}/> {formErrors.aadharNumber}</p>}
+                      </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-1 gap-6">
                       <div>
                         <label htmlFor="emailid" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Email ID <span className="text-red-500">*</span></label>
                         <div className="relative">
@@ -655,4 +684,3 @@ const StudentRegistration: React.FC = () => {
 };
 
 export default StudentRegistration;
-
