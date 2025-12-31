@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { 
   ArrowLeft, Map, Wrench, GraduationCap, Download, 
   Building2, Info, ShieldCheck, Scale, Zap, Users, Camera, 
-  Briefcase, ClipboardCheck, ChevronRight, Globe, LayoutGrid
+  Briefcase, ClipboardCheck, ChevronRight, LayoutGrid
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import InfoSidebar from '../components/InfoSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
 
 const SITEMAP_DATA = [
@@ -17,7 +18,6 @@ const SITEMAP_DATA = [
       { label: 'Home', path: '/' },
       { label: 'About Us', path: '/about' },
       { label: 'Contact Us', path: '/contact' },
-      { label: 'Success Page', path: '/success' },
       { label: 'Newsletter', path: '/newsletter' },
       { label: 'Privacy Policy', path: '/privacy-policy' },
       { label: 'Terms of Use', path: '/terms' },
@@ -113,47 +113,28 @@ const SITEMAP_DATA = [
     ]
   },
   {
-    category: 'Student & Alumni Portal',
+    category: 'Student & Alumni',
     icon: <ClipboardCheck className="text-cyan-500" size={20} />,
     links: [
       { label: 'Student Registration', path: '/student-registration' },
       { label: 'Alumni Network Form', path: '/alumni-registration' },
-      { label: 'Placement Portal (Jobs)', path: '/training/job-openings' },
-      { label: 'Recruiter Interest Form', path: '/training/recruiter-enquiry' },
+      { label: 'Placement Portal', path: '/training/job-openings' },
+      { label: 'Recruiter Interest', path: '/training/recruiter-enquiry' },
       { label: 'Mega Job Fair', path: '/jobfair' },
-      { label: 'Student Testimonials', path: '/testimonials' },
+      { label: 'Testimonials', path: '/testimonials' },
       { label: 'Careers at IDEMI', path: '/careers' },
     ]
   },
   {
-    category: 'Facilities & Campus',
-    icon: <Building2 className="text-teal-500" size={20} />,
-    links: [
-      { label: 'Extension Centres Overview', path: '/extensions' },
-      { label: 'Bangalore Extension', path: '/extension-centre/bangalore' },
-      { label: 'Sakinaka Sub-Centre', path: '/extension-centre/sakinaka' },
-    ]
-  },
-  {
-    category: 'Media Gallery',
-    icon: <Camera className="text-orange-500" size={20} />,
-    links: [
-      { label: 'Main Photo Gallery', path: '/gallery' },
-      { label: 'Bangalore Gallery', path: '/gallery/bangalore' },
-      { label: 'Sakinaka Gallery', path: '/gallery/sakinaka' },
-    ]
-  },
-  {
-    category: 'Downloads Hub',
+    category: 'Downloads & Media',
     icon: <Download className="text-red-500" size={20} />,
     links: [
       { label: 'Active Tenders', path: '/downloads/active-tenders' },
-      { label: 'Archived Tenders', path: '/downloads/archive-tenders' },
       { label: 'News & Notifications', path: '/downloads/notifications' },
       { label: 'Course Prospectus', path: '/downloads/prospectus' },
       { label: 'Annual Reports', path: '/downloads/annual-reports' },
-      { label: 'Procurement Policy', path: '/downloads/procurement-policy' },
-      { label: 'Procurement Rules', path: '/downloads/procurement-rules' },
+      { label: 'Photo Gallery', path: '/gallery' },
+      { label: 'Extension Centres', path: '/extensions' },
     ]
   }
 ];
@@ -162,7 +143,7 @@ const Sitemap: React.FC = () => {
   useScrollAnimation();
 
   return (
-    <div className="bg-slate-50 dark:bg-gray-950 min-h-screen transition-colors duration-300">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
         seo={{ 
           title: 'Sitemap | IDEMI Mumbai Navigation', 
@@ -173,88 +154,71 @@ const Sitemap: React.FC = () => {
         path="/sitemap" 
       />
       
-      {/* Dynamic Hero Section */}
-      <div className="bg-primary relative overflow-hidden text-white py-16 md:py-24">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-24 -mt-24 blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/20 rounded-full -ml-24 -mb-24 blur-3xl pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 relative z-10 text-center">
-             <Link to="/" className="inline-flex items-center text-sm font-black text-blue-200 hover:text-white transition-colors mb-6 uppercase tracking-[0.2em]">
-                <ArrowLeft size={16} className="mr-2" /> Back to Home
+      {/* Page Header - Matching WhosWho, About, etc. */}
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <div className="container mx-auto px-4 py-4">
+             <Link to="/" className="inline-flex items-center text-sm text-gray-500 hover:text-primary transition-colors mb-2">
+                <ArrowLeft size={16} className="mr-1" /> Back to Home
              </Link>
-             <h1 className="text-4xl md:text-7xl font-black text-white flex items-center justify-center gap-4 mb-6 tracking-tighter">
-                <LayoutGrid className="text-secondary" size={48} strokeWidth={2.5} />
-                SITEMAP
-             </h1>
-             <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto font-medium opacity-90">
-                Instantly navigate through our comprehensive collection of technical services, training modules, and administrative resources.
-             </p>
+             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Sitemap</h1>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-            {SITEMAP_DATA.map((section, idx) => (
-                <div 
-                    key={idx} 
-                    className="reveal-on-scroll group"
-                >
-                    <div className="bg-white dark:bg-gray-900 h-full rounded-[2.5rem] p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_-15px_rgba(180,83,9,0.15)] dark:shadow-none dark:border dark:border-gray-800 transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden">
-                        
-                        {/* Card Decorative Accent - Modified to secondary */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-secondary/10 transition-colors"></div>
+      <div className="container mx-auto px-4 py-12 flex flex-col lg:flex-row gap-12">
+        {/* Consistent Sidebar */}
+        <aside className="lg:w-1/4">
+            <InfoSidebar />
+        </aside>
 
-                        <div className="flex items-center gap-4 mb-8">
-                            {/* Icon container hover: secondary color ascent */}
-                            <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-secondary/30">
-                                {section.icon}
-                            </div>
-                            {/* Title hover: secondary color ascent */}
-                            <h3 className="font-black text-xl text-gray-900 dark:text-white leading-tight uppercase tracking-tight group-hover:text-secondary dark:group-hover:text-amber-500 transition-colors">
-                                {section.category}
-                            </h3>
-                        </div>
-                        
-                        <ul className="space-y-1 flex-grow">
-                            {section.links.map((link, lIdx) => (
-                                <li key={lIdx}>
-                                    <Link 
-                                        to={link.path} 
-                                        className="group/link flex items-center gap-3 py-3 px-4 rounded-2xl hover:bg-amber-50 dark:hover:bg-amber-900/10 transition-all duration-300"
-                                    >
-                                        {/* Link bullet and chevron: secondary color ascent */}
-                                        <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover/link:bg-secondary dark:group-hover/link:bg-secondary transition-colors">
-                                            <ChevronRight size={14} className="text-gray-400 group-hover/link:text-white transition-colors" />
-                                        </div>
-                                        <span className="text-sm md:text-base text-gray-600 dark:text-gray-300 font-bold group-hover/link:text-secondary dark:group-hover:text-amber-400 transition-colors">
-                                            {link.label}
-                                        </span>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+        {/* Main Content */}
+        <div className="lg:w-3/4">
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 reveal-on-scroll">
+                <div className="flex items-center gap-3 mb-8">
+                    <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl text-primary dark:text-blue-400">
+                        <LayoutGrid size={28} />
+                    </div>
+                    <div>
+                        <p className="text-primary dark:text-blue-400 font-bold uppercase tracking-wide text-xs mb-1">Architecture</p>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight">Website Directory</h2>
                     </div>
                 </div>
-            ))}
-        </div>
 
-        {/* Global Support Footer - Enhanced with secondary color */}
-        <div className="mt-20 flex flex-col md:flex-row items-center justify-between gap-8 bg-white dark:bg-gray-900 p-10 rounded-[3rem] shadow-2xl border border-gray-100 dark:border-gray-800 reveal-on-scroll overflow-hidden relative">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-blue-400"></div>
-            
-            <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                <h4 className="text-2xl font-black text-gray-900 dark:text-white mb-2 uppercase tracking-tight">Need further help?</h4>
-                <p className="text-gray-500 dark:text-gray-400 font-medium">Our support desk is active Monday to Friday, 9:30 AM to 5:30 PM.</p>
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {SITEMAP_DATA.map((section, idx) => (
+                        <div key={idx} className="space-y-4">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 pb-2">
+                                {section.icon}
+                                {section.category}
+                            </h3>
+                            <ul className="space-y-2">
+                                {section.links.map((link, lIdx) => (
+                                    <li key={lIdx}>
+                                        <Link 
+                                            to={link.path} 
+                                            className="group flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-blue-400 transition-colors"
+                                        >
+                                            <ChevronRight size={14} className="text-gray-300 group-hover:text-primary transition-colors" />
+                                            {link.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
 
-            <div className="flex flex-wrap justify-center gap-4">
-                <Link to="/contact" className="px-8 py-4 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl hover:bg-secondary transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
-                    <Briefcase size={16} /> Contact Admin
-                </Link>
-                <Link to="/training/enquiry" className="px-8 py-4 bg-secondary text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl hover:bg-amber-700 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
-                    <GraduationCap size={16} /> Training Help
-                </Link>
+                <div className="mt-16 p-8 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border border-blue-100 dark:border-blue-800 text-center">
+                    <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Need assistance?</h4>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">Our support desk is active Monday to Friday, 9:30 AM to 5:30 PM.</p>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <Link to="/contact" className="px-6 py-2.5 bg-primary text-white font-bold rounded-lg hover:bg-blue-800 transition shadow-md flex items-center gap-2">
+                            <Briefcase size={16} /> Contact Admin
+                        </Link>
+                        <Link to="/training/enquiry" className="px-6 py-2.5 bg-secondary text-white font-bold rounded-lg hover:bg-amber-700 transition shadow-md flex items-center gap-2">
+                            <GraduationCap size={16} /> Training Help
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
       </div>
