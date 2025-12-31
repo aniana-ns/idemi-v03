@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe, ArrowRight, Sparkles, Award, Trophy, Rocket, ShieldCheck, History } from 'lucide-react';
@@ -593,7 +592,7 @@ const Header: React.FC = () => {
         <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-[101] relative border-b border-gray-200 dark:border-gray-800">
             <div className="container mx-auto px-4 py-1.5 sm:py-2 lg:py-3">
                 {/* Desktop Header Content (Symmetric Dual Logos) */}
-                <div className="hidden sm:flex items-center justify-between gap-4 md:gap-6 lg:gap-8">
+                <div className="hidden xl:flex items-center justify-between gap-4 md:gap-6 lg:gap-8">
                     <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Left Logo - Go to home">
                         <img 
                             src="https://idemi.org/assets/TechTransfer/logo1.png" 
@@ -630,9 +629,9 @@ const Header: React.FC = () => {
                 </div>
 
                 {/* Mobile Header Content */}
-                <div className="sm:hidden flex justify-between items-center">
+                <div className="xl:hidden flex justify-between items-center">
                     <Link to="/" className="flex items-center gap-3 focus:outline-none group notranslate" aria-label="IDEMI Home">
-                        <img src="https://idemi.org/assets/TechTransfer/logo1.png" alt="IDEMI Left Logo" className="h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
+                        <img src="https://idemi.org/assets/images/LOGO-27042023.png" alt="IDEMI Left Logo" className="h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
                         <div className="leading-tight">
                             <h1 className="font-bold text-[11px] leading-tight text-[#1e3a8a] dark:text-white uppercase tracking-tight mb-0.5">
                                 Institute for Design of Electrical Measuring Instruments
@@ -738,7 +737,7 @@ const Header: React.FC = () => {
         <div className="bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-200 relative z-[98]">
             <button 
             onClick={() => setIsCertInfoOpen(!isCertInfoOpen)}
-            className="md:hidden w-full flex justify-center items-center gap-1 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 uppercase tracking-wide focus:outline-none"
+            className="md:hidden w-full flex justify-center items-center gap-1 py-2 text-[10px] font-bold text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 uppercase tracking-wide focus:outline-none"
             aria-expanded={isCertInfoOpen}
             aria-controls="certifications-bar"
             aria-label="Toggle Certifications and IDs information"
