@@ -108,16 +108,6 @@ const QuickAccessBar: React.FC = () => {
         </div>
         <span className="font-black whitespace-nowrap text-sm tracking-[0.2em] uppercase">Contact Us</span>
       </Link>
-      
-      <Link
-        to="/training/enquiry"
-        className="flex items-center gap-3 bg-primary text-white pl-4 pr-6 py-4 rounded-l-3xl shadow-[0_15px_35px_-5px_rgba(0,0,0,0.3)] hover:bg-blue-800 transition-all transform translate-x-[calc(100%-64px)] hover:translate-x-0 duration-300 group border-l-4 border-white/20"
-      >
-        <div className="transition-transform duration-300 group-hover:scale-125">
-            <HelpCircle size={26} className="shrink-0" />
-        </div>
-        <span className="font-black whitespace-nowrap text-sm tracking-[0.2em] uppercase">Enquiry</span>
-      </Link>
 
       <Link
         to="/student-registration"
