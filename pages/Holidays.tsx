@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, Calendar, CheckCircle, ChevronRight, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, CheckCircle, Clock } from 'lucide-react';
 import SEO from '../components/SEO';
 import InfoSidebar from '../components/InfoSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
@@ -11,35 +11,35 @@ const Holidays: React.FC = () => {
   const location = useLocation();
 
   const HOLIDAYS_LIST = [
-    { no: 1, name: "Republic Day", date: "26th January, 2025", day: "Sunday" },
-    { no: 2, name: "Maha Shivratri", date: "26th February, 2025", day: "Wednesday" },
-    { no: 3, name: "Holi", date: "14th March, 2025", day: "Friday" },
-    { no: 4, name: "Eid-ul-Fitr", date: "31st March, 2025", day: "Monday" },
-    { no: 5, name: "Mahavir Jayanti", date: "10th April, 2025", day: "Thursday" },
-    { no: 6, name: "Good Friday", date: "18th April, 2025", day: "Friday" },
-    { no: 7, name: "Buddha Purnima", date: "12th May, 2025", day: "Monday" },
-    { no: 8, name: "Eid-ul-Zuha (Bakrid)", date: "7th June, 2025", day: "Saturday" },
-    { no: 9, name: "Independence Day", date: "15th August, 2025", day: "Friday" },
-    { no: 10, name: "Ganesh Chaturthi", date: "27th August, 2025", day: "Wednesday" },
-    { no: 11, name: "Milad-un-Nabi", date: "5th September, 2025", day: "Friday" },
-    { no: 12, name: "Mahatma Gandhi Birthday", date: "2nd October, 2025", day: "Thursday" },
-    { no: 13, name: "Dussehra", date: "2nd October, 2025", day: "Thursday" },
-    { no: 14, name: "Diwali (Deepavali)", date: "20th October, 2025", day: "Monday" },
-    { no: 15, name: "Diwali Amavasya", date: "21st October, 2025", day: "Tuesday" },
-    { no: 16, name: "Guru Nanak Birthday", date: "05th November, 2025", day: "Wednesday" },
-    { no: 17, name: "Christmas Day", date: "25th December, 2025", day: "Thursday" }
+    { no: 1, name: "Republic Day", date: "26th January, 2026", day: "Monday" },
+    { no: 2, name: "Holi (Dhulivandan)", date: "3rd March, 2026", day: "Tuesday" },
+    { no: 3, name: "Gudi Padava", date: "19th March, 2026", day: "Thursday" },
+    { no: 4, name: "Id-ul-Fitr (Ramzan Id)", date: "21st March, 2026", day: "Saturday" },
+    { no: 5, name: "Mahavir Jayanti", date: "31st March, 2026", day: "Tuesday" },
+    { no: 6, name: "Good Friday", date: "3rd April, 2026", day: "Friday" },
+    { no: 7, name: "Buddha Purnima", date: "1st May, 2026", day: "Friday" },
+    { no: 8, name: "Muharram", date: "26th June, 2026", day: "Friday" },
+    { no: 9, name: "Independence Day", date: "15th August, 2026", day: "Saturday" },
+    { no: 10, name: "Id-e-Milad (Prophet Mohammad Birthday)", date: "26th August, 2026", day: "Wednesday" },
+    { no: 11, name: "Ganesh Chaturthi", date: "14th September, 2026", day: "Monday" },
+    { no: 12, name: "Mahatma Gandhi's Birthday", date: "2nd October, 2026", day: "Friday" },
+    { no: 13, name: "Dussehra (Vijayadashami)", date: "20th October, 2026", day: "Tuesday" },
+    { no: 14, name: "Diwali (Deepavali)", date: "8th November, 2026", day: "Sunday" },
+    { no: 15, name: "Govardhan Puja (Deepavali)", date: "10th November, 2026", day: "Tuesday" },
+    { no: 16, name: "Guru Nanak's Birthday", date: "24th November, 2026", day: "Tuesday" },
+    { no: 17, name: "Christmas Day", date: "25th December, 2026", day: "Friday" }
   ];
 
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
-      <SEO seo={{ title: 'Holidays List 2025 | IDEMI', description: 'Gazetted Holidays for the Year 2025' }} path={location.pathname} />
+      <SEO seo={{ title: 'Holidays List 2026 | IDEMI', description: 'Gazetted Holidays for the Year 2026' }} path={location.pathname} />
       
       <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
         <div className="container mx-auto px-4 py-4">
              <Link to="/" className="inline-flex items-center text-sm text-gray-500 hover:text-primary transition-colors mb-2">
                 <ArrowLeft size={16} className="mr-1" /> Back to Home
              </Link>
-             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Holidays List 2025</h1>
+             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Holidays List 2026</h1>
         </div>
       </div>
 
@@ -57,7 +57,7 @@ const Holidays: React.FC = () => {
                         </div>
                         <div>
                             <h2 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Gazetted Holidays</h2>
-                            <p className="text-sm text-gray-500 font-bold uppercase tracking-widest mt-1">Calendar Year 2025</p>
+                            <p className="text-sm text-gray-500 font-bold uppercase tracking-widest mt-1">Calendar Year 2026</p>
                         </div>
                     </div>
                     <div className="hidden sm:block">
@@ -85,7 +85,7 @@ const Holidays: React.FC = () => {
                             <tr>
                                 <th className="p-5 border-b border-gray-100 dark:border-gray-700 w-20 text-center">#</th>
                                 <th className="p-5 border-b border-gray-100 dark:border-gray-700">Description of Holiday</th>
-                                <th className="p-5 border-b border-gray-100 dark:border-gray-700 w-64">Date (2025)</th>
+                                <th className="p-5 border-b border-gray-100 dark:border-gray-700 w-64">Date (2026)</th>
                                 <th className="p-5 border-b border-gray-100 dark:border-gray-700 w-40">Week Day</th>
                             </tr>
                         </thead>
@@ -93,7 +93,7 @@ const Holidays: React.FC = () => {
                             {HOLIDAYS_LIST.map((holiday, idx) => (
                                 <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-blue-900/10 transition-colors group">
                                     <td className="p-5 text-center font-mono text-gray-400 dark:text-gray-500 text-xs">{holiday.no}</td>
-                                    <td className="p-5 font-black text-gray-800 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">{holiday.name}</td>
+                                    <td className="p-5 font-black text-gray-800 dark:text-white group-hover:text-primary dark:hover:text-blue-400 transition-colors">{holiday.name}</td>
                                     <td className="p-5 font-bold text-primary dark:text-blue-300">{holiday.date}</td>
                                     <td className="p-5">
                                         <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${holiday.day === 'Sunday' || holiday.day === 'Saturday' ? 'bg-red-50 text-red-600 dark:bg-red-900/30' : 'bg-gray-100 text-gray-600 dark:bg-gray-700'}`}>

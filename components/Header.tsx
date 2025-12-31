@@ -45,7 +45,7 @@ const MENU_ITEMS: MenuItem[] = [
           { label: 'Committee', path: '/committee' },
           { label: 'CVO & Vigilance', path: '/vigilance' },
           { label: 'RTI Act', path: '/rti' },
-          { label: 'Holidays in 2025', path: '/holidays' },
+          { label: 'Holidays', path: '/holidays' },
         ]
       },
       {
