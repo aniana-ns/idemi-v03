@@ -9,7 +9,7 @@ const CENTRES = [
   {
     slug: 'bangalore',
     name: "Extension Centre - Bangalore",
-    image: "https://images.unsplash.com/photo-1596162954151-cd97f5835269?auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&q=80",
     desc: "Established in 2007-08, strategically located in the electronic hub of India. It caters to the Defense, Aerospace, and Electronics industries.",
     address: "KSIC Building, Industrial Estate, Rajajinagar, Bangalore - 560044",
     phone: "080-23350200"
@@ -33,7 +33,7 @@ const UPCOMING_CENTRES = [
   },
   {
     name: "Extension Centre - Kottayam (Kerala)",
-    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&q=80",
     desc: "Planned centre focusing on specialized instrumentation and testing services for the regional MSME sector and rubber industries.",
     address: "Proposed Location: Kottayam, Kerala"
   }
