@@ -590,7 +590,7 @@ const Header: React.FC = () => {
         </div>
 
         <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-[101] relative border-b border-gray-200 dark:border-gray-800">
-            <div className="container mx-auto px-4 py-1.5 sm:py-2 lg:py-3">
+            <div className="container mx-auto px-4 py-2 sm:py-3 lg:py-4">
                 {/* Desktop Header Content (Symmetric Dual Logos) */}
                 <div className="hidden xl:flex items-center justify-between gap-4 md:gap-6 lg:gap-8">
                     <Link to="/" className="shrink-0 group focus:outline-none notranslate" aria-label="IDEMI Left Logo - Go to home">
@@ -601,17 +601,17 @@ const Header: React.FC = () => {
                         />
                     </Link>
 
-                    <Link to="/" className="flex-1 text-center px-2 hover:opacity-90 transition-opacity focus:outline-none block notranslate" aria-label="IDEMI - Institute for Design of Electrical Measuring Instruments">
-                        <h1 className="font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-3xl uppercase leading-tight text-[#1e3a8a] dark:text-white mb-1.5 tracking-tight drop-shadow-sm w-full">
+                    <Link to="/" className="flex-1 text-center px-4 hover:opacity-90 transition-opacity focus:outline-none block notranslate" aria-label="IDEMI - Institute for Design of Electrical Measuring Instruments">
+                        <h1 className="font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-4xl uppercase leading-none text-[#1e3a8a] dark:text-white mb-3 tracking-tighter drop-shadow-sm w-full">
                             Institute for Design of Electrical Measuring Instruments
                         </h1>
-                        <div className="flex flex-col gap-1 sm:gap-1.5 font-black uppercase tracking-wide leading-tight">
-                            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base">
+                        <div className="flex flex-col gap-1 sm:gap-1 font-black uppercase tracking-wide leading-tight">
+                            <p className="text-[10px] sm:text-xs md:text-xs lg:text-sm">
                                 <span className="text-[#1e3a8a] dark:text-blue-300">Ministry of Micro, Small and Medium Enterprises</span>
                                 <span className="text-gray-400 mx-2" aria-hidden="true">||</span>
                                 <span className="text-red-600 dark:text-red-400">सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय</span>
                             </p>
-                            <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm tracking-widest opacity-90">
+                            <p className="text-[9px] sm:text-[9px] md:text-[10px] lg:text-xs tracking-widest opacity-90">
                                 <span className="text-[#1e3a8a] dark:text-blue-300">MSME Technology Centre</span>
                                 <span className="text-gray-400 mx-2" aria-hidden="true">||</span>
                                 <span className="text-[#1e3a8a] dark:text-blue-300">Government of India Society</span>
