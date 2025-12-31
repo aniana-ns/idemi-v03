@@ -65,7 +65,10 @@ const ActiveTenders: React.FC = () => {
                 </div>
 
                 {tenders.length === 0 ? (
-                    <div className="p-8 text-center text-gray-500">No active tenders found.</div>
+                    <div className="p-12 text-center text-gray-500 flex flex-col items-center gap-4">
+                        <FileText size={48} className="opacity-20" />
+                        <p>No active tenders found at this time.</p>
+                    </div>
                 ) : (
                     <>
                         {/* Desktop Table View */}

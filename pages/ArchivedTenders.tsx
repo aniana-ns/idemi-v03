@@ -157,7 +157,6 @@ const INITIAL_DATA = RAW_DATA.map((title, idx) => ({
 
 const ArchivedTenders: React.FC = () => {
   const [viewingId, setViewingId] = useState<string | null>(null);
-
   const data = INITIAL_DATA;
 
   const toggleView = (id: string) => {
@@ -204,7 +203,10 @@ const ArchivedTenders: React.FC = () => {
                 </div>
 
                 {data.length === 0 ? (
-                    <div className="p-8 text-center text-gray-500">No archived tenders available.</div>
+                    <div className="p-12 text-center text-gray-500 flex flex-col items-center gap-4">
+                        <Archive size={48} className="opacity-20" />
+                        <p>No archived tenders found.</p>
+                    </div>
                 ) : (
                     <>
                         {/* Desktop Table View */}

@@ -6,7 +6,7 @@ import SEO from '../components/SEO';
 import DownloadsSidebar from '../components/DownloadsSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
 
-const DATA = [
+const INITIAL_DATA = [
     { id: 'r1', title: 'Standard Operating Procedures', date: '2023-03-10', size: '800 KB', link: 'https://idemi.org/assets/downloads/EC%20Blr%20Newspaper%20Ad%20A5%20Size.pdf', type: 'PDF' }
 ];
 
@@ -14,7 +14,7 @@ const ProcurementRules: React.FC = () => {
   useScrollAnimation();
   const [viewingId, setViewingId] = useState<string | null>(null);
 
-  const filteredData = DATA;
+  const data = INITIAL_DATA;
 
   const toggleView = (id: string) => {
     setViewingId(prev => prev === id ? null : id);
@@ -60,10 +60,13 @@ const ProcurementRules: React.FC = () => {
                 </div>
 
                 <div className="divide-y divide-gray-100 dark:divide-gray-700">
-                    {filteredData.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500 dark:text-gray-400">No documents found.</div>
+                    {data.length === 0 ? (
+                        <div className="p-12 text-center text-gray-500 flex flex-col items-center gap-4">
+                            <FileText size={48} className="opacity-20" />
+                            <p>No documents found.</p>
+                        </div>
                     ) : (
-                        filteredData.map((item) => (
+                        data.map((item) => (
                             <div key={item.id} className={`transition group ${viewingId === item.id ? 'bg-blue-50 dark:bg-gray-800/80' : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'}`}>
                                 <div className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                                     <div className="flex items-start gap-4">

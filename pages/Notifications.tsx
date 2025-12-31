@@ -15,7 +15,6 @@ const INITIAL_DATA = [
 
 const Notifications: React.FC = () => {
   const [viewingId, setViewingId] = useState<string | null>(null);
-  
   const data = INITIAL_DATA;
 
   const toggleView = (id: string) => {
@@ -23,7 +22,6 @@ const Notifications: React.FC = () => {
   };
 
   const getViewerUrl = (url: string) => {
-      // Use Google Viewer for PDFs to ensure mobile compatibility
       if(url.endsWith('.pdf')) {
           return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
       }
@@ -67,7 +65,10 @@ const Notifications: React.FC = () => {
 
                 <div className="divide-y divide-gray-100 dark:divide-gray-700">
                     {data.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">No notifications found.</div>
+                        <div className="p-12 text-center text-gray-500 flex flex-col items-center gap-4">
+                            <Bell size={48} className="opacity-20" />
+                            <p>No notifications found.</p>
+                        </div>
                     ) : (
                         data.map((item: any) => (
                             <div key={item.id} className={`transition group ${viewingId === item.id ? 'bg-blue-50 dark:bg-gray-800/80' : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'}`}>
