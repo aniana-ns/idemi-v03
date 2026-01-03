@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, ChevronDown, ChevronRight, Search, Globe, ArrowRight, Sparkles, Award, Trophy, Rocket, ShieldCheck, History } from 'lucide-react';
@@ -562,11 +563,11 @@ const Header: React.FC = () => {
   `;
 
   const achievements = [
-    { label: "Winner: Prof. S.K. Joshi Laboratory Excellence Award (Gold Category)", icon: <Trophy size={14} className="text-amber-500" /> },
-    { label: "Critical Component Supplier for ISRO's Chandrayaan-3 Mission", icon: <Rocket size={14} className="text-blue-400" /> },
-    { label: "Premier NABL Accredited Calibration Laboratory in Asia", icon: <ShieldCheck size={14} className="text-green-500" /> },
-    { label: "Over 50 Years of Excellence in Instrumentation & Metrology", icon: <History size={14} className="text-secondary" /> },
-    { label: "Empowering National Defense and Aerospace Sectors (AS9100 Certified)", icon: <Award size={14} className="text-purple-400" /> }
+    { label: "Winner: Prof. S.K. Joshi Laboratory Excellence Award (Gold Category)", icon: <Trophy size={14} className="text-amber-500" />, path: "/services/calibration/laboratory-excellence-award" },
+    { label: "Critical Component Supplier for ISRO's Chandrayaan-3 Mission", icon: <Rocket size={14} className="text-blue-400" />, path: "/past_performance" },
+    { label: "Premier NABL Accredited Calibration Laboratory in Asia", icon: <ShieldCheck size={14} className="text-green-500" />, path: "/NABL-Certificate" },
+    { label: "Over 50 Years of Excellence in Instrumentation & Metrology", icon: <History size={14} className="text-secondary" />, path: "/about" },
+    { label: "Empowering National Defense and Aerospace Sectors (AS9100 Certified)", icon: <Award size={14} className="text-purple-400" />, path: "/ISO-AS9100-2016" }
   ];
 
   return (
@@ -778,11 +779,15 @@ const Header: React.FC = () => {
             <div className="flex-grow flex items-center relative overflow-hidden group">
                 <div className="animate-marquee whitespace-nowrap flex items-center gap-16 pl-6 group-hover:[animation-play-state:paused]">
                     {achievements.concat(achievements).map((item, idx) => (
-                        <div key={idx} className="inline-flex items-center gap-2.5 text-xs font-bold tracking-wide cursor-default">
+                        <Link 
+                            key={idx} 
+                            to={item.path}
+                            className="inline-flex items-center gap-2.5 text-xs font-bold tracking-wide cursor-pointer hover:text-secondary transition-colors"
+                        >
                             {item.icon}
-                            <span className="opacity-90 hover:opacity-100 transition-opacity text-slate-100">{item.label}</span>
+                            <span className="opacity-90 hover:opacity-100 transition-opacity text-slate-100 group-hover:text-amber-100">{item.label}</span>
                             <span className="w-1.5 h-1.5 rounded-full bg-slate-700 mx-4" aria-hidden="true"></span>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>
