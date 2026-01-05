@@ -5,8 +5,9 @@ import SEO from '../components/SEO';
 import InfoSidebar from '../components/InfoSidebar';
 import { useScrollAnimation } from '../lib/useScrollAnimation';
 import { 
-  Calendar, Building2, Award, MapPin, Zap, Cpu, Settings, Monitor, 
-  CheckCircle, ShieldCheck, Globe, Users 
+  Calendar, Building2, Award, MapPin, Cpu, 
+  CheckCircle, ShieldCheck, Globe, Users,
+  Scale, Activity, Wrench, GraduationCap, Briefcase
 } from 'lucide-react';
 
 const AtGlance: React.FC = () => {
@@ -41,10 +42,12 @@ const AtGlance: React.FC = () => {
   ];
 
   const CORE_AREAS = [
-    { name: 'Electrical', icon: <Zap size={20} /> },
-    { name: 'Electronics', icon: <Cpu size={20} /> },
-    { name: 'Mechanical', icon: <Settings size={20} /> },
-    { name: 'Information Tech', icon: <Monitor size={20} /> },
+    { name: 'Calibration', icon: <Scale size={20} /> },
+    { name: 'Testing', icon: <Activity size={20} /> },
+    { name: 'Tool Room', icon: <Wrench size={20} /> },
+    { name: 'Design & R&D', icon: <Cpu size={20} /> },
+    { name: 'Technical Training', icon: <GraduationCap size={20} /> },
+    { name: 'Consultancy', icon: <Briefcase size={20} /> },
   ];
 
   const SERVICES = [
@@ -103,7 +106,7 @@ const AtGlance: React.FC = () => {
                 {/* Core Areas */}
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 pb-3">
-                        <Globe className="text-secondary" size={24} /> Core Areas
+                        <Globe className="text-secondary" size={24} /> Core Service Areas
                     </h3>
                     <div className="grid grid-cols-2 gap-4">
                         {CORE_AREAS.map((area, idx) => (
@@ -118,7 +121,7 @@ const AtGlance: React.FC = () => {
                 {/* Key Services */}
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 pb-3">
-                        <Settings className="text-secondary" size={24} /> Key Services
+                        <Award className="text-secondary" size={24} /> Key Service Lines
                     </h3>
                     <ul className="space-y-4">
                         {SERVICES.map((service, idx) => (
