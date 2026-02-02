@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Search, Filter, Briefcase, MapPin, 
-  Building2, Calendar, IndianRupee, Clock,
-  CheckCircle, Bookmark, Send,
-  Sparkles, ExternalLink, ChevronDown
+  Briefcase, MapPin, 
+  Building2, Bookmark, Send,
+  Sparkles, ExternalLink, ChevronDown,
+  Loader2, AlertCircle, Filter, Clock, CheckCircle2, XCircle
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
@@ -18,133 +18,127 @@ interface JobOpening {
   location: string;
   salary: string;
   experience: string;
-  type: 'Full-time' | 'Internship' | 'Contract';
-  category: 'Mechanical' | 'Electronics' | 'IT & Software' | 'Media & Animation' | 'Other';
+  type: string;
+  category: string;
   postedDate: string;
   deadline: string;
   description: string;
-  requirements: string[];
+  apply_link?: string;
 }
 
-const JOBS_DATA: JobOpening[] = [
-  {
-    id: 'j1',
-    title: 'CNC Machine Operator (5-Axis)',
-    company: 'Precision Aerospace Components Ltd.',
-    location: 'Bangalore, Karnataka',
-    salary: '₹ 2.4 - 3.6 LPA',
-    experience: 'Fresher / 1 Year',
-    type: 'Full-time',
-    category: 'Mechanical',
-    postedDate: '28-11-2025',
-    deadline: '15-12-2025',
-    description: 'Operating high-precision 5-axis CNC milling machines for aerospace components manufacturing. Knowledge of Hermle or Haas controllers is a plus.',
-    requirements: ['Diploma in Tool & Die Making / Mechanical', 'Basic knowledge of CNC programming', 'Understanding of technical drawings']
-  },
-  {
-    id: 'j2',
-    title: 'Junior Automation Engineer',
-    company: 'Indus Robotics & Automation',
-    location: 'Pune, Maharashtra',
-    salary: '₹ 3.0 - 4.5 LPA',
-    experience: 'Fresher (IDEMI PG Diploma preferred)',
-    type: 'Full-time',
-    category: 'Electronics',
-    postedDate: '25-11-2025',
-    deadline: '10-12-2025',
-    description: 'Implementation of PLC and SCADA systems for industrial projects. Candidates with IDEMI PG Diploma in Mechatronics will be prioritized.',
-    requirements: ['BE/B.Tech Electronics/Instrumentation', 'Certification in PLC/SCADA', 'Ready to travel for site commissioning']
-  },
-  {
-    id: 'j3',
-    title: '3D Modeler & Texturing Artist',
-    company: 'Creative Media Studios',
-    location: 'Mumbai, Maharashtra',
-    salary: '₹ 2.1 - 3.2 LPA',
-    experience: 'Fresher',
-    type: 'Full-time',
-    category: 'Media & Animation',
-    postedDate: '20-11-2025',
-    deadline: '05-12-2025',
-    description: 'Looking for fresh graduates with strong skills in Maya and Blender. Focus on architectural visualization and character modeling.',
-    requirements: ['Diploma in 3D Animation (IDEMI preferred)', 'Portfolio showing modeling work', 'Knowledge of V-Ray or Arnold']
-  },
-  {
-    id: 'j4',
-    title: 'Tool Designer (Press Tool)',
-    company: 'Auto-Tech Stamping Pvt Ltd.',
-    location: 'Gurugram, Haryana',
-    salary: '₹ 3.5 - 5.0 LPA',
-    experience: '1 - 2 Years',
-    type: 'Full-time',
-    category: 'Mechanical',
-    postedDate: '15-11-2025',
-    deadline: '20-12-2025',
-    description: 'Design of progressive and compound press tools for automotive parts. Must be proficient in NX or Catia.',
-    requirements: ['BE/Diploma in Mechanical/Production', 'Proficiency in Unigraphics (NX)', 'Sound knowledge of Sheet Metal design']
-  }
-];
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTIRjcx1_eTBH5j7JbfIOB1hdlUUHrbpnbfy-Iulxpsz7gxvyuWdr3G24HR2pwGQjjHyTNJqu01zrDX/pub?output=csv';
 
 const PlacementPortal: React.FC = () => {
   const { refreshObserver } = useScrollAnimation();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [jobs, setJobs] = useState<JobOpening[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
   const [categoryFilter, setCategoryFilter] = useState('All');
-  const [typeFilter, setTypeFilter] = useState('All');
+  // Defaulting status filter to 'Open' as requested
+  const [statusFilter, setStatusFilter] = useState<'All' | 'Open' | 'Closed'>('Open');
+
+  // Helper to parse dates from common spreadsheet formats (DD/MM/YYYY or YYYY-MM-DD)
+  const parseSheetDate = (dateStr: string) => {
+    if (!dateStr) return 0;
+    try {
+        const ddmmyyyy = dateStr.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+        if (ddmmyyyy) {
+            return new Date(parseInt(ddmmyyyy[3]), parseInt(ddmmyyyy[2]) - 1, parseInt(ddmmyyyy[1])).getTime();
+        }
+        return new Date(dateStr).getTime() || 0;
+    } catch (e) {
+        return 0;
+    }
+  };
+
+  const checkIsClosed = (deadline: string) => {
+    if (!deadline) return false;
+    const deadlineTime = parseSheetDate(deadline);
+    return (deadlineTime + 86399000) < Date.now();
+  };
+
+  // Simple CSV Parser
+  const parseCSV = (csv: string): any[] => {
+    const lines = csv.split(/\r?\n/).filter(line => line.trim() !== '');
+    if (lines.length < 2) return [];
+
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+    
+    return lines.slice(1).map((line, lineIdx) => {
+      const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.trim().replace(/^"|"$/g, ''));
+      const obj: any = { id: `dynamic-${lineIdx}` };
+      headers.forEach((header, i) => {
+        obj[header] = values[i] || '';
+      });
+      return obj;
+    });
+  };
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(SHEET_URL);
+        if (!response.ok) throw new Error('Failed to fetch job data');
+        
+        const csvText = await response.text();
+        const rawJobs = parseCSV(csvText);
+
+        const sortedJobs = rawJobs.sort((a, b) => {
+            const dateA = parseSheetDate(a.postedDate);
+            const dateB = parseSheetDate(b.postedDate);
+            return dateB - dateA;
+        });
+
+        setJobs(sortedJobs);
+        setError(null);
+      } catch (err: any) {
+        console.error("Fetch error:", err);
+        setError("Unable to load job openings at the moment. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   useEffect(() => {
     refreshObserver();
-  }, [refreshObserver, searchTerm, categoryFilter, typeFilter]);
+  }, [refreshObserver, categoryFilter, statusFilter, jobs]);
 
-  const filteredJobs = JOBS_DATA.filter(job => {
-    const matchesSearch = 
-      job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      job.location.toLowerCase().includes(searchTerm.toLowerCase());
-    
+  const filteredJobs = jobs.filter(job => {
     const matchesCategory = categoryFilter === 'All' || job.category === categoryFilter;
-    const matchesType = typeFilter === 'All' || job.type === typeFilter;
-    
-    return matchesSearch && matchesCategory && matchesType;
+    const isClosed = checkIsClosed(job.deadline);
+    const matchesStatus = statusFilter === 'All' || (statusFilter === 'Open' ? !isClosed : isClosed);
+    return matchesCategory && matchesStatus;
   });
 
-  const categories = ['All', 'Mechanical', 'Electronics', 'IT & Software', 'Media & Animation', 'Other'];
-  const types = ['All', 'Full-time', 'Internship', 'Contract'];
+  const categories = ['All', ...Array.from(new Set(jobs.map(j => j.category).filter(Boolean)))];
 
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
       <SEO 
         seo={{ 
           title: 'Placement Portal - Job Openings for Students | IDEMI', 
-          description: 'Latest job opportunities for IDEMI trained students in Mechanical, Electronics, IT, and Animation sectors.',
-          keywords: ['IDEMI Placements', 'Job Portal', 'Engineering Recruitment'],
+          description: 'Latest job opportunities for IDEMI trained students fetched directly from our industrial placement cell.',
+          keywords: ['IDEMI Placements', 'Job Portal', 'Engineering Recruitment', 'Technician Jobs Mumbai'],
           schemaType: 'Article'
         }} 
         path="/training/job-openings" 
       />
       
-      <div className="relative bg-primary to-blue-800 overflow-hidden border-b border-white/10">
-        <div className="container mx-auto px-4 py-16 md:py-20 relative z-10 text-center">
+      <div className="relative bg-primary overflow-hidden border-b border-white/10">
+        <div className="container mx-auto px-4 py-16 md:py-24 relative z-10 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-blue-200 text-xs font-black uppercase tracking-widest mb-6 border border-white/10">
                 <Sparkles size={14} className="animate-pulse" />
-                Student Placement Support
+                Live Placement Feed
             </div>
-            <h1 className="text-4xl md:text-6xl font-black text-white mb-6">Launch Your Career</h1>
-            <p className="text-lg text-blue-100/90 mb-10 max-w-2xl mx-auto">
-                Connecting our highly skilled trainees with global industry leaders.
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">Placement Portal</h1>
+            <p className="text-lg text-blue-100/90 mb-0 max-w-2xl mx-auto">
+                Real-time job opportunities available for IDEMI students and alumni across leading manufacturing industries.
             </p>
-            
-            <div className="w-full max-w-2xl mx-auto relative group">
-                <div className="relative flex items-center bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-2">
-                    <Search size={24} className="ml-4 text-gray-400" />
-                    <input 
-                        type="text" 
-                        placeholder="Search by job title or company..." 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="flex-grow px-4 py-3 bg-transparent text-gray-900 dark:text-white outline-none font-medium"
-                    />
-                </div>
-            </div>
         </div>
       </div>
 
@@ -156,20 +150,30 @@ const PlacementPortal: React.FC = () => {
           </aside>
 
           <div className="lg:w-3/4">
-             {/* Horizontal Filter Bar */}
-             <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-md border border-gray-100 dark:border-slate-800 mb-8 reveal-on-scroll">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                    <div className="flex-grow overflow-hidden">
-                        <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Job Category</label>
-                        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+             {/* Horizontal Sector Filter Bar with Explicit Scroll Handling */}
+             <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-slate-800 mb-6 reveal-on-scroll">
+                <div className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                            <Filter size={12} /> Filter by Sector
+                        </label>
+                        <span className="text-[9px] font-bold text-slate-300 dark:text-slate-600 uppercase md:hidden">Scroll to view more &rarr;</span>
+                    </div>
+                    
+                    <div className="relative group">
+                        {/* Shadow indicators for scrollable content */}
+                        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white dark:from-slate-900 to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white dark:from-slate-900 to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        
+                        <div className="flex items-center gap-3 overflow-x-auto pb-4 pt-1 px-1 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
                             {categories.map(cat => (
                                 <button 
                                     key={cat}
                                     onClick={() => setCategoryFilter(cat)}
-                                    className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+                                    className={`whitespace-nowrap px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all border ${
                                         categoryFilter === cat 
-                                        ? 'bg-primary text-white border-primary shadow-md' 
-                                        : 'bg-gray-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-transparent hover:border-gray-200 dark:hover:border-slate-600'
+                                        ? 'bg-primary text-white border-primary shadow-lg scale-105' 
+                                        : 'bg-gray-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-gray-100 dark:border-slate-700 hover:border-primary dark:hover:border-primary hover:bg-white'
                                     }`}
                                 >
                                     {cat}
@@ -177,101 +181,132 @@ const PlacementPortal: React.FC = () => {
                             ))}
                         </div>
                     </div>
-                    
-                    <div className="shrink-0">
-                        <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Job Type</label>
-                        <div className="relative">
-                            <select 
-                                value={typeFilter}
-                                onChange={(e) => setTypeFilter(e.target.value)}
-                                className="appearance-none bg-gray-50 dark:bg-slate-800 border border-transparent dark:border-slate-700 text-slate-900 dark:text-white text-xs font-bold py-2.5 pl-4 pr-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer min-w-[140px]"
-                            >
-                                {types.map(t => (
-                                    <option key={t} value={t}>{t === 'All' ? 'All Job Types' : t}</option>
-                                ))}
-                            </select>
-                            <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-                        </div>
-                    </div>
                 </div>
              </div>
 
-             {/* Results Count Summary */}
-             <div className="mb-6 flex items-center justify-between reveal-on-scroll">
-                <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <Briefcase size={20} className="text-secondary" />
-                    Available Openings
-                    <span className="bg-blue-50 dark:bg-blue-900/30 text-primary dark:text-blue-400 px-2 py-0.5 rounded-full text-xs ml-1">
+             {/* Recent Openings Title & Status Toggle */}
+             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 reveal-on-scroll">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <Briefcase size={22} className="text-secondary" />
+                    Recent Openings
+                    <span className="bg-blue-50 dark:bg-blue-900/30 text-primary dark:text-blue-400 px-3 py-1 rounded-full text-xs ml-1 font-black">
                         {filteredJobs.length}
                     </span>
                 </h2>
-                {searchTerm && (
-                    <button 
-                        onClick={() => {setSearchTerm(''); setCategoryFilter('All'); setTypeFilter('All');}}
-                        className="text-xs font-bold text-gray-500 hover:text-red-500 transition underline underline-offset-4"
-                    >
-                        Clear all filters
-                    </button>
-                )}
+
+                <div className="flex bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 self-start">
+                    {[
+                        { id: 'All', label: 'All', icon: null },
+                        { id: 'Open', label: 'Open', icon: <CheckCircle2 size={14} className="text-emerald-500" /> },
+                        { id: 'Closed', label: 'Closed', icon: <XCircle size={14} className="text-slate-400" /> }
+                    ].map((btn) => (
+                        <button
+                            key={btn.id}
+                            onClick={() => setStatusFilter(btn.id as any)}
+                            className={`flex items-center gap-2 px-6 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${
+                                statusFilter === btn.id 
+                                ? 'bg-primary text-white shadow-md' 
+                                : 'text-slate-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800'
+                            }`}
+                        >
+                            {btn.icon}
+                            {btn.label}
+                        </button>
+                    ))}
+                </div>
              </div>
 
-             {/* Job Listings Grid */}
-             <div className="space-y-6">
-                {filteredJobs.length > 0 ? (
-                    filteredJobs.map((job) => (
-                        <div key={job.id} className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-800 p-6 md:p-8 hover:shadow-2xl transition-all duration-300 reveal-on-scroll">
-                            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
-                                <div className="flex-grow">
-                                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-3 inline-block ${
-                                        job.category === 'Mechanical' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' :
-                                        job.category === 'Electronics' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' :
-                                        job.category === 'IT & Software' ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300' :
-                                        'bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-slate-300'
-                                    }`}>
-                                        {job.category}
-                                    </span>
-                                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight mb-2">{job.title}</h3>
-                                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium text-slate-500 dark:text-slate-400">
-                                        <div className="flex items-center gap-1.5"><Building2 size={16} className="text-primary" /><span>{job.company}</span></div>
-                                        <div className="flex items-center gap-1.5"><MapPin size={16} className="text-secondary" /><span>{job.location}</span></div>
+             {/* Content States */}
+             {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+                    <Loader2 size={48} className="animate-spin mb-4 text-primary" />
+                    <p className="font-bold uppercase tracking-widest text-xs">Fetching latest openings...</p>
+                </div>
+             ) : error ? (
+                <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-2xl p-8 text-center">
+                    <AlertCircle size={48} className="mx-auto mb-4 text-red-500" />
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Service Unavailable</h3>
+                    <p className="text-gray-600 dark:text-gray-400">{error}</p>
+                </div>
+             ) : (
+                <div className="space-y-6">
+                    {filteredJobs.length > 0 ? (
+                        filteredJobs.map((job) => {
+                            const isClosed = checkIsClosed(job.deadline);
+                            return (
+                                <div 
+                                    key={job.id} 
+                                    className={`bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-800 p-6 md:p-8 hover:shadow-2xl transition-all duration-300 reveal-on-scroll group ${isClosed ? 'grayscale-[0.4] opacity-80' : ''}`}
+                                >
+                                    <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+                                        <div className="flex-grow">
+                                            <div className="flex flex-wrap items-center gap-3 mb-3">
+                                                {isClosed ? (
+                                                    <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full text-[10px] font-black uppercase tracking-wider border border-slate-200 dark:border-slate-700 flex items-center gap-1">
+                                                        <Clock size={12} /> Closed
+                                                    </span>
+                                                ) : (
+                                                    <span className="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-[10px] font-black uppercase tracking-wider border border-emerald-100 dark:border-emerald-800">
+                                                        Open
+                                                    </span>
+                                                )}
+                                                
+                                                <span className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-[10px] font-black uppercase tracking-wider border border-blue-100 dark:border-blue-900">
+                                                    {job.category || 'General'}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight mb-2 group-hover:text-primary transition-colors">{job.title}</h3>
+                                            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium text-slate-500 dark:text-slate-400">
+                                                <div className="flex items-center gap-1.5"><Building2 size={16} className="text-primary" /><span>{job.company}</span></div>
+                                                <div className="flex items-center gap-1.5"><MapPin size={16} className="text-secondary" /><span>{job.location}</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">
+                                        {job.description}
+                                    </p>
+
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-slate-800/50 rounded-2xl border border-gray-100 dark:border-slate-800 mb-6 text-sm">
+                                        <div><p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Exp Required</p><p className="font-bold text-slate-700 dark:text-slate-200">{job.experience || 'Not specified'}</p></div>
+                                        <div><p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Package</p><p className="font-bold text-slate-700 dark:text-slate-200">{job.salary || 'Best in Industry'}</p></div>
+                                        <div><p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Posted On</p><p className="font-bold text-slate-700 dark:text-slate-200">{job.postedDate || '-'}</p></div>
+                                        <div><p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${isClosed ? 'text-slate-400' : 'text-red-400'}`}>Apply By</p><p className={`font-bold ${isClosed ? 'text-slate-500' : 'text-red-600 dark:text-red-400'}`}>{job.deadline || '-'}</p></div>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row items-center gap-4 pt-6 border-t border-gray-100 dark:border-slate-800">
+                                        <a 
+                                            href={job.apply_link || `#/student-registration?course=Placement%20-%20${encodeURIComponent(job.title)}`} 
+                                            target={job.apply_link ? "_blank" : "_self"}
+                                            rel={job.apply_link ? "noopener noreferrer" : ""}
+                                            className={`w-full sm:flex-1 py-4 text-white text-center rounded-2xl font-black uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-3 shadow-lg active:scale-[0.98] ${
+                                                isClosed 
+                                                ? 'bg-slate-500 hover:bg-red-600 hover:border-red-600' 
+                                                : 'bg-primary hover:bg-blue-800'
+                                            }`}
+                                        >
+                                            {isClosed ? 'Apply Anyway' : 'Apply Now'} <Send size={16} />
+                                        </a>
+                                        {isClosed && (
+                                            <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest italic animate-pulse">
+                                                Notice: Deadline has passed.
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
-                                <button className="p-3 bg-gray-50 dark:bg-slate-800 rounded-xl text-slate-400 hover:text-primary transition-colors border border-transparent hover:border-gray-200 dark:hover:border-slate-700"><Bookmark size={20} /></button>
+                            );
+                        })
+                    ) : (
+                        <div className="text-center py-24 bg-white dark:bg-slate-900 rounded-3xl border-2 border-dashed border-gray-200 dark:border-slate-800 flex flex-col items-center">
+                            <div className="w-16 h-16 bg-gray-50 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4 text-gray-300">
+                                <Briefcase size={32} />
                             </div>
-
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-slate-800/50 rounded-2xl border border-gray-100 dark:border-slate-800 mb-6 text-sm">
-                                <div><p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Exp Required</p><p className="font-bold text-slate-700 dark:text-slate-200">{job.experience}</p></div>
-                                <div><p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Package</p><p className="font-bold text-slate-700 dark:text-slate-200">{job.salary}</p></div>
-                                <div><p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Posted</p><p className="font-bold text-slate-700 dark:text-slate-200">{job.postedDate}</p></div>
-                                <div><p className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-1">Apply By</p><p className="font-bold text-red-600 dark:text-red-400">{job.deadline}</p></div>
-                            </div>
-
-                            <div className="flex flex-col sm:flex-row items-center gap-4 pt-6 border-t border-gray-100 dark:border-slate-800">
-                                <Link to={`/student-registration?course=Placement%20-%20${encodeURIComponent(job.title)}`} className="w-full sm:flex-1 py-4 bg-primary text-white text-center rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-800 transition-all flex items-center justify-center gap-3 shadow-lg active:scale-[0.98]">
-                                    Apply Now <Send size={16} />
-                                </Link>
-                                <button className="w-full sm:w-auto px-6 py-4 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-slate-700 transition">
-                                    Full Details <ExternalLink size={16} />
-                                </button>
-                            </div>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No results found</h3>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xs mx-auto">Try adjusting your filters to see more openings.</p>
                         </div>
-                    ))
-                ) : (
-                    <div className="text-center py-24 bg-white dark:bg-slate-900 rounded-3xl border-2 border-dashed border-gray-200 dark:border-slate-800 flex flex-col items-center">
-                        <div className="w-16 h-16 bg-gray-50 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
-                            <Search size={32} className="text-gray-300" />
-                        </div>
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No matching jobs found</h3>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xs mx-auto">Try adjusting your keywords or filters to find what you're looking for.</p>
-                        <button 
-                            onClick={() => {setSearchTerm(''); setCategoryFilter('All'); setTypeFilter('All');}}
-                            className="mt-6 px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-blue-800 transition text-sm"
-                        >
-                            Reset all filters
-                        </button>
-                    </div>
-                )}
-             </div>
+                    )}
+                </div>
+             )}
           </div>
       </div>
     </div>
