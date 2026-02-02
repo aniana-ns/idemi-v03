@@ -9,7 +9,9 @@ interface CountUpProps {
 }
 
 const CountUp: React.FC<CountUpProps> = ({ end, duration = 1500, suffix = '', className = '' }) => {
-  const [count, setCount] = useState(0);
+  // Start from approximately 150 units below the end value, or 0 if end is small
+  const startValue = Math.max(0, end - 150);
+  const [count, setCount] = useState(startValue);
   const elementRef = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
 
@@ -29,7 +31,11 @@ const CountUp: React.FC<CountUpProps> = ({ end, duration = 1500, suffix = '', cl
                 return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
             };
 
-            setCount(Math.floor(easeOutExpo(progress) * end));
+            // Interpolate between startValue and end
+            const range = end - startValue;
+            const currentCount = Math.floor(startValue + (easeOutExpo(progress) * range));
+            
+            setCount(currentCount);
 
             if (progress < 1) {
               requestAnimationFrame(animate);
@@ -38,7 +44,7 @@ const CountUp: React.FC<CountUpProps> = ({ end, duration = 1500, suffix = '', cl
           requestAnimationFrame(animate);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 } // Reduced threshold for better triggers in footer
     );
 
     if (elementRef.current) {
@@ -48,11 +54,11 @@ const CountUp: React.FC<CountUpProps> = ({ end, duration = 1500, suffix = '', cl
     return () => {
       if (elementRef.current) observer.unobserve(elementRef.current);
     };
-  }, [end, duration]);
+  }, [end, duration, startValue]);
 
   return (
     <span ref={elementRef} className={className}>
-      {count}{suffix}
+      {count.toLocaleString()}{suffix}
     </span>
   );
 };
