@@ -5,7 +5,7 @@ import {
   Briefcase, MapPin, 
   Building2, Bookmark, Send,
   Sparkles, ExternalLink, ChevronDown,
-  Loader2, AlertCircle, Filter, Clock, CheckCircle2, XCircle
+  Loader2, AlertCircle, Clock, CheckCircle2, XCircle
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import ServiceSidebar from '../components/ServiceSidebar';
@@ -34,8 +34,7 @@ const PlacementPortal: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  const [categoryFilter, setCategoryFilter] = useState('All');
-  // Defaulting status filter to 'Open' as requested
+  // Defaulting status filter to 'Open'
   const [statusFilter, setStatusFilter] = useState<'All' | 'Open' | 'Closed'>('Open');
 
   // Helper to parse dates from common spreadsheet formats (DD/MM/YYYY or YYYY-MM-DD)
@@ -106,16 +105,13 @@ const PlacementPortal: React.FC = () => {
 
   useEffect(() => {
     refreshObserver();
-  }, [refreshObserver, categoryFilter, statusFilter, jobs]);
+  }, [refreshObserver, statusFilter, jobs]);
 
   const filteredJobs = jobs.filter(job => {
-    const matchesCategory = categoryFilter === 'All' || job.category === categoryFilter;
     const isClosed = checkIsClosed(job.deadline);
     const matchesStatus = statusFilter === 'All' || (statusFilter === 'Open' ? !isClosed : isClosed);
-    return matchesCategory && matchesStatus;
+    return matchesStatus;
   });
-
-  const categories = ['All', ...Array.from(new Set(jobs.map(j => j.category).filter(Boolean)))];
 
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen transition-colors duration-200">
@@ -150,40 +146,6 @@ const PlacementPortal: React.FC = () => {
           </aside>
 
           <div className="lg:w-3/4">
-             {/* Horizontal Sector Filter Bar with Explicit Scroll Handling */}
-             <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-slate-800 mb-6 reveal-on-scroll">
-                <div className="flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                            <Filter size={12} /> Filter by Sector
-                        </label>
-                        <span className="text-[9px] font-bold text-slate-300 dark:text-slate-600 uppercase md:hidden">Scroll to view more &rarr;</span>
-                    </div>
-                    
-                    <div className="relative group">
-                        {/* Shadow indicators for scrollable content */}
-                        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white dark:from-slate-900 to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white dark:from-slate-900 to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        
-                        <div className="flex items-center gap-3 overflow-x-auto pb-4 pt-1 px-1 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
-                            {categories.map(cat => (
-                                <button 
-                                    key={cat}
-                                    onClick={() => setCategoryFilter(cat)}
-                                    className={`whitespace-nowrap px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all border ${
-                                        categoryFilter === cat 
-                                        ? 'bg-primary text-white border-primary shadow-lg scale-105' 
-                                        : 'bg-gray-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-gray-100 dark:border-slate-700 hover:border-primary dark:hover:border-primary hover:bg-white'
-                                    }`}
-                                >
-                                    {cat}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-             </div>
-
              {/* Recent Openings Title & Status Toggle */}
              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 reveal-on-scroll">
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
